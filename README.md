@@ -9,11 +9,11 @@ Extension: program.ppc
 Compiler name:  PPC-LC
 
 Comments
-Our comments would start with “\\”.
+>Our comments would start with “\\”.
 
 Valid Identifiers
-Alphabetical characters and numbers are valid. Numbers at the beginning of a letter are not valid. 
+>Alphabetical characters and numbers are valid. Numbers at the beginning of a letter are not valid. 
 
 Case Sensitive
-The language is case sensitive.
+>The language is case sensitive.
 
