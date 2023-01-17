@@ -136,12 +136,9 @@ INSERT HERE
 
 **Symbol in Language	**				**Token Name**
 
-[0-9]							INTEGER
+[0-9]							               INTEGER
+[-]							                 PLUS
+[+]							                 MINUS
+[/]							                 MULT
+[*]							                 DIV
 
-INSERT HERE							INSERT HERE
-
-INSERT HERE							INSERT HERE
-
-INSERT HERE							INSERT HERE
-
-INSERT HERE							INSERT HERE
