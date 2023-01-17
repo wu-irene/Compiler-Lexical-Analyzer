@@ -71,7 +71,34 @@
   </tr>
   <tr>
    <td>Relational operators (e.g., “&lt;”, “==”, “>”, “!=”)
-
+    </td>
+   <td>
+    <table>
+  <tr>
+   <td><
+   </td>
+   <td>>
+   </td>
+  </tr>
+  <tr>
+   <td>==
+   </td>
+   <td>!!
+   </td>
+  </tr>
+  <tr>
+   <td>>
+   </td>
+   <td><
+   </td>
+  </tr>
+  <tr>
+   <td>!=
+   </td>
+   <td>==
+   </td>
+  </tr>
+</table>
    </td>
    <td>
    </td>
@@ -150,53 +177,11 @@ The language is case sensitive.
 
 Whitespaces are ignored. 
 
-<table>
-  <tr>
-   <td><strong>Symbol in Language</strong>
-   </td>
-   <td><strong>Token Name</strong>
-   </td>
-  </tr>
-  
-   <tr>
-   <td>[0-9]
-   </td>
-   <td>INTEGER
-   </td>
-  </tr>
-  
-  
-   <tr>
-   <td>[-]
-   </td>
-   <td>PLUS
-   </td>
-  </tr>
+**Symbol in Language**				**Token Name**
 
-  <tr>
-   <td>[+]
-   </td>
-   <td>MINUS
-   </td>
-  </tr>
-  
-    <tr>
-   <td>[/]
-   </td>
-   <td>MULT
-   </td>
-  </tr>
-  
-   <tr>
-   <td>[*]	
-   </td>
-   <td>DIV
-   </td>
-  </tr>
-  					               
-	 </td>
-  </tr>
-</table>						         
-						          
-
+[0-9]							               INTEGER
+[-]							                 PLUS
+[+]							                 MINUS
+[/]							                 MULT
+[*]							                 DIV
 
