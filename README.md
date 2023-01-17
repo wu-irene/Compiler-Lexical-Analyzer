@@ -143,7 +143,7 @@ The language is case sensitive.
 
 Whitespaces are ignored. 
 
-**Symbol in Language	**				**Token Name**
+**Symbol in Language**				**Token Name**
 
 [0-9]							               INTEGER
 [-]							                 PLUS
