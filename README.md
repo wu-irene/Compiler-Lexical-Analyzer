@@ -19,7 +19,7 @@
   <tr>
    <td>Integer scalar variables
    </td>
-   <td>INSERT HERE
+   <td>tni x; tni y; tni total, count;
    </td>
   </tr>
   <tr>
@@ -31,7 +31,7 @@
   <tr>
    <td>Assignment statements
    </td>
-   <td>INSERT HERE
+   <td>!=
    </td>
   </tr>
   <tr>
@@ -88,7 +88,16 @@
    <td>If-then-else statements
 
    </td>
-   <td>INSERT HERE
+   <td>tni x = 0;
+ 
+fi (x < 0) {
+
+} 
+
+esle {
+
+} 
+
 
    </td>
   </tr>
@@ -128,11 +137,11 @@ Alphabetical characters and numbers are valid.
 
 **Case Sensitive**
 
-INSERT HERE
+The language is case sensitive.
 
 **Whitespaces**
 
-INSERT HERE
+Whitespaces are ignored. 
 
 **Symbol in Language	**				**Token Name**
 
