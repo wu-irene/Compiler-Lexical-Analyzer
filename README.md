@@ -80,7 +80,7 @@
    <td>While or Do-While loops
 
    </td>
-   <td>INSERT HERE
+   <td>elihw() 
 
    </td>
   </tr>
@@ -103,6 +103,10 @@ esle {
   </tr>
   <tr>
    <td>Read and write statements 
+   </td>
+   <td>
+read -> write from
+write -> read from 
 
    </td>
    <td>
@@ -112,7 +116,7 @@ esle {
    <td>Comments
 
    </td>
-   <td>INSERT HERE
+   <td>\\This is a comment
 
    </td>
   </tr>
@@ -120,7 +124,10 @@ esle {
    <td>Functions
 
    </td>
-   <td>INSERT HERE
+   <td>diov ooF() }
+
+{
+
 
    </td>
   </tr>
