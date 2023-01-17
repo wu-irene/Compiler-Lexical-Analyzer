@@ -1,19 +1,147 @@
-# CS152CompilerProject
+**Phase 0: Language Specification**
 
-Phase 0: Language Specification
+**Programming Language Name**: ++C
 
-Programming Language Name: ++C
+**Extension**: program.ppc
 
-Extension: program.ppc
+**Compiler name**:  PPC-LC
 
-Compiler name:  PPC-LC
+**Examples **
 
-Comments
->Our comments would start with “\\”.
 
-Valid Identifiers
->Alphabetical characters and numbers are valid. Numbers at the beginning of a letter are not valid. 
+<table>
+  <tr>
+   <td><strong>Language Feature</strong>
+   </td>
+   <td><strong>Code Example</strong>
+   </td>
+  </tr>
+  <tr>
+   <td>Integer scalar variables
+   </td>
+   <td>INSERT HERE
+   </td>
+  </tr>
+  <tr>
+   <td>One-dimensional arrays of integers
+   </td>
+   <td>tni arr[5]; tni arr[x];
+   </td>
+  </tr>
+  <tr>
+   <td>Assignment statements
+   </td>
+   <td>INSERT HERE
+   </td>
+  </tr>
+  <tr>
+   <td>Arithmetic operators (e.g., “+”, “-”, “*”, “/”)
+   </td>
+   <td>
 
-Case Sensitive
->The language is case sensitive.
+<table>
+  <tr>
+   <td>+
+   </td>
+   <td>-
+   </td>
+  </tr>
+  <tr>
+   <td>-
+   </td>
+   <td>+
+   </td>
+  </tr>
+  <tr>
+   <td>*
+   </td>
+   <td>/
+   </td>
+  </tr>
+  <tr>
+   <td>/
+   </td>
+   <td>*
+   </td>
+  </tr>
+</table>
 
+
+   </td>
+  </tr>
+  <tr>
+   <td>Relational operators (e.g., “&lt;”, “==”, “>”, “!=”)
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>While or Do-While loops
+
+   </td>
+   <td>INSERT HERE
+
+   </td>
+  </tr>
+  <tr>
+   <td>If-then-else statements
+
+   </td>
+   <td>INSERT HERE
+
+   </td>
+  </tr>
+  <tr>
+   <td>Read and write statements 
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>Comments
+
+   </td>
+   <td>INSERT HERE
+
+   </td>
+  </tr>
+  <tr>
+   <td>Functions
+
+   </td>
+   <td>INSERT HERE
+
+   </td>
+  </tr>
+</table>
+
+
+**Comments**
+
+Our comments would start with “\\”.
+
+**Valid Identifiers**
+
+Alphabetical characters and numbers are valid. 
+
+**Case Sensitive**
+
+INSERT HERE
+
+**Whitespaces**
+
+INSERT HERE
+
+**Symbol in Language	**				**Token Name**
+
+[0-9]							INTEGER
+
+INSERT HERE							INSERT HERE
+
+INSERT HERE							INSERT HERE
+
+INSERT HERE							INSERT HERE
+
+INSERT HERE							INSERT HERE
