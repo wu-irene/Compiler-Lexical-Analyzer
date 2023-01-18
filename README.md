@@ -31,7 +31,7 @@
   <tr>
    <td>Assignment statements
    </td>
-   <td>!=
+   <td>=
    </td>
   </tr>
   <tr>
@@ -216,5 +216,6 @@ Whitespaces are ignored.
    </td>
   </tr>  					               
 </table>						         
-					
+
+![LEXICAL](https://github.com/iwu021/CS152CompilerProject/blob/main/Lexical%20Pattern%20in%20the%20Inputted%20%2B%2BC%20Program.jpg)
 
