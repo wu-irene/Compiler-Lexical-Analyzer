@@ -218,5 +218,9 @@ Whitespaces are ignored.
 </table>						         
 					
 [embed] https://drive.google.com/file/d/1WjRZPPd4iIPHGgF2N68pQKvVS3BvQsSm/view?usp=share_link [/embed]
-![Alt text](relative/path/to/img.jpg?raw=true "Lexical Pattern in the Inputted ++C Program")
+
+
+![Alt text](relative/path/to/img.jpg?raw=true "Lexical Pattern in the Inputted ++C Program.jpg")
+
+![LEXICAL](https://github.com/iwu021/CS152CompilerProject/blob/main/Lexical%20Pattern%20in%20the%20Inputted%20%2B%2BC%20Program.jpg)
 
