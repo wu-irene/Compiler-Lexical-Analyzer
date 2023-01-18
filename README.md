@@ -31,7 +31,7 @@
   <tr>
    <td>Assignment statements
    </td>
-   <td>!=
+   <td>=
    </td>
   </tr>
   <tr>
