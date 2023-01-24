@@ -1,0 +1,11 @@
+diov niam() }
+    tni a:
+    tni b:
+    tni c:
+
+    a != 1:
+    b != 2:
+    c != a-b:
+
+nruter:
+{
