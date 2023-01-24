@@ -59,13 +59,16 @@ IDENT [a-zA-Z_][a-zA-Z0-9_]*
 {EQUAL}   {printf("EQUAL\n", yytext);}
 {IDENT}    {printf("IDENT %s\n", yytext);}
 
-.	 {}
+"\\"	/* comments */
+" " 
+"\n"    
+. 	printf("Error unrecognized symbol: %s\n", yytext);	
 
 %%
 
 main(void) {
     printf("Cntrl-D to exit\n");
-        yylex();
+       yylex();
 }
 
 
