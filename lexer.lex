@@ -2,6 +2,8 @@
 
 #include <stdio.h>
 
+int num_lines = 1;
+
 %}
 
 DIGIT [0-9]
@@ -61,8 +63,8 @@ IDENT [a-zA-Z_][a-zA-Z0-9_]*
 
 "\\"	/* comments */
 " " 
-"\n"    
-. 	printf("Error unrecognized symbol: %s\n", yytext);	
+"\n"    ++num_lines;
+. 	printf("Error at line %d, unrecognized symbol: %s\n", num_lines, yytext);	
 
 %%
 
