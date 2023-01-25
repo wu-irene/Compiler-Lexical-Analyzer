@@ -14,8 +14,9 @@ DIV  [*]
 L_PAREN [(]
 R_PAREN [)]
 EQUAL [=]
-IDENT [a-zA-Z_][a-zA-Z0-9_]*
-
+IDENT [a-zA-Z][a-zA-Z0-9]*
+INVALIDIDENT1 [_0-9][a-zA-Z][a-zA-Z0-9]*
+INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 %%
 
 "tni" {printf("INTEGER\n");}
@@ -50,7 +51,7 @@ IDENT [a-zA-Z_][a-zA-Z0-9_]*
 "." {printf("COMMA\n");}
 "[" {printf("L_SQUARE_BRACKET\n");}
 "]" {printf("R_SQUARE_BRACKET\n");}
-"!=" {printf("ASSIGN\n");}
+"!=" {printf("EQUAL\n");}
 {DIGIT}+ {printf("NUMBER: %s\n", yytext);}
 {PLUS}   {printf("PLUS\n", yytext);}
 {MINUS}  {printf("MINUS\n", yytext);}
@@ -58,11 +59,13 @@ IDENT [a-zA-Z_][a-zA-Z0-9_]*
 {DIV}   {printf("DIV\n", yytext);}
 {L_PAREN}   {printf("L_PAREN\n", yytext);}
 {R_PAREN}   {printf("R_PAREN\n", yytext);}
-{EQUAL}   {printf("EQUAL\n", yytext);}
+{EQUAL}   {printf("ASSIGN\n", yytext);}
+{INVALIDIDENT1}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);}
+{INVALIDIDENT2}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);}
 {IDENT}    {printf("IDENT %s\n", yytext);}
 
 "\\"	/* comments */
-" " 
+" "
 "\n"    ++num_lines;
 . 	printf("Error at line %d, unrecognized symbol: %s\n", num_lines, yytext);	
 
