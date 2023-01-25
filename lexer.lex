@@ -66,10 +66,7 @@ INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 
 "\\"	/* comments */
 " "
-<<<<<<< HEAD
-=======
 "\t" 
->>>>>>> 0aca0780c5382acffde72c118025102dbdcbb1f8
 "\n"    ++num_lines;
 . 	printf("Error at line %d, unrecognized symbol: %s\n", num_lines, yytext);	
 
