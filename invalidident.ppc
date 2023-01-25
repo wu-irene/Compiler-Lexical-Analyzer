@@ -1,0 +1,4 @@
+\\error check for invalid identifier 
+tni 3three = 3:
+tni _four = 4:
+tni five_ = 5:
