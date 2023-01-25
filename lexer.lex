@@ -62,7 +62,8 @@ IDENT [a-zA-Z_][a-zA-Z0-9_]*
 {IDENT}    {printf("IDENT %s\n", yytext);}
 
 "\\"	/* comments */
-" " 
+" "
+"\t" 
 "\n"    ++num_lines;
 . 	printf("Error at line %d, unrecognized symbol: %s\n", num_lines, yytext);	
 
