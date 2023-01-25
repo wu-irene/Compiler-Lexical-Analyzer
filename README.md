@@ -163,7 +163,7 @@ write -> read from
 
 **Comments**
 
-Our comments would start with “\\”.
+Our comments would start with “\\\”.
 
 **Valid Identifiers**
 
