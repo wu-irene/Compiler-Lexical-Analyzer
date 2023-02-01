@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 int num_lines = 1;
-
+int num_chars = 1;
 %}
 
 DIGIT [0-9]
@@ -18,6 +18,7 @@ IDENT [a-zA-Z][a-zA-Z0-9]*
 INVALIDIDENT1 [_0-9][a-zA-Z][a-zA-Z0-9]*
 INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 %%
+
 
 "tni" {printf("INTEGER\n");}
 "noitcnuf" {printf("FUNCTION\n");}
@@ -64,11 +65,13 @@ INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 {INVALIDIDENT2}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);}
 {IDENT}    {printf("IDENT %s\n", yytext);}
 
+
 "\\"	/* comments */
 " "
 "\t" 
-"\n"    ++num_lines;
-. 	printf("Error at line %d, unrecognized symbol: %s\n", num_lines, yytext);	
+"\n"    ++num_lines; num_chars = 1; // reset num_chars when moving to a new line
+
+. 	++num_chars; printf("Error at line %d, unrecognized symbol: %s at position: %d \n", num_lines, yytext, num_chars);	
 
 %%
 
@@ -76,5 +79,6 @@ main(void) {
     printf("Cntrl-D to exit\n");
        yylex();
 }
+
 
 
