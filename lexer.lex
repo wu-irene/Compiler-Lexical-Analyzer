@@ -69,9 +69,8 @@ INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 "\\"	/* comments */ 
 " "    
 "\t" 
-"\n"    ++num_lines; num_chars = 1; // reset num_chars when moving to a new line
-
-. 	++num_chars; printf("Error at line %d, at position: %d. Unrecognized symbol: %s \n", num_lines, num_chars+1, yytext);	
+"\n"    ++num_lines; num_chars = 1; //reset num_chars when moving to a n:wq 
+.	++num_chars; printf("Error at line %d at position %d. Unrecognized symbol: %s \n", num_lines, num_chars+1, yytext); // the next symbol is unrecognize, so we manually +1	
 
 %%
 
