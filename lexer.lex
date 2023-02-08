@@ -19,56 +19,56 @@ INVALIDIDENT1 [_0-9][a-zA-Z][a-zA-Z0-9]*
 INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 %%
 
-"tni" {printf("INTEGER\n");}
-"noitcnuf" {printf("FUNCTION\n");}
-"}" {printf("BEGIN_BODY\n");}
-"{" {printf("END_BODY\n");}
-"yarra" {printf("ARRAY\n");}
-"fo" {printf("OF\n");}
-"fi" {printf("IF\n");}
-"neht" {printf("THEN\n");}
-"fidne" {printf("ENDIF\n");}
-"esle" {printf("ELSE\n");}
-"elihw" {printf("WHILE\n");}
-"od" {printf("DO\n");}
-"etunitnoc" {printf("CONTINUE\n");}
-"kaerb" {printf("BREAK\n");}
-"daer" {printf("READ\n");}
-"etirw" {printf("WRITE\n");}
-"ton" {printf("NOT\n");}
-"EURT" {printf("TRUE\n");}
-"ESLAF" {printf("FALSE\n");}
-"nruter" {printf("RETURN\n");}
-"%" {printf("MOD\n");}
-"!!" {printf("EQ\n");}
-"><" {printf("NEQ\n");}
-">" {printf("LT\n");}
-"<" {printf("GT\n");}
-">=" {printf("LTE\n");}
-"<=" {printf("GTE\n");}
-":" {printf("SEMICOLON\n");}
-";" {printf("COLON\n");}
-"." {printf("COMMA\n");}
-"[" {printf("L_SQUARE_BRACKET\n");}
-"]" {printf("R_SQUARE_BRACKET\n");}
-"!=" {printf("EQUAL\n");}
-{DIGIT}+ {printf("NUMBER: %s\n", yytext);}
-{PLUS}   {printf("PLUS\n", yytext);}
-{MINUS}  {printf("MINUS\n", yytext);}
-{MULT}   {printf("MULT\n", yytext);}
-{DIV}   {printf("DIV\n", yytext);}
-{L_PAREN}   {printf("L_PAREN\n", yytext);}
-{R_PAREN}   {printf("R_PAREN\n", yytext);}
-{EQUAL}   {printf("ASSIGN\n", yytext);}
-{INVALIDIDENT1}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);}
-{INVALIDIDENT2}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);}
-{IDENT}    {printf("IDENT %s\n", yytext);}
+"tni" {return INTEGER;}
+"noitcnuf" {return FUNCTION;}
+"}" {return BEGIN_BODY;}
+"{" {return END_BODY;}
+"yarra" {return ARRAY;}
+"fo" {return OF;}
+"fi" {return IF;}
+"neht" {return THEN;}
+"fidne" {return ENDIF;}
+"esle" {return ELSE;}
+"elihw" {return WHILE}
+"od" {return DO;}
+"etunitnoc" {return CONTINUE;}
+"kaerb" {return BREAK;}
+"daer" {return READ;}
+"etirw" {return WRITE;}
+"ton" {return NOT;}
+"EURT" {return TRUE;}
+"ESLAF" {return FALSE;}
+"nruter" {return RETURN;}
+"%" {return MOD;}
+"!!" {return EQ;}
+"><" {return NEQ;}
+">" {return LT;}
+"<" {return GT;}
+">=" {return LTE;}
+"<=" {return GTE;}
+":" {return SEMICOLON;}
+";" {return COLON;}
+"." {return COMMA;}
+"[" {return L_SQUARE_BRACKET;}
+"]" {return R_SQUARE_BRACKET;}
+"!=" {return EQUAL;}
+{DIGIT}+ {return NUMBER;}
+{PLUS}   {return PLUS;}
+{MINUS}  {return MINUS;}
+{MULT}   {return MULT;}
+{DIV}   {return DIV;}
+{L_PAREN}   {return L_PAREN;}
+{R_PAREN}   {retrun R_PAREN;}
+{EQUAL}   {retrun ASSIGN;}
+{INVALIDIDENT1}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit;}
+{INVALIDIDENT2}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit;}
+{IDENT}    {return IDENT;}
 
 "\\"	/* comments */
 " "
 "\t" 
 "\n"    ++num_lines;
-. 	printf("Error at line %d, unrecognized symbol: %s\n", num_lines, yytext);	
+.     {printf("Error at line %d, unrecognized symbol: %s\n", num_lines, yytext);exit;}	
 
 %%
 
