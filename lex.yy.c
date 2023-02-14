@@ -543,9 +543,9 @@ char *yytext;
 #line 2 "lexer.lex"
 
 #include <stdio.h>
-
+#include "y.tab.h"
 int num_lines = 1;
-
+int num_chars = 1;
 #line 550 "lex.yy.c"
 
 #define INITIAL 0
@@ -817,227 +817,227 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 22 "lexer.lex"
-{printf("INTEGER\n");}
+{return INTEGER; num_chars += yyleng;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 23 "lexer.lex"
-{printf("FUNCTION\n");}
+{return FUNCTION; num_chars += yyleng;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 24 "lexer.lex"
-{printf("BEGIN_BODY\n");}
+{return BEGIN_BODY; num_chars += yyleng;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 25 "lexer.lex"
-{printf("END_BODY\n");}
+{return END_BODY; num_chars += yyleng;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 26 "lexer.lex"
-{printf("ARRAY\n");}
+{return ARRAY; num_chars += yyleng;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 27 "lexer.lex"
-{printf("OF\n");}
+{return OF; num_chars += yyleng;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 28 "lexer.lex"
-{printf("IF\n");}
+{return IF; num_chars += yyleng;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 29 "lexer.lex"
-{printf("THEN\n");}
+{return THEN; num_chars += yyleng;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 30 "lexer.lex"
-{printf("ENDIF\n");}
+{return ENDIF; num_chars += yyleng;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 31 "lexer.lex"
-{printf("ELSE\n");}
+{return ELSE; num_chars += yyleng;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 32 "lexer.lex"
-{printf("WHILE\n");}
+{return WHILE; num_chars += yyleng;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 33 "lexer.lex"
-{printf("DO\n");}
+{return DO; num_chars += yyleng;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 34 "lexer.lex"
-{printf("CONTINUE\n");}
+{return CONTINUE; num_chars += yyleng;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 35 "lexer.lex"
-{printf("BREAK\n");}
+{return BREAK; num_chars += yyleng;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 36 "lexer.lex"
-{printf("READ\n");}
+{return READ; num_chars += yyleng;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 37 "lexer.lex"
-{printf("WRITE\n");}
+{return WRITE; num_chars += yyleng;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 38 "lexer.lex"
-{printf("NOT\n");}
+{return NOT; num_chars += yyleng;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 39 "lexer.lex"
-{printf("TRUE\n");}
+{return TRUE; num_chars += yyleng;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 40 "lexer.lex"
-{printf("FALSE\n");}
+{return FALSE; num_chars += yyleng;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 41 "lexer.lex"
-{printf("RETURN\n");}
+{return RETURN; num_chars += yyleng;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 42 "lexer.lex"
-{printf("MOD\n");}
+{return MOD; num_chars += yyleng;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 43 "lexer.lex"
-{printf("EQ\n");}
+{return EQ; num_chars += yyleng;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 44 "lexer.lex"
-{printf("NEQ\n");}
+{return NEQ; num_chars += yyleng;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 45 "lexer.lex"
-{printf("LT\n");}
+{return LT; num_chars += yyleng;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 46 "lexer.lex"
-{printf("GT\n");}
+{return GT; num_chars += yyleng;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 47 "lexer.lex"
-{printf("LTE\n");}
+{return LTE; num_chars += yyleng;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 48 "lexer.lex"
-{printf("GTE\n");}
+{return GTE; num_chars += yyleng;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 49 "lexer.lex"
-{printf("SEMICOLON\n");}
+{return SEMICOLON; num_chars += yyleng;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 50 "lexer.lex"
-{printf("COLON\n");}
+{return COLON; num_chars += yyleng;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 51 "lexer.lex"
-{printf("COMMA\n");}
+{return COMMA; num_chars += yyleng;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 52 "lexer.lex"
-{printf("L_SQUARE_BRACKET\n");}
+{return L_SQUARE_BRACKET; num_chars += yyleng;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 53 "lexer.lex"
-{printf("R_SQUARE_BRACKET\n");}
+{return R_SQUARE_BRACKET; num_chars += yyleng;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 54 "lexer.lex"
-{printf("EQUAL\n");}
+{return EQUAL; num_chars += yyleng;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 55 "lexer.lex"
-{printf("NUMBER: %s\n", yytext);}
+{return NUMBER; num_chars += yyleng;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 56 "lexer.lex"
-{printf("PLUS\n", yytext);}
+{return PLUS; num_chars += yyleng;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 57 "lexer.lex"
-{printf("MINUS\n", yytext);}
+{return MINUS; num_chars += yyleng;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 58 "lexer.lex"
-{printf("MULT\n", yytext);}
+{return MULT; num_chars += yyleng;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 59 "lexer.lex"
-{printf("DIV\n", yytext);}
+{return DIV; num_chars += yyleng;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 60 "lexer.lex"
-{printf("L_PAREN\n", yytext);}
+{return L_PAREN; num_chars += yyleng;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 61 "lexer.lex"
-{printf("R_PAREN\n", yytext);}
+{return R_PAREN; num_chars += yyleng;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
 #line 62 "lexer.lex"
-{printf("ASSIGN\n", yytext);}
+{return ASSIGN; num_chars += yyleng;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
 #line 63 "lexer.lex"
-{printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);}
+{printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit; num_chars += yyleng;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 64 "lexer.lex"
-{printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);}
+{printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit; num_chars += yyleng;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
 #line 65 "lexer.lex"
-{printf("IDENT %s\n", yytext);}
+{return IDENT; num_chars += yyleng;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
 #line 67 "lexer.lex"
-/* comments */
+/* comments */ 
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
@@ -1053,12 +1053,12 @@ case 48:
 /* rule 48 can match eol */
 YY_RULE_SETUP
 #line 70 "lexer.lex"
-++num_lines;
+++num_lines; num_chars = 1; //reset num_chars when moving to a n:wq 
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 #line 71 "lexer.lex"
-printf("Error at line %d, unrecognized symbol: %s\n", num_lines, yytext);	
+++num_chars; printf("Error at line %d at position %d. Unrecognized symbol: %s \n", num_lines, num_chars+1, yytext); // the next symbol is unrecognize, so we manually +1	
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
@@ -2063,10 +2063,14 @@ void yyfree (void * ptr )
 
 
 
+
+/*
 main(void) {
     printf("Cntrl-D to exit\n");
        yylex();
 }
+
+*/
 
 
 

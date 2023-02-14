@@ -1,7 +1,7 @@
 %{
 
 #include <stdio.h>
-
+#include "y.tab.h"
 int num_lines = 1;
 int num_chars = 1;
 %}
@@ -29,7 +29,7 @@ INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 "neht" {return THEN; num_chars += yyleng;}
 "fidne" {return ENDIF; num_chars += yyleng;}
 "esle" {return ELSE; num_chars += yyleng;}
-"elihw" {return WHILE num_chars += yyleng;}
+"elihw" {return WHILE; num_chars += yyleng;}
 "od" {return DO; num_chars += yyleng;}
 "etunitnoc" {return CONTINUE; num_chars += yyleng;}
 "kaerb" {return BREAK; num_chars += yyleng;}
@@ -58,8 +58,8 @@ INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 {MULT}   {return MULT; num_chars += yyleng;}
 {DIV}   {return DIV; num_chars += yyleng;}
 {L_PAREN}   {return L_PAREN; num_chars += yyleng;}
-{R_PAREN}   {retrun R_PAREN; num_chars += yyleng;}
-{EQUAL}   {retrun ASSIGN; num_chars += yyleng;}
+{R_PAREN}   {return R_PAREN; num_chars += yyleng;}
+{EQUAL}   {return ASSIGN; num_chars += yyleng;}
 {INVALIDIDENT1}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit; num_chars += yyleng;}
 {INVALIDIDENT2}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit; num_chars += yyleng;}
 {IDENT}    {return IDENT; num_chars += yyleng;}
@@ -72,10 +72,13 @@ INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 
 %%
 
+
+/*
 main(void) {
     printf("Cntrl-D to exit\n");
        yylex();
 }
 
+*/
 
 
