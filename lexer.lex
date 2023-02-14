@@ -20,6 +20,7 @@ INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 %%
 
 "tni" {return INTEGER; num_chars += yyleng;}
+"diov" {return FUNCTION; num_chars += yyleng;}
 "noitcnuf" {return FUNCTION; num_chars += yyleng;}
 "}" {return BEGIN_BODY; num_chars += yyleng;}
 "{" {return END_BODY; num_chars += yyleng;}
