@@ -163,11 +163,12 @@ write -> read from
 
 **Comments**
 
-Our comments would start with “\\”.
+Our comments would start with “\\\”.
 
 **Valid Identifiers**
 
-Alphabetical characters and numbers are valid. 
+Valid Identifiers can NOT start with a _ (underscore) or a number (0-9), and it can not end with _ (underscore).
+
 
 **Case Sensitive**
 

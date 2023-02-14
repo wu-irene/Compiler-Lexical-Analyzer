@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 int num_lines = 1;
-
+int num_chars = 1;
 %}
 
 DIGIT [0-9]
@@ -19,56 +19,56 @@ INVALIDIDENT1 [_0-9][a-zA-Z][a-zA-Z0-9]*
 INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 %%
 
-"tni" {return INTEGER;}
-"noitcnuf" {return FUNCTION;}
-"}" {return BEGIN_BODY;}
-"{" {return END_BODY;}
-"yarra" {return ARRAY;}
-"fo" {return OF;}
-"fi" {return IF;}
-"neht" {return THEN;}
-"fidne" {return ENDIF;}
-"esle" {return ELSE;}
-"elihw" {return WHILE}
-"od" {return DO;}
-"etunitnoc" {return CONTINUE;}
-"kaerb" {return BREAK;}
-"daer" {return READ;}
-"etirw" {return WRITE;}
-"ton" {return NOT;}
-"EURT" {return TRUE;}
-"ESLAF" {return FALSE;}
-"nruter" {return RETURN;}
-"%" {return MOD;}
-"!!" {return EQ;}
-"><" {return NEQ;}
-">" {return LT;}
-"<" {return GT;}
-">=" {return LTE;}
-"<=" {return GTE;}
-":" {return SEMICOLON;}
-";" {return COLON;}
-"." {return COMMA;}
-"[" {return L_SQUARE_BRACKET;}
-"]" {return R_SQUARE_BRACKET;}
-"!=" {return EQUAL;}
-{DIGIT}+ {return NUMBER;}
-{PLUS}   {return PLUS;}
-{MINUS}  {return MINUS;}
-{MULT}   {return MULT;}
-{DIV}   {return DIV;}
-{L_PAREN}   {return L_PAREN;}
-{R_PAREN}   {retrun R_PAREN;}
-{EQUAL}   {retrun ASSIGN;}
-{INVALIDIDENT1}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit;}
-{INVALIDIDENT2}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit;}
-{IDENT}    {return IDENT;}
+"tni" {return INTEGER; num_chars += yyleng;}
+"noitcnuf" {return FUNCTION; num_chars += yyleng;}
+"}" {return BEGIN_BODY; num_chars += yyleng;}
+"{" {return END_BODY; num_chars += yyleng;}
+"yarra" {return ARRAY; num_chars += yyleng;}
+"fo" {return OF; num_chars += yyleng;}
+"fi" {return IF; num_chars += yyleng;}
+"neht" {return THEN; num_chars += yyleng;}
+"fidne" {return ENDIF; num_chars += yyleng;}
+"esle" {return ELSE; num_chars += yyleng;}
+"elihw" {return WHILE num_chars += yyleng;}
+"od" {return DO; num_chars += yyleng;}
+"etunitnoc" {return CONTINUE; num_chars += yyleng;}
+"kaerb" {return BREAK; num_chars += yyleng;}
+"daer" {return READ; num_chars += yyleng;}
+"etirw" {return WRITE; num_chars += yyleng;}
+"ton" {return NOT; num_chars += yyleng;}
+"EURT" {return TRUE; num_chars += yyleng;}
+"ESLAF" {return FALSE; num_chars += yyleng;}
+"nruter" {return RETURN; num_chars += yyleng;}
+"%" {return MOD; num_chars += yyleng;}
+"!!" {return EQ; num_chars += yyleng;}
+"><" {return NEQ; num_chars += yyleng;}
+">" {return LT; num_chars += yyleng;}
+"<" {return GT; num_chars += yyleng;}
+">=" {return LTE; num_chars += yyleng;}
+"<=" {return GTE; num_chars += yyleng;}
+":" {return SEMICOLON; num_chars += yyleng;}
+";" {return COLON; num_chars += yyleng;}
+"." {return COMMA; num_chars += yyleng;}
+"[" {return L_SQUARE_BRACKET; num_chars += yyleng;}
+"]" {return R_SQUARE_BRACKET; num_chars += yyleng;}
+"!=" {return EQUAL; num_chars += yyleng;}
+{DIGIT}+ {return NUMBER; num_chars += yyleng;}
+{PLUS}   {return PLUS; num_chars += yyleng;}
+{MINUS}  {return MINUS; num_chars += yyleng;}
+{MULT}   {return MULT; num_chars += yyleng;}
+{DIV}   {return DIV; num_chars += yyleng;}
+{L_PAREN}   {return L_PAREN; num_chars += yyleng;}
+{R_PAREN}   {retrun R_PAREN; num_chars += yyleng;}
+{EQUAL}   {retrun ASSIGN; num_chars += yyleng;}
+{INVALIDIDENT1}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit; num_chars += yyleng;}
+{INVALIDIDENT2}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit; num_chars += yyleng;}
+{IDENT}    {return IDENT; num_chars += yyleng;}
 
-"\\"	/* comments */
-" "
+"\\"	/* comments */ 
+" "    
 "\t" 
-"\n"    ++num_lines;
-.     {printf("Error at line %d, unrecognized symbol: %s\n", num_lines, yytext);exit;}	
+"\n"    ++num_lines; num_chars = 1; //reset num_chars when moving to a n:wq 
+.	++num_chars; printf("Error at line %d at position %d. Unrecognized symbol: %s \n", num_lines, num_chars+1, yytext); // the next symbol is unrecognize, so we manually +1	
 
 %%
 
@@ -76,5 +76,6 @@ main(void) {
     printf("Cntrl-D to exit\n");
        yylex();
 }
+
 
 
