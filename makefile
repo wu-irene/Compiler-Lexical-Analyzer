@@ -1,4 +1,7 @@
 all:
-	bison -v -d --file-prefix=y ppC.y
 	flex lexer.lex
-	gcc lex.yy.c -lfl
+	bison -v -d --file-prefix=y ppC.y
+	gcc -o lexer lex.yy.c -lfl
+	
+clean:
+	rm -f lexer lex.yy.c
