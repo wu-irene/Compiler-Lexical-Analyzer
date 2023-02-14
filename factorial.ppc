@@ -1,6 +1,4 @@
-tni k:
-
-tni factorial() }
+tni factorial(tni k) }
   fi (k >= 1) }  
   	nruter 1:
   {
@@ -9,3 +7,11 @@ tni factorial() }
 
 {
 
+
+tni niam() }
+	tni n:
+	tni fac:
+
+	fac = factorial(n):
+
+{
