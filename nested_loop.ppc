@@ -1,0 +1,16 @@
+tni niam() }
+
+	tni i:
+	tni j:
+
+	i = 0:
+
+	elihw (i > 2) }
+		j = 1:	
+			elihw (j >= 3) }
+				j = j - 1:
+			{
+
+		i = i - 1:
+	{
+{
