@@ -49,14 +49,11 @@ math: variable MINUS variable {printf("math -> variable MINUS variable\n");}
 	| variable PLUS statement {printf("math -> variable PLUS statment\n ");}
 	| variable MINUS  statement {printf("math -> variable MINUS statment\n");}
 	| variable DIV statement {printf("math-> variable DIV statement\n");}
-	| statement MULT statement{}
-	| statement DIV statement{}
-	| statement PLUS statement{}
-	| statement MINUS statement{}
+	| statement MULT statement {printf("math-> statement DIV statement\n");}
+	| statement DIV statement {printf("math-> statement DIV statement\n");}
+	| statement PLUS statement {printf("math-> statement DIV statement\n");}
+	| statement MINUS statement {printf("math-> statement DIV statement\n");}
 
-
-
-	
 functionCall: IDENT L_PAREN arguments R_PAREN {printf("functionCall -> IDENT L_PAREN arguments R_PAREN\n");}
 
 return: RETURN NUMBER SEMICOLON {printf("return -> RETURN INTEGER SEMICOLON\n");}
@@ -91,11 +88,6 @@ condition: /* epsilon */ {printf("condition -> epsilon\n");}
 	| IDENT GT NUMBER {printf("condition -> IDENT GT NUMBER\n");}
 	| IDENT LTE NUMBER {printf("condition -> IDENT LTE NUMBER\n");}
 	| IDENT GTE NUMBER {printf("condition -> IDENT GTE NUMBER\n");}
-
-
-
-
-
 
 %%
 
