@@ -58,7 +58,6 @@ functionCall: IDENT L_PAREN arguments R_PAREN {printf("functionCall -> IDENT L_P
 
 return: RETURN NUMBER SEMICOLON {printf("return -> RETURN INTEGER SEMICOLON\n");}
 	| RETURN IDENT SEMICOLON {printf("return -> RETURN IDENT SEMICOLON\n");}
-	| RETURN {printf("return -> RETURN\n");}
 	| RETURN statements {printf("return -> statements\n");}
 
 definition: INTEGER IDENT SEMICOLON {printf("definition -> INTEGER IDENT SEMICOLON\n");}
