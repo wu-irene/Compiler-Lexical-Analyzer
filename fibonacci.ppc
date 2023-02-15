@@ -11,8 +11,8 @@ tni fibonacci(tni k) }
 
 tni niam () }
 	tni n:
-	tni fibn:
+	tni fib_n:
 
-	fibn = fibonacci(n):
+	fib_n = fibonacci(n):
 
 {
