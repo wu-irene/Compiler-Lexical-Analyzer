@@ -14,7 +14,7 @@ DIV  [*]
 L_PAREN [(]
 R_PAREN [)]
 EQUAL [=]
-IDENT [a-zA-Z][a-zA-Z0-9]*
+IDENT [a-zA-Z][a-zA-Z]*[_]*[a-zA-Z0-9]*
 INVALIDIDENT1 [_0-9][a-zA-Z][a-zA-Z0-9]*
 INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 %%
