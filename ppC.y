@@ -22,6 +22,7 @@ arguments: argument {printf("arguments -> argument \n");}
 
 argument: /* epsilon */ {printf("argument->epsilon \n");}
 	| INTEGER IDENT {printf("argument-> INT IDENT \n");}
+        | IDENT {printf("argument->IDENT\n");}
 	| statements {printf("argument -> statements\n");}
 
 variable: IDENT {printf("variable -> IDENT\n");}
@@ -44,7 +45,18 @@ math: variable MINUS variable {printf("math -> variable MINUS variable\n");}
 	| variable PLUS variable {printf("math -> variable PLUS variable\n");}
 	| variable MULT variable {printf("math -> variable MULT variable\n");}
 	| variable DIV variable {printf("math -> variable DIV variable\n");}
+        | variable MULT  statement {printf("math -> variable MULT  statement\n");}
+	| variable PLUS statement {printf("math -> variable PLUS statment\n ");}
+	| variable MINUS  statement {printf("math -> variable MINUS statment\n");}
+	| variable DIV statement {printf("math-> variable DIV statement\n");}
+	| statement MULT statement{}
+	| statement DIV statement{}
+	| statement PLUS statement{}
+	| statement MINUS statement{}
 
+
+
+	
 functionCall: IDENT L_PAREN arguments R_PAREN {printf("functionCall -> IDENT L_PAREN arguments R_PAREN\n");}
 
 return: RETURN NUMBER SEMICOLON {printf("return -> RETURN INTEGER SEMICOLON\n");}
@@ -62,6 +74,9 @@ whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY {print
 
 
 assignment: IDENT ASSIGN NUMBER SEMICOLON {printf("IDENT ASSIGN NUMBER SEMICOLON\n");} 
+            | IDENT ASSIGN statement {printf("IDENT ASSIGN STATMENT");}  
+
+
 
 condition: /* epsilon */ {printf("condition -> epsilon\n");}
 	| IDENT EQ IDENT {printf("condition -> IDENT EQ IDENT\n");}
@@ -95,12 +110,9 @@ void main(int argc, char** argv) {
 
     yyparse();
 }
-int yyerror(char *error_message) {
-
-<<<<<<< HEAD
+int yyerror(char *error_message){
   printf("%s\n", error_message);
-=======
+
 	printf("%s\n", error_message);
->>>>>>> 11a6c25c10f1db42df3e73fef043b7a7fda429eb
 
 }

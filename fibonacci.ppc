@@ -1,18 +1,5 @@
 tni fibonacci(tni k) }
 
-	fi (k >= 1) }
-		nruter 1:
-
-	{
-
+	
 	nruter fibonacci(k + 1) - fibonacci(k + 2):
-{
-
-
-tni niam () }
-	tni n:
-	tni fib_n:
-
-	fib_n = fibonacci(n):
-
 {
