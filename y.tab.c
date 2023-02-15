@@ -62,7 +62,7 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "ppC.y" /* yacc.c:339  */
+#line 1 "ppCTest.y" /* yacc.c:339  */
 
 #include <stdio.h>
 extern FILE* yyin;
@@ -403,18 +403,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  6
+#define YYFINAL  14
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   54
+#define YYLAST   35
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  45
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  11
+#define YYNNTS  10
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  26
+#define YYNRULES  19
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  56
+#define YYNSTATES  37
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -464,9 +464,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    10,    10,    11,    13,    14,    16,    18,    19,    21,
-      22,    24,    25,    27,    28,    29,    31,    32,    33,    35,
-      37,    38,    39,    40,    41,    42,    43
+       0,    10,    10,    11,    13,    15,    17,    19,    20,    21,
+      23,    25,    27,    28,    30,    31,    32,    33,    34,    35
 };
 #endif
 
@@ -481,9 +480,8 @@ static const char *const yytname[] =
   "MOD", "EQ", "NEQ", "LT", "GT", "LTE", "GTE", "SEMICOLON", "COLON",
   "COMMA", "L_SQUARE_BRACKET", "R_SQUARE_BRACKET", "EQUAL", "NUMBER",
   "PLUS", "MINUS", "MULT", "DIV", "L_PAREN", "R_PAREN", "ASSIGN", "IDENT",
-  "$accept", "prog_start", "functions", "function", "arguments",
-  "argument", "statements", "statement", "ifElseState", "whileLoop",
-  "condition", YY_NULLPTR
+  "$accept", "prog_start", "functions", "statements", "ident", "statement",
+  "IfElse", "whileLoop", "assign", "condition", YY_NULLPTR
 };
 #endif
 
@@ -500,12 +498,12 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF -32
+#define YYPACT_NINF -40
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-32)))
+  (!!((Yystate) == (-40)))
 
-#define YYTABLE_NINF -14
+#define YYTABLE_NINF -1
 
 #define yytable_value_is_error(Yytable_value) \
   0
@@ -514,12 +512,10 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -1,   -31,    14,   -32,    -1,   -24,   -32,   -32,    13,   -26,
-     -23,   -12,   -32,    16,    13,    -8,   -32,   -15,    18,   -14,
-      22,     0,   -32,   -32,   -13,    -8,   -13,   -32,    -8,   -18,
-     -10,    23,    -9,   -32,    -7,    -6,    -5,    -4,    -3,    -2,
-      29,   -32,    30,   -32,   -32,   -32,   -32,   -32,   -32,    -8,
-      -8,    37,    38,     3,   -32,   -32
+      -9,   -39,   -31,   -40,    11,   -40,   -40,   -23,   -40,   -40,
+     -40,   -40,   -30,   -30,   -40,   -35,   -21,   -29,   -27,   -14,
+     -13,   -18,   -17,   -16,   -15,   -12,    17,    18,   -40,   -40,
+     -40,   -40,   -40,   -40,   -40,   -40,   -40
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -527,77 +523,65 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       2,     0,     0,     3,     4,     0,     1,     5,     9,     0,
-       0,     7,    10,     0,     9,    11,     8,     0,     0,     0,
-       0,     0,    14,    15,    20,    11,    20,     6,    11,     0,
-       0,     0,     0,    12,     0,     0,     0,     0,     0,     0,
-       0,    18,     0,    21,    22,    23,    24,    25,    26,    11,
-      11,     0,     0,    16,    19,    17
+       2,     0,     0,     6,     0,     3,     4,     0,     5,     7,
+       8,     9,    14,    14,     1,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,    13,    12,
+      19,    15,    16,    17,    18,    10,    11
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -32,   -32,    32,   -32,    31,   -32,   -25,   -32,     1,   -32,
-      20
+     -40,   -40,   -40,   -40,    25,   -40,   -40,   -40,   -40,    13
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3,     4,    10,    11,    20,    21,    22,    23,
-      30
+      -1,     4,     5,     6,    16,     8,     9,    10,    11,    17
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule whose
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_int8 yytable[] =
+static const yytype_uint8 yytable[] =
 {
-      31,    17,     1,    33,    18,    19,    34,    35,    36,    37,
-      38,    39,    17,     5,     6,    18,     9,     8,    12,    13,
-      14,    15,   -13,    25,    51,    52,    24,    26,    27,    41,
-      28,    29,    40,    42,    49,    50,     7,    43,    44,    45,
-      46,    47,    48,    53,    54,    16,    32,     0,     0,     0,
-       0,     0,     0,     0,    55
+       1,    19,    12,    21,     2,    22,    23,    24,    25,    20,
+      13,    14,    15,    26,     3,    27,    28,    29,    30,    31,
+      32,    33,    35,    36,    34,     7,    18,     0,     0,     0,
+       0,     0,     0,     0,     0,     3
 };
 
 static const yytype_int8 yycheck[] =
 {
-      25,     9,     3,    28,    12,    13,    24,    25,    26,    27,
-      28,    29,     9,    44,     0,    12,     3,    41,    44,    42,
-      32,     5,    30,     5,    49,    50,    41,    41,     6,     6,
-      30,    44,    42,    42,     5,     5,     4,    44,    44,    44,
-      44,    44,    44,     6,     6,    14,    26,    -1,    -1,    -1,
-      -1,    -1,    -1,    -1,    53
+       9,    36,    41,    24,    13,    26,    27,    28,    29,    44,
+      41,     0,    35,    42,    44,    42,    30,    30,    36,    36,
+      36,    36,     5,     5,    36,     0,    13,    -1,    -1,    -1,
+      -1,    -1,    -1,    -1,    -1,    44
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,    46,    47,    48,    44,     0,    47,    41,     3,
-      49,    50,    44,    42,    32,     5,    49,     9,    12,    13,
-      51,    52,    53,    54,    41,     5,    41,     6,    30,    44,
-      55,    51,    55,    51,    24,    25,    26,    27,    28,    29,
-      42,     6,    42,    44,    44,    44,    44,    44,    44,     5,
-       5,    51,    51,     6,     6,    53
+       0,     9,    13,    44,    46,    47,    48,    49,    50,    51,
+      52,    53,    41,    41,     0,    35,    49,    54,    54,    36,
+      44,    24,    26,    27,    28,    29,    42,    42,    30,    30,
+      36,    36,    36,    36,    36,     5,     5
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    45,    46,    46,    47,    47,    48,    49,    49,    50,
-      50,    51,    51,    52,    52,    52,    53,    53,    53,    54,
-      55,    55,    55,    55,    55,    55,    55
+       0,    45,    46,    46,    47,    48,    49,    50,    50,    50,
+      51,    52,    53,    53,    54,    54,    54,    54,    54,    54
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     1,     1,     2,     8,     1,     3,     0,
-       2,     0,     3,     0,     1,     1,     0,     8,     4,     7,
-       0,     3,     3,     3,     3,     3,     3
+       0,     2,     0,     1,     1,     1,     1,     1,     1,     1,
+       5,     5,     4,     4,     0,     3,     3,     3,     3,     3
 };
 
 
@@ -1274,157 +1258,115 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 10 "ppC.y" /* yacc.c:1646  */
+#line 10 "ppCTest.y" /* yacc.c:1646  */
     {printf("prog_start->epsilon \n");}
-#line 1280 "y.tab.c" /* yacc.c:1646  */
+#line 1264 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 11 "ppC.y" /* yacc.c:1646  */
+#line 11 "ppCTest.y" /* yacc.c:1646  */
     {printf("prog_start->functions \n");}
-#line 1286 "y.tab.c" /* yacc.c:1646  */
+#line 1270 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 13 "ppC.y" /* yacc.c:1646  */
-    {printf("functions->function \n");}
-#line 1292 "y.tab.c" /* yacc.c:1646  */
+#line 13 "ppCTest.y" /* yacc.c:1646  */
+    {printf("functions->statement \n");}
+#line 1276 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 14 "ppC.y" /* yacc.c:1646  */
-    {printf("functions -> function functions \n");}
-#line 1298 "y.tab.c" /* yacc.c:1646  */
+#line 15 "ppCTest.y" /* yacc.c:1646  */
+    {printf("statements -> \n");}
+#line 1282 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 16 "ppC.y" /* yacc.c:1646  */
-    {printf("function -> INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY\n");}
-#line 1304 "y.tab.c" /* yacc.c:1646  */
+#line 17 "ppCTest.y" /* yacc.c:1646  */
+    {printf("ident -> IDENT \n");}
+#line 1288 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 18 "ppC.y" /* yacc.c:1646  */
-    {printf("arguments -> argument \n");}
-#line 1310 "y.tab.c" /* yacc.c:1646  */
+#line 19 "ppCTest.y" /* yacc.c:1646  */
+    {printf("statement -> IfElse \n");}
+#line 1294 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 19 "ppC.y" /* yacc.c:1646  */
-    {printf("arguments -> COMMA arguments \n");}
-#line 1316 "y.tab.c" /* yacc.c:1646  */
+#line 20 "ppCTest.y" /* yacc.c:1646  */
+    {printf("statement -> whileLoop \n");}
+#line 1300 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 21 "ppC.y" /* yacc.c:1646  */
-    {printf("argument->epsilon \n");}
-#line 1322 "y.tab.c" /* yacc.c:1646  */
+#line 21 "ppCTest.y" /* yacc.c:1646  */
+    {printf("statement -> assign \n");}
+#line 1306 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 22 "ppC.y" /* yacc.c:1646  */
-    {printf("argument-> INT IDENT \n");}
-#line 1328 "y.tab.c" /* yacc.c:1646  */
+#line 23 "ppCTest.y" /* yacc.c:1646  */
+    {printf("IfElse -> IF L_PAREN condition R_PAREN BEGIN_BODY \n");}
+#line 1312 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 24 "ppC.y" /* yacc.c:1646  */
-    {printf("statements->epsilon\n");}
-#line 1334 "y.tab.c" /* yacc.c:1646  */
+#line 25 "ppCTest.y" /* yacc.c:1646  */
+    {printf("whileLoop -> WHILE L_PAREN condition R_PAREN BEGIN_BODY\n");}
+#line 1318 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 25 "ppC.y" /* yacc.c:1646  */
-    {printf("statements -> statement SEMICOLON statements \n");}
-#line 1340 "y.tab.c" /* yacc.c:1646  */
+#line 27 "ppCTest.y" /* yacc.c:1646  */
+    {printf("assign -> IDENT EQUAL IDENT SEMICOLON \n");}
+#line 1324 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 27 "ppC.y" /* yacc.c:1646  */
-    {printf("statement -> epsilon \n");}
-#line 1346 "y.tab.c" /* yacc.c:1646  */
+#line 28 "ppCTest.y" /* yacc.c:1646  */
+    {printf("assign -> IDENT EQUAL NUMBER SEMICOLON \n");}
+#line 1330 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 28 "ppC.y" /* yacc.c:1646  */
-    {printf("statement -> ifElseState \n");}
-#line 1352 "y.tab.c" /* yacc.c:1646  */
+#line 30 "ppCTest.y" /* yacc.c:1646  */
+    {printf("condition -> epsilon\n");}
+#line 1336 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 29 "ppC.y" /* yacc.c:1646  */
-    {printf("statement -> whileLoop\n");}
-#line 1358 "y.tab.c" /* yacc.c:1646  */
+#line 31 "ppCTest.y" /* yacc.c:1646  */
+    {printf("condition -> IDENT LT NUMBER\n");}
+#line 1342 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 31 "ppC.y" /* yacc.c:1646  */
-    {printf("ifElseState -> epsilon\n");}
-#line 1364 "y.tab.c" /* yacc.c:1646  */
+#line 32 "ppCTest.y" /* yacc.c:1646  */
+    {printf("condition -> IDENT GT NUMBER\n");}
+#line 1348 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 32 "ppC.y" /* yacc.c:1646  */
-    {printf("ifElseState -> IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState\n");}
-#line 1370 "y.tab.c" /* yacc.c:1646  */
+#line 33 "ppCTest.y" /* yacc.c:1646  */
+    {printf("condition -> IDENT LTE NUMBER\n");}
+#line 1354 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 33 "ppC.y" /* yacc.c:1646  */
-    {printf("ifElseState -> ELSE BEGIN_BODY statements END_BODY\n");}
-#line 1376 "y.tab.c" /* yacc.c:1646  */
+#line 34 "ppCTest.y" /* yacc.c:1646  */
+    {printf("condition -> IDENT GTE NUMBER\n");}
+#line 1360 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 35 "ppC.y" /* yacc.c:1646  */
-    {printf("whileLoop -> WHILE L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY\n");}
-#line 1382 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 20:
-#line 37 "ppC.y" /* yacc.c:1646  */
-    {printf("condition -> epsilon\n");}
-#line 1388 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 21:
-#line 38 "ppC.y" /* yacc.c:1646  */
-    {printf("condition -> IDENT EQ IDENT\n");}
-#line 1394 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 22:
-#line 39 "ppC.y" /* yacc.c:1646  */
-    {printf("condition -> IDENT NEQ IDENT\n");}
-#line 1400 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 23:
-#line 40 "ppC.y" /* yacc.c:1646  */
-    {printf("condition -> IDENT LT IDENT\n");}
-#line 1406 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 24:
-#line 41 "ppC.y" /* yacc.c:1646  */
-    {printf("condition -> IDENT GT IDENT\n");}
-#line 1412 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 25:
-#line 42 "ppC.y" /* yacc.c:1646  */
-    {printf("condition -> IDENT LTE IDENT\n");}
-#line 1418 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 26:
-#line 43 "ppC.y" /* yacc.c:1646  */
-    {printf("condition -> IDENT GTE IDENT\n");}
-#line 1424 "y.tab.c" /* yacc.c:1646  */
+#line 35 "ppCTest.y" /* yacc.c:1646  */
+    {printf("condition -> IDENT EQ NUMBER\n");}
+#line 1366 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1428 "y.tab.c" /* yacc.c:1646  */
+#line 1370 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1652,7 +1594,8 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 50 "ppC.y" /* yacc.c:1906  */
+#line 37 "ppCTest.y" /* yacc.c:1906  */
+
 
 
 void main(int argc, char** argv) {
