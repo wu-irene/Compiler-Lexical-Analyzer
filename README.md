@@ -221,5 +221,8 @@ Whitespaces are ignored.
 ![LEXICAL](https://github.com/iwu021/CS152CompilerProject/blob/main/inverted%20color%20list.png)
 
 **Phase 1: Lexer** : Already DEMO, please see milestone for history files
+
+
+
 **Phase 2: Parser** : Ready to DEMO, please see milestone for history files
 
