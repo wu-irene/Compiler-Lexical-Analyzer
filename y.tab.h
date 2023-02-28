@@ -86,8 +86,10 @@ extern int yydebug;
     L_PAREN = 296,
     R_PAREN = 297,
     ASSIGN = 298,
-    IDENT = 299,
-    VOID = 300
+    INPUT = 299,
+    OUTPUT = 300,
+    IDENT = 301,
+    VOID = 302
   };
 #endif
 

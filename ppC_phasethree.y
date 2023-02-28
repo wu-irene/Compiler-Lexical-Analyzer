@@ -1,10 +1,14 @@
-nclude <stdio.h>
+%{
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <string.h>
 extern FILE* yyin;
 %}
 
 %define parse.error verbose
 %start prog_start
-%token INTEGER FUNCTION BEGIN_BODY END_BODY ARRAY OF IF THEN ENDIF ELSE WHILE DO CONTINUE BREAK READ WRITE NOT TRUE FALSE RETURN MOD EQ NEQ LT GT LTE GTE SEMICOLON COLON COMMA L_SQUARE_BRACKET R_SQUARE_BRACKET EQUAL NUMBER PLUS MINUS MULT DIV L_PAREN R_PAREN ASSIGN IDENT VOID
+%token INTEGER FUNCTION BEGIN_BODY END_BODY ARRAY OF IF THEN ENDIF ELSE WHILE DO CONTINUE BREAK READ WRITE NOT TRUE FALSE RETURN MOD EQ NEQ LT GT LTE GTE SEMICOLON COLON COMMA L_SQUARE_BRACKET R_SQUARE_BRACKET EQUAL NUMBER PLUS MINUS MULT DIV L_PAREN R_PAREN ASSIGN INPUT OUTPUT IDENT VOID
 %%
 
 prog_start: /* epsilon */
@@ -25,7 +29,8 @@ argument: /* epsilon */
 	| statements 
 
 variable: IDENT 
-	| NUMBER 
+| NUMBER
+
 
 statements: /* epsilon */ 
 	| statement SEMICOLON 
@@ -38,7 +43,15 @@ statement: /* epsilon */
 	| definition 
 	| return 
 	| functionCall 
-	| math 
+	| math
+	| write
+
+write: WRITE INPUT variable SEMICOLON
+{
+	std::string src = $2;
+	printf(".> %s\n", src.c_str());
+}
+
 math: variable MINUS variable
 	| variable PLUS variable 
 	| variable MULT variable 
@@ -66,8 +79,14 @@ ifElseState: /* epsilon */
  
 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY 
 
-assignment: IDENT ASSIGN NUMBER SEMICOLON 
-            | IDENT ASSIGN statement 
+assignment: IDENT ASSIGN variable SEMICOLON 
+{
+	std::string dest = $1;
+	std::string src = $3;
+	printf("= %s, %s\n", dest.c_str(), src.c_str());
+
+}
+| IDENT ASSIGN statement 
 
 
 condition: /* epsilon */ 
