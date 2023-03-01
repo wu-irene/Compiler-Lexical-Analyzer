@@ -58,6 +58,7 @@ INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 "<<" {return OUTPUT; num_chars += yyleng;}
 {DIGIT}+ {
     char * token = new char[yyleng];
+    int numberToken;
     strcpy(token, yytext);
     yylval.op_val = token;
     numberToken = atoi(yytext);
@@ -74,6 +75,7 @@ INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 {INVALIDIDENT2}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit; num_chars += yyleng;}
 {IDENT}    {
     char * token = new char[yyleng];
+    char * identToken;
     strcpy(token, yytext);
     yylval.op_val = token;
     identToken = yytext;

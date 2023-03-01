@@ -2,17 +2,22 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include <string.h>
 extern FILE* yyin;
+extern int yylex(void);
+void yyerror(const char *msg);
 %}
 
 %union{
 	char *op_val;
+	int int_val;
 }
 
 %define parse.error verbose
 %start prog_start
 %token INTEGER FUNCTION BEGIN_BODY END_BODY ARRAY OF IF THEN ENDIF ELSE WHILE DO CONTINUE BREAK READ WRITE NOT TRUE FALSE RETURN MOD EQ NEQ LT GT LTE GTE SEMICOLON COLON COMMA L_SQUARE_BRACKET R_SQUARE_BRACKET EQUAL NUMBER PLUS MINUS MULT DIV L_PAREN R_PAREN ASSIGN INPUT OUTPUT IDENT VOID
+%type <op_val> variable
+%type <int_val> NUMBER
+%type <op_val> IDENT
 %%
 
 prog_start: /* epsilon */
@@ -52,7 +57,7 @@ statement: /* epsilon */
 
 write: WRITE INPUT variable SEMICOLON
 {
-	std::string src = $2;
+	std::string src = $3;
 	printf(".> %s\n", src.c_str());
 }
 
@@ -109,7 +114,7 @@ condition: /* epsilon */
 
 %%
 
-void main(int argc, char** argv) {
+int main(int argc, char** argv) {
     if (argc >= 2) {
 	yyin = fopen(argv[1], "r");
 	if (yyin == NULL) 
@@ -119,11 +124,10 @@ void main(int argc, char** argv) {
     }
 
     yyparse();
+	return 0;
 }
-int yyerror(char *error_message){
+void yyerror(const char *error_message){
   printf("%s\n", error_message);
-
-	printf("%s\n", error_message);
 
 }
 

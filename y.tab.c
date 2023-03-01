@@ -67,10 +67,11 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include <string.h>
 extern FILE* yyin;
+extern int yylex(void);
+void yyerror(const char *msg);
 
-#line 74 "y.tab.c" /* yacc.c:339  */
+#line 75 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -155,7 +156,18 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 10 "ppC_phasethree.y" /* yacc.c:355  */
+
+	char *op_val;
+	int int_val;
+
+#line 168 "y.tab.c" /* yacc.c:355  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -169,7 +181,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 173 "y.tab.c" /* yacc.c:358  */
+#line 185 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -471,13 +483,13 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    14,    14,    15,    17,    18,    20,    21,    23,    24,
-      26,    27,    28,    29,    31,    32,    35,    36,    37,    39,
-      40,    41,    42,    43,    44,    45,    46,    47,    49,    55,
-      56,    57,    58,    59,    60,    61,    62,    63,    64,    65,
-      66,    68,    70,    71,    72,    74,    76,    77,    78,    80,
-      82,    89,    92,    93,    94,    95,    96,    97,    98,    99,
-     100,   101,   102,   103,   104
+       0,    23,    23,    24,    26,    27,    29,    30,    32,    33,
+      35,    36,    37,    38,    40,    41,    44,    45,    46,    48,
+      49,    50,    51,    52,    53,    54,    55,    56,    58,    64,
+      65,    66,    67,    68,    69,    70,    71,    72,    73,    74,
+      75,    77,    79,    80,    81,    83,    85,    86,    87,    89,
+      91,    98,   101,   102,   103,   104,   105,   106,   107,   108,
+     109,   110,   111,   112,   113
 };
 #endif
 
@@ -1335,27 +1347,27 @@ yyreduce:
   switch (yyn)
     {
         case 28:
-#line 50 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 59 "ppC_phasethree.y" /* yacc.c:1646  */
     {
-	std::string src = (yyvsp[-2]);
+	std::string src = (yyvsp[-1].op_val);
 	printf(".> %s\n", src.c_str());
 }
-#line 1344 "y.tab.c" /* yacc.c:1646  */
+#line 1356 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 83 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 92 "ppC_phasethree.y" /* yacc.c:1646  */
     {
-	std::string dest = (yyvsp[-3]);
-	std::string src = (yyvsp[-1]);
+	std::string dest = (yyvsp[-3].op_val);
+	std::string src = (yyvsp[-1].op_val);
 	printf("= %s, %s\n", dest.c_str(), src.c_str());
 
 }
-#line 1355 "y.tab.c" /* yacc.c:1646  */
+#line 1367 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1359 "y.tab.c" /* yacc.c:1646  */
+#line 1371 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1583,10 +1595,10 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 106 "ppC_phasethree.y" /* yacc.c:1906  */
+#line 115 "ppC_phasethree.y" /* yacc.c:1906  */
 
 
-void main(int argc, char** argv) {
+int main(int argc, char** argv) {
     if (argc >= 2) {
 	yyin = fopen(argv[1], "r");
 	if (yyin == NULL) 
@@ -1596,11 +1608,10 @@ void main(int argc, char** argv) {
     }
 
     yyparse();
+	return 0;
 }
-int yyerror(char *error_message){
+void yyerror(const char *error_message){
   printf("%s\n", error_message);
-
-	printf("%s\n", error_message);
 
 }
 
