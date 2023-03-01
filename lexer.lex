@@ -56,7 +56,13 @@ INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 "tuoc" {return WRITE; num_chars += yyleng;}
 ">>" {return INPUT; num_chars += yyleng;}
 "<<" {return OUTPUT; num_chars += yyleng;}
-{DIGIT}+ {return NUMBER; num_chars += yyleng;}
+{DIGIT}+ {
+    char * token = new char[yyleng];
+    strcpy(token, yytext);
+    yylval.op_val = token;
+    numberToken = atoi(yytext);
+    num_chars += yyleng;
+    return NUMBER;}
 {PLUS}   {return PLUS; num_chars += yyleng;}
 {MINUS}  {return MINUS; num_chars += yyleng;}
 {MULT}   {return MULT; num_chars += yyleng;}
@@ -66,7 +72,12 @@ INVALIDIDENT2 [a-zA-Z][a-zA-Z0-9]*[_]
 {EQUAL}   {return ASSIGN; num_chars += yyleng;}
 {INVALIDIDENT1}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit; num_chars += yyleng;}
 {INVALIDIDENT2}    {printf("Error at line %d, identifier '%s' must begin with a letter or end without an underscore\n", num_lines, yytext);exit; num_chars += yyleng;}
-{IDENT}    {return IDENT; num_chars += yyleng;}
+{IDENT}    {
+    char * token = new char[yyleng];
+    strcpy(token, yytext);
+    yylval.op_val = token;
+    identToken = yytext;
+    return IDENT; num_chars += yyleng;}
 
 "\\"	/* comments */ 
 " "    
