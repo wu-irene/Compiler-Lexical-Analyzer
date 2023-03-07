@@ -195,6 +195,7 @@ math: variable MINUS variable{ temp_1 = $1; temp_2 = $3; temp_3 = "-"; }
 | variable PLUS variable{ temp_1 = $1; temp_2 = $3; temp_3 = "+"; }
 | variable MULT variable{ temp_1 = $1; temp_2 = $3; temp_3 = "*"; }
 | variable DIV variable{ temp_1 = $1; temp_2 = $3; temp_3 = "/"; }
+| variable MOD variable { temp_1 = $1; temp_2 = $3; temp_3 = "%"; }
 
 
 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON{
