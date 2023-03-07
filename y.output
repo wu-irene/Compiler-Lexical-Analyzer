@@ -31,7 +31,7 @@ State 72 conflicts: 8 shift/reduce, 10 reduce/reduce
 State 79 conflicts: 8 shift/reduce, 10 reduce/reduce
 State 109 conflicts: 8 shift/reduce, 10 reduce/reduce
 State 110 conflicts: 8 shift/reduce, 10 reduce/reduce
-State 119 conflicts: 2 shift/reduce
+State 120 conflicts: 2 shift/reduce
 
 
 Grammar
@@ -84,7 +84,7 @@ Grammar
 
    34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON
 
-   35 functionCall: IDENT L_PAREN arguments R_PAREN
+   35 functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON
 
    36 return: RETURN NUMBER SEMICOLON
    37       | RETURN IDENT SEMICOLON
@@ -149,7 +149,7 @@ LT (281) 51 57
 GT (282) 52 58
 LTE (283) 53 59
 GTE (284) 54 60
-SEMICOLON (285) 16 28 33 34 36 37 39 44 46
+SEMICOLON (285) 16 28 33 34 35 36 37 39 44 46
 COLON (286)
 COMMA (287) 8
 L_SQUARE_BRACKET (288) 33 34
@@ -526,7 +526,7 @@ State 19
 
    11 argument: IDENT .
    13 variable: IDENT .
-   35 functionCall: IDENT . L_PAREN arguments R_PAREN
+   35 functionCall: IDENT . L_PAREN arguments R_PAREN SEMICOLON
    44 assignment: IDENT . ASSIGN variable SEMICOLON
    45           | IDENT . ASSIGN arrayUnzip
    46           | IDENT . ASSIGN math SEMICOLON
@@ -828,7 +828,7 @@ State 41
 State 42
 
    13 variable: IDENT .
-   35 functionCall: IDENT . L_PAREN arguments R_PAREN
+   35 functionCall: IDENT . L_PAREN arguments R_PAREN SEMICOLON
    37 return: RETURN IDENT . SEMICOLON
    44 assignment: IDENT . ASSIGN variable SEMICOLON
    45           | IDENT . ASSIGN arrayUnzip
@@ -851,7 +851,7 @@ State 43
 
 State 44
 
-   35 functionCall: IDENT L_PAREN . arguments R_PAREN
+   35 functionCall: IDENT L_PAREN . arguments R_PAREN SEMICOLON
 
     INTEGER  shift, and go to state 12
     IF       shift, and go to state 13
@@ -1086,7 +1086,7 @@ State 53
 State 54
 
    13 variable: IDENT .
-   35 functionCall: IDENT . L_PAREN arguments R_PAREN
+   35 functionCall: IDENT . L_PAREN arguments R_PAREN SEMICOLON
    44 assignment: IDENT . ASSIGN variable SEMICOLON
    45           | IDENT . ASSIGN arrayUnzip
    46           | IDENT . ASSIGN math SEMICOLON
@@ -1200,7 +1200,7 @@ State 66
 
 State 67
 
-   35 functionCall: IDENT L_PAREN arguments . R_PAREN
+   35 functionCall: IDENT L_PAREN arguments . R_PAREN SEMICOLON
 
     R_PAREN  shift, and go to state 90
 
@@ -1474,9 +1474,9 @@ State 89
 
 State 90
 
-   35 functionCall: IDENT L_PAREN arguments R_PAREN .
+   35 functionCall: IDENT L_PAREN arguments R_PAREN . SEMICOLON
 
-    $default  reduce using rule 35 (functionCall)
+    SEMICOLON  shift, and go to state 111
 
 
 State 91
@@ -1494,7 +1494,7 @@ State 92
     NUMBER  shift, and go to state 18
     IDENT   shift, and go to state 62
 
-    variable  go to state 111
+    variable  go to state 112
 
 
 State 93
@@ -1508,21 +1508,21 @@ State 94
 
     5 function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements . END_BODY
 
-    END_BODY  shift, and go to state 112
+    END_BODY  shift, and go to state 113
 
 
 State 95
 
    34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET . ASSIGN variable SEMICOLON
 
-    ASSIGN  shift, and go to state 113
+    ASSIGN  shift, and go to state 114
 
 
 State 96
 
     6 function: VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements . END_BODY
 
-    END_BODY  shift, and go to state 114
+    END_BODY  shift, and go to state 115
 
 
 State 97
@@ -1646,7 +1646,7 @@ State 109
     $default   reduce using rule 15 (statements)
 
     variable      go to state 22
-    statements    go to state 115
+    statements    go to state 116
     statement     go to state 24
     write         go to state 25
     math          go to state 26
@@ -1696,7 +1696,7 @@ State 110
     $default   reduce using rule 15 (statements)
 
     variable      go to state 22
-    statements    go to state 116
+    statements    go to state 117
     statement     go to state 24
     write         go to state 25
     math          go to state 26
@@ -1711,67 +1711,74 @@ State 110
 
 State 111
 
-   33 arrayUnzip: variable L_SQUARE_BRACKET variable . R_SQUARE_BRACKET SEMICOLON
-   34 arrayAccess: variable L_SQUARE_BRACKET variable . R_SQUARE_BRACKET ASSIGN variable SEMICOLON
+   35 functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON .
 
-    R_SQUARE_BRACKET  shift, and go to state 117
+    $default  reduce using rule 35 (functionCall)
 
 
 State 112
+
+   33 arrayUnzip: variable L_SQUARE_BRACKET variable . R_SQUARE_BRACKET SEMICOLON
+   34 arrayAccess: variable L_SQUARE_BRACKET variable . R_SQUARE_BRACKET ASSIGN variable SEMICOLON
+
+    R_SQUARE_BRACKET  shift, and go to state 118
+
+
+State 113
 
     5 function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY .
 
     $default  reduce using rule 5 (function)
 
 
-State 113
+State 114
 
    34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN . variable SEMICOLON
 
     NUMBER  shift, and go to state 18
     IDENT   shift, and go to state 62
 
-    variable  go to state 118
+    variable  go to state 119
 
 
-State 114
+State 115
 
     6 function: VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY .
 
     $default  reduce using rule 6 (function)
 
 
-State 115
-
-   41 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY statements . END_BODY ifElseState
-
-    END_BODY  shift, and go to state 119
-
-
 State 116
 
-   43 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements . END_BODY
+   41 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY statements . END_BODY ifElseState
 
     END_BODY  shift, and go to state 120
 
 
 State 117
 
-   33 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET . SEMICOLON
-   34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET . ASSIGN variable SEMICOLON
+   43 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements . END_BODY
 
-    SEMICOLON  shift, and go to state 121
-    ASSIGN     shift, and go to state 113
+    END_BODY  shift, and go to state 121
 
 
 State 118
 
-   34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable . SEMICOLON
+   33 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET . SEMICOLON
+   34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET . ASSIGN variable SEMICOLON
 
     SEMICOLON  shift, and go to state 122
+    ASSIGN     shift, and go to state 114
 
 
 State 119
+
+   34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable . SEMICOLON
+
+    SEMICOLON  shift, and go to state 123
+
+
+State 120
 
    41 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY . ifElseState
 
@@ -1782,31 +1789,31 @@ State 119
     ELSE      [reduce using rule 40 (ifElseState)]
     $default  reduce using rule 40 (ifElseState)
 
-    ifElseState  go to state 123
+    ifElseState  go to state 124
 
 
-State 120
+State 121
 
    43 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY .
 
     $default  reduce using rule 43 (whileLoop)
 
 
-State 121
+State 122
 
    33 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON .
 
     $default  reduce using rule 33 (arrayUnzip)
 
 
-State 122
+State 123
 
    34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON .
 
     $default  reduce using rule 34 (arrayAccess)
 
 
-State 123
+State 124
 
    41 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState .
 

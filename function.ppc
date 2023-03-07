@@ -13,7 +13,9 @@ tni c:
 a = 100:
 b = 50:
 
-tuoc >> a: 
+c = add(a. b):
+
+tuoc >> c: 
 {
 
 

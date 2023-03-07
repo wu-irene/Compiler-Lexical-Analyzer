@@ -24,8 +24,8 @@ std::string temp_2 = "";
 std::string temp_3 = "";
 
 
+std::string _temp_0 = "";
 std::string _temp_1 = "";
-std::string _temp_2 = "";
 
 enum Type { Integer, Array };
 struct Symbol {
@@ -133,11 +133,12 @@ argument: /* epsilon */
 {
 	std::string argIdent = $2;
 	printf(". %s\n", argIdent.c_str());
-
-	
-
 }
-        | IDENT 
+        | IDENT
+{
+	std::string ident = $1;
+	printf("%s\n", ident.c_str());
+} 
 	| statements 
 
 variable: IDENT 
@@ -156,6 +157,9 @@ statement: /* epsilon */
 	| return 
 	| functionCall 
 	| math
+{
+	printf("%s %s, %s, %s\n", temp_3.c_str(), _temp_0.c_str(),temp_1.c_str(), temp_2.c_str());
+}
 	| write
 	| arrayAccess
 
@@ -185,11 +189,12 @@ arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable
 				printf("[]= %s,%s,%s\n", dst.c_str(),index.c_str(),src.c_str());
 				}
 
-functionCall: IDENT L_PAREN arguments R_PAREN 
+functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON 
 {
 	std::string name = $1;
 
 	printf("call %s, \n", name.c_str());
+	
 
 }
 
@@ -200,10 +205,10 @@ return: RETURN NUMBER SEMICOLON
 	std::string src = $2;
 	printf("ret %s\n", src.c_str());
 }
-	| RETURN statements
+	| RETURN statements 
 {
-	
-	printf("ret\n");
+	_temp_0 = new_label();	 
+	printf("ret %s\n", _temp_0.c_str());
 }
 
 
