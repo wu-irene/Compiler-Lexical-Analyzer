@@ -1,8 +1,7 @@
-tni add(tni a. tni b) }
-
-nruter a - b:
-
+tni add (tni a. tni b) }
+  nruter a - b:
 {
+
 
 
 tni main() }
@@ -10,13 +9,11 @@ tni a:
 tni b:
 tni c:
 
+
 a = 100:
 b = 50:
 
-c = add(a.b):
-
-tuoc >> a:
-
+tuoc >> a: 
 {
 
 

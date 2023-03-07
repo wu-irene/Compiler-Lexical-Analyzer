@@ -110,13 +110,15 @@ functions: function
 function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
 {
 	std::string func = $2;
-	printf("func %s\n", func.c_str());	
+	printf("func %s\n", func.c_str());
+	printf("endfunc \n");	
 	
 }
 	| VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
 {
 	std::string func = $2;
 	printf("func %s\n", func.c_str());
+	printf("endfunc \n");
 }
 
 arguments: argument 
@@ -125,8 +127,8 @@ arguments: argument
 argument: /* epsilon */ 
 	| INTEGER IDENT
 {
-	std::string arg = $2;
-	printf(". %s\n", arg.c_str());
+	std::string param = $2;
+	printf("param %s\n", param.c_str());
 } 
         | IDENT 
 	| statements 
@@ -188,10 +190,14 @@ functionCall: IDENT L_PAREN arguments R_PAREN
 return: RETURN NUMBER SEMICOLON 
 	| RETURN IDENT SEMICOLON 
 {
-	std::string src =$2;
+	std::string src = $2;
 	printf("ret %s\n", src.c_str());
 }
 	| RETURN statements
+{
+	
+	printf("ret\n");
+}
 
 
 
