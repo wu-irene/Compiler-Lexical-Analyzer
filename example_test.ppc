@@ -1,4 +1,4 @@
 tni main (tni a. tni b) }
- tni sum;
- dosomething();
+ tni sum:
+ dosomething():
 {

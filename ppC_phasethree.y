@@ -126,13 +126,17 @@ function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
 }
 
 arguments: argument 
+
 	| argument COMMA arguments
 
 argument: /* epsilon */ 
 	| INTEGER IDENT
 {
 	std::string argIdent = $2;
+	_temp_0 = argIdent;
 	printf(". %s\n", argIdent.c_str());
+
+
 }
         | IDENT
 {
@@ -153,9 +157,6 @@ statement: /* epsilon */
 	| ifElseState 
 	| whileLoop 
 	| assignment 
-{
-
-} 
 	| definition 
 	| return 
 	| functionCall 
