@@ -11,11 +11,9 @@ extern int currLine;
 char *identToken;
 int numberToken;
 int  count_names = 0;
-int  temp_0 = 0;
 std::string temp_1 ="";
 std::string temp_2 ="";
 std::string temp_3 ="";
-
 
 enum Type { Integer, Array };
 struct Symbol {
@@ -104,7 +102,7 @@ argument: /* epsilon */
 	| statements 
 
 variable: IDENT 
-		|NUMBER {temp_0 = $1;}
+	|NUMBER
 
 
 statements: /* epsilon */ 
@@ -121,7 +119,6 @@ statement: /* epsilon */
 	| math
 	| write
 	| arrayAccess
-	| arrayInitialize
 
 write: WRITE INPUT variable SEMICOLON
 {	
@@ -143,16 +140,11 @@ math: variable MINUS variable
 	| statement MINUS statement 
 
 
-arrayInitialize: IDENT L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET SEMICOLON{
-				std::string name = $1;
-				int n = $3;
-				printf("%i\n",n);
-				//printf(".[] %s,%i\n", name.c_str(),n);
-				}
-
 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON{
+				std::string src = $1;
 				temp_2 =$1;
 				temp_3 =$3;
+				std::string index = $3;
 				}
 
 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON {
