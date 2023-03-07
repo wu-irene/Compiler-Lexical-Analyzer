@@ -98,6 +98,10 @@ function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
 	printf("func %s\n", func.c_str());
 }
 	| VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
+{
+	std::string func = $2;
+	printf("func %s\n", func.c_str());
+}
 
 arguments: argument 
 	| argument COMMA arguments
@@ -157,9 +161,19 @@ arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable
 				}
 
 functionCall: IDENT L_PAREN arguments R_PAREN 
+{
+	std::string name = $1;
+	printf("call %s, \n", name.c_str());
+
+}
+
 
 return: RETURN NUMBER SEMICOLON 
 	| RETURN IDENT SEMICOLON 
+{
+	std::string src =$2;
+	printf("ret %s\n", src.c_str());
+}
 	| RETURN statements
 
 definition: INTEGER IDENT SEMICOLON 

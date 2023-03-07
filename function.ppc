@@ -5,4 +5,19 @@ nruter a - b:
 {
 
 
+tni main() }
+tni a:
+tni b:
+tni c:
+
+a = 100:
+b = 50:
+
+c = add(a.b):
+
+tuoc >> a:
+
+{
+
+
 
