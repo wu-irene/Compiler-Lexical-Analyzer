@@ -11,6 +11,11 @@ extern int currLine;
 char *identToken;
 int numberToken;
 int  count_names = 0;
+int  temp_0 = 0;
+std::string temp_1 ="";
+std::string temp_2 ="";
+std::string temp_3 ="";
+
 
 enum Type { Integer, Array };
 struct Symbol {
@@ -99,7 +104,7 @@ argument: /* epsilon */
 	| statements 
 
 variable: IDENT 
-| NUMBER
+		|NUMBER {temp_0 = $1; //Doesn't update in time before we need it }
 
 
 statements: /* epsilon */ 
@@ -115,9 +120,11 @@ statement: /* epsilon */
 	| functionCall 
 	| math
 	| write
+	| arrayAccess
+	| arrayInitialize
 
 write: WRITE INPUT variable SEMICOLON
-{
+{	
 	std::string src = $3;
 	printf(".> %s\n", src.c_str());
 }
@@ -126,7 +133,7 @@ math: variable MINUS variable
 	| variable PLUS variable 
 	| variable MULT variable 
 	| variable DIV variable
-        | variable MULT  statement 
+    | variable MULT  statement 
 	| variable PLUS statement
 	| variable MINUS  statement 
 	| variable DIV statement 
@@ -134,6 +141,26 @@ math: variable MINUS variable
 	| statement DIV statement 
 	| statement PLUS statement 
 	| statement MINUS statement 
+
+
+arrayInitialize: IDENT L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET SEMICOLON{
+				std::string name = $1;
+				int n = $3;
+				printf("%i\n",n);
+				//printf(".[] %s,%i\n", name.c_str(),n);
+				}
+
+arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON{
+				temp_2 =$1;
+				temp_3 =$3;
+				}
+
+arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON {
+				std::string dst = $1;
+				std::string index = $3;
+				std::string src = $6;
+				printf("[]= %s,%s,%s\n", dst.c_str(),index.c_str(),src.c_str());
+				}
 
 functionCall: IDENT L_PAREN arguments R_PAREN 
 
@@ -156,7 +183,11 @@ assignment: IDENT ASSIGN variable SEMICOLON
 	printf("= %s, %s\n", dest.c_str(), src.c_str());
 
 }
-| IDENT ASSIGN statement 
+| IDENT ASSIGN arrayUnzip{
+  std::string temp_dst = $1;
+  printf("=[] %s,%s,%s\n",temp_dst.c_str(),temp_2.c_str(),temp_3.c_str());
+} 
+| IDENT ASSIGN statement{} 
 
 
 condition: /* epsilon */ 
