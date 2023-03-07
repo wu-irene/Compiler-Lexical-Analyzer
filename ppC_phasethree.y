@@ -137,7 +137,7 @@ argument: /* epsilon */
         | IDENT
 {
 	std::string ident = $1;
-	printf("%s\n", ident.c_str());
+	printf("param %s\n", ident.c_str());
 } 
 	| statements 
 
@@ -153,11 +153,22 @@ statement: /* epsilon */
 	| ifElseState 
 	| whileLoop 
 	| assignment 
+{
+
+} 
 	| definition 
 	| return 
 	| functionCall 
+{
+	_temp_1 = new_label();
+	printf(". %s\n", _temp_1.c_str());
+	printf("call %s, %s \n", _temp_0.c_str(), _temp_1.c_str());
+
+}
 	| math
 {
+	_temp_0 = new_label();
+	printf(". %s\n", _temp_0.c_str());
 	printf("%s %s, %s, %s\n", temp_3.c_str(), _temp_0.c_str(),temp_1.c_str(), temp_2.c_str());
 }
 	| write
@@ -191,9 +202,7 @@ arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable
 
 functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON 
 {
-	std::string name = $1;
-
-	printf("call %s, \n", name.c_str());
+	_temp_0 = $1;
 	
 
 }
@@ -207,10 +216,9 @@ return: RETURN NUMBER SEMICOLON
 }
 	| RETURN statements 
 {
-	_temp_0 = new_label();	 
 	printf("ret %s\n", _temp_0.c_str());
-}
 
+}
 
 
 definition: INTEGER IDENT SEMICOLON
