@@ -160,10 +160,7 @@ statement: /* epsilon */
 	| ifElseState 
 	| whileLoop 
 	| assignment 
-{
-	printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
 
-}
 	| definition 
 	| return 
 
@@ -260,6 +257,7 @@ assignment: IDENT ASSIGN variable SEMICOLON
 }
 | IDENT ASSIGN statement{
   _temp_0 = $1;
+  printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
 } 
 
 
