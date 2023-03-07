@@ -93,13 +93,21 @@ functions: function
 	| function functions 
 
 function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
+{
+	std::string func = $2;
+	printf("func %s\n", func.c_str());
+}
 	| VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
 
 arguments: argument 
 	| argument COMMA arguments
 
 argument: /* epsilon */ 
-	| INTEGER IDENT 
+	| INTEGER IDENT
+{
+	std::string src = $2;
+	printf(". %s\n", src.c_str());
+} 
         | IDENT 
 	| statements 
 

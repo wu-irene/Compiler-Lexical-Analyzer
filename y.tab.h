@@ -98,7 +98,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 10 "ppC_phasethree.y" /* yacc.c:1909  */
+#line 76 "ppC_phasethree.y" /* yacc.c:1909  */
 
 	char *op_val;
 	int int_val;
