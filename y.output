@@ -1,6 +1,5 @@
 Terminals unused in grammar
 
-   FUNCTION
    ARRAY
    OF
    THEN
@@ -16,6 +15,7 @@ Terminals unused in grammar
    COLON
    EQUAL
    OUTPUT
+   VOID
 
 
 State 10 conflicts: 8 shift/reduce, 11 reduce/reduce
@@ -45,7 +45,7 @@ Grammar
     4          | function functions
 
     5 function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
-    6         | VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
+    6         | FUNCTION IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
 
     7 arguments: argument
     8          | argument COMMA arguments
@@ -123,7 +123,7 @@ Terminals, with rules where they appear
 $end (0) 0
 error (256)
 INTEGER (258) 5 10 39
-FUNCTION (259)
+FUNCTION (259) 6
 BEGIN_BODY (260) 5 6 41 42 43
 END_BODY (261) 5 6 41 42 43
 ARRAY (262)
@@ -167,7 +167,7 @@ INPUT (299) 28
 OUTPUT (300)
 IDENT (301) 5 6 10 11 13 35 37 39 44 45 46 47 49 50 51 52 53 54 55
     56 57 58 59 60
-VOID (302) 6
+VOID (302)
 
 
 Nonterminals, with rules where they appear
@@ -218,8 +218,8 @@ State 0
 
     0 $accept: . prog_start $end
 
-    INTEGER  shift, and go to state 1
-    VOID     shift, and go to state 2
+    INTEGER   shift, and go to state 1
+    FUNCTION  shift, and go to state 2
 
     $default  reduce using rule 1 (prog_start)
 
@@ -237,7 +237,7 @@ State 1
 
 State 2
 
-    6 function: VOID . IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
+    6 function: FUNCTION . IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
 
     IDENT  shift, and go to state 7
 
@@ -261,8 +261,8 @@ State 5
     3 functions: function .
     4          | function . functions
 
-    INTEGER  shift, and go to state 1
-    VOID     shift, and go to state 2
+    INTEGER   shift, and go to state 1
+    FUNCTION  shift, and go to state 2
 
     $default  reduce using rule 3 (functions)
 
@@ -279,7 +279,7 @@ State 6
 
 State 7
 
-    6 function: VOID IDENT . L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
+    6 function: FUNCTION IDENT . L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
 
     L_PAREN  shift, and go to state 11
 
@@ -357,7 +357,7 @@ State 10
 
 State 11
 
-    6 function: VOID IDENT L_PAREN . arguments R_PAREN BEGIN_BODY statements END_BODY
+    6 function: FUNCTION IDENT L_PAREN . arguments R_PAREN BEGIN_BODY statements END_BODY
 
     INTEGER  shift, and go to state 12
     IF       shift, and go to state 13
@@ -711,7 +711,7 @@ State 33
 
 State 34
 
-    6 function: VOID IDENT L_PAREN arguments . R_PAREN BEGIN_BODY statements END_BODY
+    6 function: FUNCTION IDENT L_PAREN arguments . R_PAREN BEGIN_BODY statements END_BODY
 
     R_PAREN  shift, and go to state 56
 
@@ -1107,7 +1107,7 @@ State 55
 
 State 56
 
-    6 function: VOID IDENT L_PAREN arguments R_PAREN . BEGIN_BODY statements END_BODY
+    6 function: FUNCTION IDENT L_PAREN arguments R_PAREN . BEGIN_BODY statements END_BODY
 
     BEGIN_BODY  shift, and go to state 79
 
@@ -1342,7 +1342,7 @@ State 78
 
 State 79
 
-    6 function: VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY . statements END_BODY
+    6 function: FUNCTION IDENT L_PAREN arguments R_PAREN BEGIN_BODY . statements END_BODY
 
     INTEGER  shift, and go to state 40
     IF       shift, and go to state 13
@@ -1520,7 +1520,7 @@ State 95
 
 State 96
 
-    6 function: VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements . END_BODY
+    6 function: FUNCTION IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements . END_BODY
 
     END_BODY  shift, and go to state 115
 
@@ -1743,7 +1743,7 @@ State 114
 
 State 115
 
-    6 function: VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY .
+    6 function: FUNCTION IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY .
 
     $default  reduce using rule 6 (function)
 

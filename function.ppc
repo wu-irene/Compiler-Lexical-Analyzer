@@ -13,7 +13,7 @@ tni main() }
 tni a:
 tni b:
 tni c:
-
+tni d:
 
 a = 100:
 b = 50:
@@ -21,6 +21,12 @@ b = 50:
 c = add(a. b):
 
 tuoc >> c: 
+
+
+
+d = mult(c. a + b):
+tuoc >> d:
+
 {
 
 

@@ -114,11 +114,10 @@ functions: function
 function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
 {
 	std::string func = $2;
-	printf("func %s\n", func.c_str());
+	printf("func %s\n", func.c_str());	
 	printf("endfunc \n");	
-	
 }
-	| VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
+	| FUNCTION IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
 {
 	std::string func = $2;
 	printf("func %s\n", func.c_str());
@@ -134,8 +133,9 @@ argument: /* epsilon */
 {
 	std::string argIdent = $2;
 	_temp_0 = argIdent;
-	printf(". %s\n", argIdent.c_str());
 
+
+	printf(". %s\n", argIdent.c_str());
 
 }
         | IDENT
@@ -143,7 +143,10 @@ argument: /* epsilon */
 	std::string ident = $1;
 	printf("param %s\n", ident.c_str());
 } 
-	| statements 
+	| statements
+{
+	printf("param %s\n", _temp_0.c_str());
+} 
 
 variable: IDENT 
 	|NUMBER
@@ -157,8 +160,13 @@ statement: /* epsilon */
 	| ifElseState 
 	| whileLoop 
 	| assignment 
+{
+	printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
+
+}
 	| definition 
 	| return 
+
 	| functionCall 
 {
 	_temp_1 = new_label();
@@ -217,6 +225,7 @@ return: RETURN NUMBER SEMICOLON
 }
 	| RETURN statements 
 {
+
 	printf("ret %s\n", _temp_0.c_str());
 
 }
@@ -249,7 +258,9 @@ assignment: IDENT ASSIGN variable SEMICOLON
   std::string temp_dst = $1;
   printf("%s %s,%s,%s\n", temp_3.c_str(),temp_dst.c_str(),temp_1.c_str(),temp_2.c_str());
 }
-| IDENT ASSIGN statement{} 
+| IDENT ASSIGN statement{
+  _temp_0 = $1;
+} 
 
 
 condition: /* epsilon */ 

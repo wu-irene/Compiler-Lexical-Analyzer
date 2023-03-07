@@ -1,11 +1,9 @@
-diov niam() }
-    tni a:
-    tni b:
-    tni c:
+diov main() }
+  tni a:
+  tni b:
+  tni c:
 
-    a = 1:
-    b = 2:
-    c = a-b:
-
-nruter:
+  a = 1:
+  b = 2:
+  c = a - b:
 {
