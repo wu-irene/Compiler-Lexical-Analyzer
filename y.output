@@ -18,20 +18,19 @@ Terminals unused in grammar
    OUTPUT
 
 
-State 10 conflicts: 8 shift/reduce, 11 reduce/reduce
-State 11 conflicts: 8 shift/reduce, 11 reduce/reduce
-State 17 conflicts: 8 shift/reduce, 12 reduce/reduce
-State 24 conflicts: 9 shift/reduce, 12 reduce/reduce
-State 37 conflicts: 8 shift/reduce, 10 reduce/reduce
-State 44 conflicts: 8 shift/reduce, 11 reduce/reduce
-State 45 conflicts: 8 shift/reduce, 12 reduce/reduce
-State 47 conflicts: 8 shift/reduce, 11 reduce/reduce
-State 70 conflicts: 1 shift/reduce
-State 72 conflicts: 8 shift/reduce, 10 reduce/reduce
-State 79 conflicts: 8 shift/reduce, 10 reduce/reduce
-State 109 conflicts: 8 shift/reduce, 10 reduce/reduce
+State 5 conflicts: 8 shift/reduce, 10 reduce/reduce
+State 14 conflicts: 8 shift/reduce, 12 reduce/reduce
+State 19 conflicts: 9 shift/reduce, 12 reduce/reduce
+State 29 conflicts: 8 shift/reduce, 11 reduce/reduce
+State 30 conflicts: 8 shift/reduce, 11 reduce/reduce
+State 33 conflicts: 8 shift/reduce, 10 reduce/reduce
+State 39 conflicts: 8 shift/reduce, 11 reduce/reduce
+State 40 conflicts: 8 shift/reduce, 12 reduce/reduce
+State 68 conflicts: 1 shift/reduce
+State 78 conflicts: 8 shift/reduce, 11 reduce/reduce
 State 110 conflicts: 8 shift/reduce, 10 reduce/reduce
-State 120 conflicts: 2 shift/reduce
+State 111 conflicts: 8 shift/reduce, 10 reduce/reduce
+State 119 conflicts: 2 shift/reduce
 
 
 Grammar
@@ -41,132 +40,134 @@ Grammar
     1 prog_start: %empty
     2           | functions
 
-    3 functions: function
-    4          | function functions
+    3 functions: functionstart statements functionend
+    4          | functionstart statements functionend functions
 
-    5 function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
-    6         | VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
+    5 functionstart: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY
+    6              | VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY
 
-    7 arguments: argument
-    8          | argument COMMA arguments
+    7 functionend: END_BODY
 
-    9 argument: %empty
-   10         | INTEGER IDENT
-   11         | IDENT
-   12         | statements
+    8 arguments: argument
+    9          | argument COMMA arguments
 
-   13 variable: IDENT
-   14         | NUMBER
+   10 argument: %empty
+   11         | INTEGER IDENT
+   12         | IDENT
+   13         | statements
 
-   15 statements: %empty
-   16           | statement SEMICOLON
-   17           | statement statements
+   14 variable: IDENT
+   15         | NUMBER
 
-   18 statement: %empty
-   19          | ifElseState
-   20          | whileLoop
-   21          | assignment
-   22          | definition
-   23          | return
-   24          | functionCall
-   25          | math
-   26          | write
-   27          | arrayAccess
+   16 statements: %empty
+   17           | statement SEMICOLON
+   18           | statement statements
 
-   28 write: WRITE INPUT variable SEMICOLON
+   19 statement: %empty
+   20          | ifElseState
+   21          | whileLoop
+   22          | assignment
+   23          | definition
+   24          | return
+   25          | functionCall
+   26          | math
+   27          | write
+   28          | arrayAccess
 
-   29 math: variable MINUS variable
-   30     | variable PLUS variable
-   31     | variable MULT variable
-   32     | variable DIV variable
+   29 write: WRITE INPUT variable SEMICOLON
 
-   33 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON
+   30 math: variable MINUS variable
+   31     | variable PLUS variable
+   32     | variable MULT variable
+   33     | variable DIV variable
 
-   34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON
+   34 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON
 
-   35 functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON
+   35 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON
 
-   36 return: RETURN NUMBER SEMICOLON
-   37       | RETURN IDENT SEMICOLON
-   38       | RETURN statements
+   36 functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON
 
-   39 definition: INTEGER IDENT SEMICOLON
+   37 return: RETURN NUMBER SEMICOLON
+   38       | RETURN IDENT SEMICOLON
+   39       | RETURN statements
 
-   40 ifElseState: %empty
-   41            | IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState
-   42            | ELSE BEGIN_BODY statements END_BODY
+   40 definition: INTEGER IDENT SEMICOLON
 
-   43 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY
+   41 ifElseState: %empty
+   42            | IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState
+   43            | ELSE BEGIN_BODY statements END_BODY
 
-   44 assignment: IDENT ASSIGN variable SEMICOLON
-   45           | IDENT ASSIGN arrayUnzip
-   46           | IDENT ASSIGN math SEMICOLON
-   47           | IDENT ASSIGN statement
+   44 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY
 
-   48 condition: %empty
-   49          | IDENT EQ IDENT
-   50          | IDENT NEQ IDENT
-   51          | IDENT LT IDENT
-   52          | IDENT GT IDENT
-   53          | IDENT LTE IDENT
-   54          | IDENT GTE IDENT
-   55          | IDENT EQ NUMBER
-   56          | IDENT NEQ NUMBER
-   57          | IDENT LT NUMBER
-   58          | IDENT GT NUMBER
-   59          | IDENT LTE NUMBER
-   60          | IDENT GTE NUMBER
+   45 assignment: IDENT ASSIGN variable SEMICOLON
+   46           | IDENT ASSIGN arrayUnzip
+   47           | IDENT ASSIGN math SEMICOLON
+   48           | IDENT ASSIGN statement
+
+   49 condition: %empty
+   50          | IDENT EQ IDENT
+   51          | IDENT NEQ IDENT
+   52          | IDENT LT IDENT
+   53          | IDENT GT IDENT
+   54          | IDENT LTE IDENT
+   55          | IDENT GTE IDENT
+   56          | IDENT EQ NUMBER
+   57          | IDENT NEQ NUMBER
+   58          | IDENT LT NUMBER
+   59          | IDENT GT NUMBER
+   60          | IDENT LTE NUMBER
+   61          | IDENT GTE NUMBER
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-INTEGER (258) 5 10 39
+INTEGER (258) 5 11 40
 FUNCTION (259)
-BEGIN_BODY (260) 5 6 41 42 43
-END_BODY (261) 5 6 41 42 43
+BEGIN_BODY (260) 5 6 42 43 44
+END_BODY (261) 7 42 43 44
 ARRAY (262)
 OF (263)
-IF (264) 41
+IF (264) 42
 THEN (265)
 ENDIF (266)
-ELSE (267) 42
-WHILE (268) 43
+ELSE (267) 43
+WHILE (268) 44
 DO (269)
 CONTINUE (270)
 BREAK (271)
 READ (272)
-WRITE (273) 28
+WRITE (273) 29
 NOT (274)
 TRUE (275)
 FALSE (276)
-RETURN (277) 36 37 38
+RETURN (277) 37 38 39
 MOD (278)
-EQ (279) 49 55
-NEQ (280) 50 56
-LT (281) 51 57
-GT (282) 52 58
-LTE (283) 53 59
-GTE (284) 54 60
-SEMICOLON (285) 16 28 33 34 35 36 37 39 44 46
+EQ (279) 50 56
+NEQ (280) 51 57
+LT (281) 52 58
+GT (282) 53 59
+LTE (283) 54 60
+GTE (284) 55 61
+SEMICOLON (285) 17 29 34 35 36 37 38 40 45 47
 COLON (286)
-COMMA (287) 8
-L_SQUARE_BRACKET (288) 33 34
-R_SQUARE_BRACKET (289) 33 34
+COMMA (287) 9
+L_SQUARE_BRACKET (288) 34 35
+R_SQUARE_BRACKET (289) 34 35
 EQUAL (290)
-NUMBER (291) 14 36 55 56 57 58 59 60
-PLUS (292) 30
-MINUS (293) 29
-MULT (294) 31
-DIV (295) 32
-L_PAREN (296) 5 6 35 41 43
-R_PAREN (297) 5 6 35 41 43
-ASSIGN (298) 34 44 45 46 47
-INPUT (299) 28
+NUMBER (291) 15 37 56 57 58 59 60 61
+PLUS (292) 31
+MINUS (293) 30
+MULT (294) 32
+DIV (295) 33
+L_PAREN (296) 5 6 36 42 44
+R_PAREN (297) 5 6 36 42 44
+ASSIGN (298) 35 45 46 47 48
+INPUT (299) 29
 OUTPUT (300)
-IDENT (301) 5 6 10 11 13 35 37 39 44 45 46 47 49 50 51 52 53 54 55
-    56 57 58 59 60
+IDENT (301) 5 6 11 12 14 36 38 40 45 46 47 48 50 51 52 53 54 55 56
+    57 58 59 60 61
 VOID (302) 6
 
 
@@ -178,40 +179,42 @@ prog_start (49)
     on left: 1 2, on right: 0
 functions (50)
     on left: 3 4, on right: 2 4
-function (51)
+functionstart (51)
     on left: 5 6, on right: 3 4
-arguments (52)
-    on left: 7 8, on right: 5 6 8 35
-argument (53)
-    on left: 9 10 11 12, on right: 7 8
-variable (54)
-    on left: 13 14, on right: 28 29 30 31 32 33 34 44
-statements (55)
-    on left: 15 16 17, on right: 5 6 12 17 38 41 42 43
-statement (56)
-    on left: 18 19 20 21 22 23 24 25 26 27, on right: 16 17 47
-write (57)
-    on left: 28, on right: 26
-math (58)
-    on left: 29 30 31 32, on right: 25 46
-arrayUnzip (59)
-    on left: 33, on right: 45
-arrayAccess (60)
-    on left: 34, on right: 27
-functionCall (61)
-    on left: 35, on right: 24
-return (62)
-    on left: 36 37 38, on right: 23
-definition (63)
-    on left: 39, on right: 22
-ifElseState (64)
-    on left: 40 41 42, on right: 19 41
-whileLoop (65)
-    on left: 43, on right: 20
-assignment (66)
-    on left: 44 45 46 47, on right: 21
-condition (67)
-    on left: 48 49 50 51 52 53 54 55 56 57 58 59 60, on right: 41 43
+functionend (52)
+    on left: 7, on right: 3 4
+arguments (53)
+    on left: 8 9, on right: 5 6 9 36
+argument (54)
+    on left: 10 11 12 13, on right: 8 9
+variable (55)
+    on left: 14 15, on right: 29 30 31 32 33 34 35 45
+statements (56)
+    on left: 16 17 18, on right: 3 4 13 18 39 42 43 44
+statement (57)
+    on left: 19 20 21 22 23 24 25 26 27 28, on right: 17 18 48
+write (58)
+    on left: 29, on right: 27
+math (59)
+    on left: 30 31 32 33, on right: 26 47
+arrayUnzip (60)
+    on left: 34, on right: 46
+arrayAccess (61)
+    on left: 35, on right: 28
+functionCall (62)
+    on left: 36, on right: 25
+return (63)
+    on left: 37 38 39, on right: 24
+definition (64)
+    on left: 40, on right: 23
+ifElseState (65)
+    on left: 41 42 43, on right: 20 42
+whileLoop (66)
+    on left: 44, on right: 21
+assignment (67)
+    on left: 45 46 47 48, on right: 22
+condition (68)
+    on left: 49 50 51 52 53 54 55 56 57 58 59 60 61, on right: 42 44
 
 
 State 0
@@ -223,21 +226,21 @@ State 0
 
     $default  reduce using rule 1 (prog_start)
 
-    prog_start  go to state 3
-    functions   go to state 4
-    function    go to state 5
+    prog_start     go to state 3
+    functions      go to state 4
+    functionstart  go to state 5
 
 
 State 1
 
-    5 function: INTEGER . IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
+    5 functionstart: INTEGER . IDENT L_PAREN arguments R_PAREN BEGIN_BODY
 
     IDENT  shift, and go to state 6
 
 
 State 2
 
-    6 function: VOID . IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
+    6 functionstart: VOID . IDENT L_PAREN arguments R_PAREN BEGIN_BODY
 
     IDENT  shift, and go to state 7
 
@@ -258,30 +261,67 @@ State 4
 
 State 5
 
-    3 functions: function .
-    4          | function . functions
+    3 functions: functionstart . statements functionend
+    4          | functionstart . statements functionend functions
 
-    INTEGER  shift, and go to state 1
-    VOID     shift, and go to state 2
+    INTEGER  shift, and go to state 9
+    IF       shift, and go to state 10
+    ELSE     shift, and go to state 11
+    WHILE    shift, and go to state 12
+    WRITE    shift, and go to state 13
+    RETURN   shift, and go to state 14
+    NUMBER   shift, and go to state 15
+    IDENT    shift, and go to state 16
 
-    $default  reduce using rule 3 (functions)
+    INTEGER    [reduce using rule 19 (statement)]
+    INTEGER    [reduce using rule 41 (ifElseState)]
+    END_BODY   reduce using rule 16 (statements)
+    END_BODY   [reduce using rule 19 (statement)]
+    END_BODY   [reduce using rule 41 (ifElseState)]
+    IF         [reduce using rule 19 (statement)]
+    IF         [reduce using rule 41 (ifElseState)]
+    ELSE       [reduce using rule 19 (statement)]
+    ELSE       [reduce using rule 41 (ifElseState)]
+    WHILE      [reduce using rule 19 (statement)]
+    WHILE      [reduce using rule 41 (ifElseState)]
+    WRITE      [reduce using rule 19 (statement)]
+    WRITE      [reduce using rule 41 (ifElseState)]
+    RETURN     [reduce using rule 19 (statement)]
+    RETURN     [reduce using rule 41 (ifElseState)]
+    SEMICOLON  reduce using rule 19 (statement)
+    SEMICOLON  [reduce using rule 41 (ifElseState)]
+    NUMBER     [reduce using rule 19 (statement)]
+    NUMBER     [reduce using rule 41 (ifElseState)]
+    IDENT      [reduce using rule 19 (statement)]
+    IDENT      [reduce using rule 41 (ifElseState)]
+    $default   reduce using rule 16 (statements)
 
-    functions  go to state 9
-    function   go to state 5
+    variable      go to state 17
+    statements    go to state 18
+    statement     go to state 19
+    write         go to state 20
+    math          go to state 21
+    arrayAccess   go to state 22
+    functionCall  go to state 23
+    return        go to state 24
+    definition    go to state 25
+    ifElseState   go to state 26
+    whileLoop     go to state 27
+    assignment    go to state 28
 
 
 State 6
 
-    5 function: INTEGER IDENT . L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
+    5 functionstart: INTEGER IDENT . L_PAREN arguments R_PAREN BEGIN_BODY
 
-    L_PAREN  shift, and go to state 10
+    L_PAREN  shift, and go to state 29
 
 
 State 7
 
-    6 function: VOID IDENT . L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY
+    6 functionstart: VOID IDENT . L_PAREN arguments R_PAREN BEGIN_BODY
 
-    L_PAREN  shift, and go to state 11
+    L_PAREN  shift, and go to state 30
 
 
 State 8
@@ -293,846 +333,796 @@ State 8
 
 State 9
 
-    4 functions: function functions .
+   40 definition: INTEGER . IDENT SEMICOLON
 
-    $default  reduce using rule 4 (functions)
+    IDENT  shift, and go to state 31
 
 
 State 10
 
-    5 function: INTEGER IDENT L_PAREN . arguments R_PAREN BEGIN_BODY statements END_BODY
+   42 ifElseState: IF . L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState
 
-    INTEGER  shift, and go to state 12
-    IF       shift, and go to state 13
-    ELSE     shift, and go to state 14
-    WHILE    shift, and go to state 15
-    WRITE    shift, and go to state 16
-    RETURN   shift, and go to state 17
-    NUMBER   shift, and go to state 18
-    IDENT    shift, and go to state 19
-
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  reduce using rule 18 (statement)
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    COMMA      reduce using rule 9 (argument)
-    COMMA      [reduce using rule 15 (statements)]
-    COMMA      [reduce using rule 18 (statement)]
-    COMMA      [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    R_PAREN    reduce using rule 9 (argument)
-    R_PAREN    [reduce using rule 15 (statements)]
-    R_PAREN    [reduce using rule 18 (statement)]
-    R_PAREN    [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 9 (argument)
-
-    arguments     go to state 20
-    argument      go to state 21
-    variable      go to state 22
-    statements    go to state 23
-    statement     go to state 24
-    write         go to state 25
-    math          go to state 26
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
+    L_PAREN  shift, and go to state 32
 
 
 State 11
 
-    6 function: VOID IDENT L_PAREN . arguments R_PAREN BEGIN_BODY statements END_BODY
+   43 ifElseState: ELSE . BEGIN_BODY statements END_BODY
 
-    INTEGER  shift, and go to state 12
-    IF       shift, and go to state 13
-    ELSE     shift, and go to state 14
-    WHILE    shift, and go to state 15
-    WRITE    shift, and go to state 16
-    RETURN   shift, and go to state 17
-    NUMBER   shift, and go to state 18
-    IDENT    shift, and go to state 19
-
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  reduce using rule 18 (statement)
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    COMMA      reduce using rule 9 (argument)
-    COMMA      [reduce using rule 15 (statements)]
-    COMMA      [reduce using rule 18 (statement)]
-    COMMA      [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    R_PAREN    reduce using rule 9 (argument)
-    R_PAREN    [reduce using rule 15 (statements)]
-    R_PAREN    [reduce using rule 18 (statement)]
-    R_PAREN    [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 9 (argument)
-
-    arguments     go to state 34
-    argument      go to state 21
-    variable      go to state 22
-    statements    go to state 23
-    statement     go to state 24
-    write         go to state 25
-    math          go to state 26
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
+    BEGIN_BODY  shift, and go to state 33
 
 
 State 12
 
-   10 argument: INTEGER . IDENT
-   39 definition: INTEGER . IDENT SEMICOLON
+   44 whileLoop: WHILE . L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY
 
-    IDENT  shift, and go to state 35
+    L_PAREN  shift, and go to state 34
 
 
 State 13
 
-   41 ifElseState: IF . L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState
+   29 write: WRITE . INPUT variable SEMICOLON
 
-    L_PAREN  shift, and go to state 36
+    INPUT  shift, and go to state 35
 
 
 State 14
 
-   42 ifElseState: ELSE . BEGIN_BODY statements END_BODY
+   37 return: RETURN . NUMBER SEMICOLON
+   38       | RETURN . IDENT SEMICOLON
+   39       | RETURN . statements
 
-    BEGIN_BODY  shift, and go to state 37
+    INTEGER  shift, and go to state 9
+    IF       shift, and go to state 10
+    ELSE     shift, and go to state 11
+    WHILE    shift, and go to state 12
+    WRITE    shift, and go to state 13
+    RETURN   shift, and go to state 14
+    NUMBER   shift, and go to state 36
+    IDENT    shift, and go to state 37
+
+    INTEGER    [reduce using rule 16 (statements)]
+    INTEGER    [reduce using rule 19 (statement)]
+    INTEGER    [reduce using rule 41 (ifElseState)]
+    END_BODY   reduce using rule 16 (statements)
+    END_BODY   [reduce using rule 19 (statement)]
+    END_BODY   [reduce using rule 41 (ifElseState)]
+    IF         [reduce using rule 16 (statements)]
+    IF         [reduce using rule 19 (statement)]
+    IF         [reduce using rule 41 (ifElseState)]
+    ELSE       [reduce using rule 16 (statements)]
+    ELSE       [reduce using rule 19 (statement)]
+    ELSE       [reduce using rule 41 (ifElseState)]
+    WHILE      [reduce using rule 16 (statements)]
+    WHILE      [reduce using rule 19 (statement)]
+    WHILE      [reduce using rule 41 (ifElseState)]
+    WRITE      [reduce using rule 16 (statements)]
+    WRITE      [reduce using rule 19 (statement)]
+    WRITE      [reduce using rule 41 (ifElseState)]
+    RETURN     [reduce using rule 16 (statements)]
+    RETURN     [reduce using rule 19 (statement)]
+    RETURN     [reduce using rule 41 (ifElseState)]
+    SEMICOLON  reduce using rule 16 (statements)
+    SEMICOLON  [reduce using rule 19 (statement)]
+    SEMICOLON  [reduce using rule 41 (ifElseState)]
+    COMMA      reduce using rule 16 (statements)
+    COMMA      [reduce using rule 19 (statement)]
+    COMMA      [reduce using rule 41 (ifElseState)]
+    NUMBER     [reduce using rule 16 (statements)]
+    NUMBER     [reduce using rule 19 (statement)]
+    NUMBER     [reduce using rule 41 (ifElseState)]
+    R_PAREN    reduce using rule 16 (statements)
+    R_PAREN    [reduce using rule 19 (statement)]
+    R_PAREN    [reduce using rule 41 (ifElseState)]
+    IDENT      [reduce using rule 16 (statements)]
+    IDENT      [reduce using rule 19 (statement)]
+    IDENT      [reduce using rule 41 (ifElseState)]
+    $default   reduce using rule 16 (statements)
+
+    variable      go to state 17
+    statements    go to state 38
+    statement     go to state 19
+    write         go to state 20
+    math          go to state 21
+    arrayAccess   go to state 22
+    functionCall  go to state 23
+    return        go to state 24
+    definition    go to state 25
+    ifElseState   go to state 26
+    whileLoop     go to state 27
+    assignment    go to state 28
 
 
 State 15
 
-   43 whileLoop: WHILE . L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY
+   15 variable: NUMBER .
 
-    L_PAREN  shift, and go to state 38
+    $default  reduce using rule 15 (variable)
 
 
 State 16
 
-   28 write: WRITE . INPUT variable SEMICOLON
+   14 variable: IDENT .
+   36 functionCall: IDENT . L_PAREN arguments R_PAREN SEMICOLON
+   45 assignment: IDENT . ASSIGN variable SEMICOLON
+   46           | IDENT . ASSIGN arrayUnzip
+   47           | IDENT . ASSIGN math SEMICOLON
+   48           | IDENT . ASSIGN statement
 
-    INPUT  shift, and go to state 39
+    L_PAREN  shift, and go to state 39
+    ASSIGN   shift, and go to state 40
+
+    $default  reduce using rule 14 (variable)
 
 
 State 17
 
-   36 return: RETURN . NUMBER SEMICOLON
-   37       | RETURN . IDENT SEMICOLON
-   38       | RETURN . statements
+   30 math: variable . MINUS variable
+   31     | variable . PLUS variable
+   32     | variable . MULT variable
+   33     | variable . DIV variable
+   35 arrayAccess: variable . L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON
 
-    INTEGER  shift, and go to state 40
-    IF       shift, and go to state 13
-    ELSE     shift, and go to state 14
-    WHILE    shift, and go to state 15
-    WRITE    shift, and go to state 16
-    RETURN   shift, and go to state 17
-    NUMBER   shift, and go to state 41
-    IDENT    shift, and go to state 42
-
-    INTEGER    [reduce using rule 15 (statements)]
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    END_BODY   reduce using rule 15 (statements)
-    END_BODY   [reduce using rule 18 (statement)]
-    END_BODY   [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 15 (statements)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 15 (statements)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 15 (statements)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 15 (statements)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 15 (statements)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  reduce using rule 15 (statements)
-    SEMICOLON  [reduce using rule 18 (statement)]
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    COMMA      reduce using rule 15 (statements)
-    COMMA      [reduce using rule 18 (statement)]
-    COMMA      [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 15 (statements)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    R_PAREN    reduce using rule 15 (statements)
-    R_PAREN    [reduce using rule 18 (statement)]
-    R_PAREN    [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 15 (statements)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 15 (statements)
-
-    variable      go to state 22
-    statements    go to state 43
-    statement     go to state 24
-    write         go to state 25
-    math          go to state 26
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
+    L_SQUARE_BRACKET  shift, and go to state 41
+    PLUS              shift, and go to state 42
+    MINUS             shift, and go to state 43
+    MULT              shift, and go to state 44
+    DIV               shift, and go to state 45
 
 
 State 18
 
-   14 variable: NUMBER .
+    3 functions: functionstart statements . functionend
+    4          | functionstart statements . functionend functions
 
-    $default  reduce using rule 14 (variable)
+    END_BODY  shift, and go to state 46
+
+    functionend  go to state 47
 
 
 State 19
 
-   11 argument: IDENT .
-   13 variable: IDENT .
-   35 functionCall: IDENT . L_PAREN arguments R_PAREN SEMICOLON
-   44 assignment: IDENT . ASSIGN variable SEMICOLON
-   45           | IDENT . ASSIGN arrayUnzip
-   46           | IDENT . ASSIGN math SEMICOLON
-   47           | IDENT . ASSIGN statement
+   17 statements: statement . SEMICOLON
+   18           | statement . statements
 
-    L_PAREN  shift, and go to state 44
-    ASSIGN   shift, and go to state 45
+    INTEGER    shift, and go to state 9
+    IF         shift, and go to state 10
+    ELSE       shift, and go to state 11
+    WHILE      shift, and go to state 12
+    WRITE      shift, and go to state 13
+    RETURN     shift, and go to state 14
+    SEMICOLON  shift, and go to state 48
+    NUMBER     shift, and go to state 15
+    IDENT      shift, and go to state 16
 
-    COMMA     reduce using rule 11 (argument)
-    R_PAREN   reduce using rule 11 (argument)
-    $default  reduce using rule 13 (variable)
+    INTEGER    [reduce using rule 16 (statements)]
+    INTEGER    [reduce using rule 19 (statement)]
+    INTEGER    [reduce using rule 41 (ifElseState)]
+    END_BODY   reduce using rule 16 (statements)
+    END_BODY   [reduce using rule 19 (statement)]
+    END_BODY   [reduce using rule 41 (ifElseState)]
+    IF         [reduce using rule 16 (statements)]
+    IF         [reduce using rule 19 (statement)]
+    IF         [reduce using rule 41 (ifElseState)]
+    ELSE       [reduce using rule 16 (statements)]
+    ELSE       [reduce using rule 19 (statement)]
+    ELSE       [reduce using rule 41 (ifElseState)]
+    WHILE      [reduce using rule 16 (statements)]
+    WHILE      [reduce using rule 19 (statement)]
+    WHILE      [reduce using rule 41 (ifElseState)]
+    WRITE      [reduce using rule 16 (statements)]
+    WRITE      [reduce using rule 19 (statement)]
+    WRITE      [reduce using rule 41 (ifElseState)]
+    RETURN     [reduce using rule 16 (statements)]
+    RETURN     [reduce using rule 19 (statement)]
+    RETURN     [reduce using rule 41 (ifElseState)]
+    SEMICOLON  [reduce using rule 16 (statements)]
+    SEMICOLON  [reduce using rule 19 (statement)]
+    SEMICOLON  [reduce using rule 41 (ifElseState)]
+    COMMA      reduce using rule 16 (statements)
+    COMMA      [reduce using rule 19 (statement)]
+    COMMA      [reduce using rule 41 (ifElseState)]
+    NUMBER     [reduce using rule 16 (statements)]
+    NUMBER     [reduce using rule 19 (statement)]
+    NUMBER     [reduce using rule 41 (ifElseState)]
+    R_PAREN    reduce using rule 16 (statements)
+    R_PAREN    [reduce using rule 19 (statement)]
+    R_PAREN    [reduce using rule 41 (ifElseState)]
+    IDENT      [reduce using rule 16 (statements)]
+    IDENT      [reduce using rule 19 (statement)]
+    IDENT      [reduce using rule 41 (ifElseState)]
+    $default   reduce using rule 16 (statements)
+
+    variable      go to state 17
+    statements    go to state 49
+    statement     go to state 19
+    write         go to state 20
+    math          go to state 21
+    arrayAccess   go to state 22
+    functionCall  go to state 23
+    return        go to state 24
+    definition    go to state 25
+    ifElseState   go to state 26
+    whileLoop     go to state 27
+    assignment    go to state 28
 
 
 State 20
 
-    5 function: INTEGER IDENT L_PAREN arguments . R_PAREN BEGIN_BODY statements END_BODY
-
-    R_PAREN  shift, and go to state 46
-
-
-State 21
-
-    7 arguments: argument .
-    8          | argument . COMMA arguments
-
-    COMMA  shift, and go to state 47
-
-    $default  reduce using rule 7 (arguments)
-
-
-State 22
-
-   29 math: variable . MINUS variable
-   30     | variable . PLUS variable
-   31     | variable . MULT variable
-   32     | variable . DIV variable
-   34 arrayAccess: variable . L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON
-
-    L_SQUARE_BRACKET  shift, and go to state 48
-    PLUS              shift, and go to state 49
-    MINUS             shift, and go to state 50
-    MULT              shift, and go to state 51
-    DIV               shift, and go to state 52
-
-
-State 23
-
-   12 argument: statements .
-
-    $default  reduce using rule 12 (argument)
-
-
-State 24
-
-   16 statements: statement . SEMICOLON
-   17           | statement . statements
-
-    INTEGER    shift, and go to state 40
-    IF         shift, and go to state 13
-    ELSE       shift, and go to state 14
-    WHILE      shift, and go to state 15
-    WRITE      shift, and go to state 16
-    RETURN     shift, and go to state 17
-    SEMICOLON  shift, and go to state 53
-    NUMBER     shift, and go to state 18
-    IDENT      shift, and go to state 54
-
-    INTEGER    [reduce using rule 15 (statements)]
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    END_BODY   reduce using rule 15 (statements)
-    END_BODY   [reduce using rule 18 (statement)]
-    END_BODY   [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 15 (statements)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 15 (statements)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 15 (statements)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 15 (statements)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 15 (statements)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  [reduce using rule 15 (statements)]
-    SEMICOLON  [reduce using rule 18 (statement)]
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    COMMA      reduce using rule 15 (statements)
-    COMMA      [reduce using rule 18 (statement)]
-    COMMA      [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 15 (statements)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    R_PAREN    reduce using rule 15 (statements)
-    R_PAREN    [reduce using rule 18 (statement)]
-    R_PAREN    [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 15 (statements)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 15 (statements)
-
-    variable      go to state 22
-    statements    go to state 55
-    statement     go to state 24
-    write         go to state 25
-    math          go to state 26
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
-
-
-State 25
-
-   26 statement: write .
-
-    $default  reduce using rule 26 (statement)
-
-
-State 26
-
-   25 statement: math .
-
-    $default  reduce using rule 25 (statement)
-
-
-State 27
-
-   27 statement: arrayAccess .
+   27 statement: write .
 
     $default  reduce using rule 27 (statement)
 
 
-State 28
+State 21
 
-   24 statement: functionCall .
+   26 statement: math .
+
+    $default  reduce using rule 26 (statement)
+
+
+State 22
+
+   28 statement: arrayAccess .
+
+    $default  reduce using rule 28 (statement)
+
+
+State 23
+
+   25 statement: functionCall .
+
+    $default  reduce using rule 25 (statement)
+
+
+State 24
+
+   24 statement: return .
 
     $default  reduce using rule 24 (statement)
 
 
-State 29
+State 25
 
-   23 statement: return .
+   23 statement: definition .
 
     $default  reduce using rule 23 (statement)
 
 
-State 30
+State 26
 
-   22 statement: definition .
-
-    $default  reduce using rule 22 (statement)
-
-
-State 31
-
-   19 statement: ifElseState .
-
-    $default  reduce using rule 19 (statement)
-
-
-State 32
-
-   20 statement: whileLoop .
+   20 statement: ifElseState .
 
     $default  reduce using rule 20 (statement)
 
 
-State 33
+State 27
 
-   21 statement: assignment .
+   21 statement: whileLoop .
 
     $default  reduce using rule 21 (statement)
 
 
+State 28
+
+   22 statement: assignment .
+
+    $default  reduce using rule 22 (statement)
+
+
+State 29
+
+    5 functionstart: INTEGER IDENT L_PAREN . arguments R_PAREN BEGIN_BODY
+
+    INTEGER  shift, and go to state 50
+    IF       shift, and go to state 10
+    ELSE     shift, and go to state 11
+    WHILE    shift, and go to state 12
+    WRITE    shift, and go to state 13
+    RETURN   shift, and go to state 14
+    NUMBER   shift, and go to state 15
+    IDENT    shift, and go to state 51
+
+    INTEGER    [reduce using rule 19 (statement)]
+    INTEGER    [reduce using rule 41 (ifElseState)]
+    IF         [reduce using rule 19 (statement)]
+    IF         [reduce using rule 41 (ifElseState)]
+    ELSE       [reduce using rule 19 (statement)]
+    ELSE       [reduce using rule 41 (ifElseState)]
+    WHILE      [reduce using rule 19 (statement)]
+    WHILE      [reduce using rule 41 (ifElseState)]
+    WRITE      [reduce using rule 19 (statement)]
+    WRITE      [reduce using rule 41 (ifElseState)]
+    RETURN     [reduce using rule 19 (statement)]
+    RETURN     [reduce using rule 41 (ifElseState)]
+    SEMICOLON  reduce using rule 19 (statement)
+    SEMICOLON  [reduce using rule 41 (ifElseState)]
+    COMMA      reduce using rule 10 (argument)
+    COMMA      [reduce using rule 16 (statements)]
+    COMMA      [reduce using rule 19 (statement)]
+    COMMA      [reduce using rule 41 (ifElseState)]
+    NUMBER     [reduce using rule 19 (statement)]
+    NUMBER     [reduce using rule 41 (ifElseState)]
+    R_PAREN    reduce using rule 10 (argument)
+    R_PAREN    [reduce using rule 16 (statements)]
+    R_PAREN    [reduce using rule 19 (statement)]
+    R_PAREN    [reduce using rule 41 (ifElseState)]
+    IDENT      [reduce using rule 19 (statement)]
+    IDENT      [reduce using rule 41 (ifElseState)]
+    $default   reduce using rule 10 (argument)
+
+    arguments     go to state 52
+    argument      go to state 53
+    variable      go to state 17
+    statements    go to state 54
+    statement     go to state 19
+    write         go to state 20
+    math          go to state 21
+    arrayAccess   go to state 22
+    functionCall  go to state 23
+    return        go to state 24
+    definition    go to state 25
+    ifElseState   go to state 26
+    whileLoop     go to state 27
+    assignment    go to state 28
+
+
+State 30
+
+    6 functionstart: VOID IDENT L_PAREN . arguments R_PAREN BEGIN_BODY
+
+    INTEGER  shift, and go to state 50
+    IF       shift, and go to state 10
+    ELSE     shift, and go to state 11
+    WHILE    shift, and go to state 12
+    WRITE    shift, and go to state 13
+    RETURN   shift, and go to state 14
+    NUMBER   shift, and go to state 15
+    IDENT    shift, and go to state 51
+
+    INTEGER    [reduce using rule 19 (statement)]
+    INTEGER    [reduce using rule 41 (ifElseState)]
+    IF         [reduce using rule 19 (statement)]
+    IF         [reduce using rule 41 (ifElseState)]
+    ELSE       [reduce using rule 19 (statement)]
+    ELSE       [reduce using rule 41 (ifElseState)]
+    WHILE      [reduce using rule 19 (statement)]
+    WHILE      [reduce using rule 41 (ifElseState)]
+    WRITE      [reduce using rule 19 (statement)]
+    WRITE      [reduce using rule 41 (ifElseState)]
+    RETURN     [reduce using rule 19 (statement)]
+    RETURN     [reduce using rule 41 (ifElseState)]
+    SEMICOLON  reduce using rule 19 (statement)
+    SEMICOLON  [reduce using rule 41 (ifElseState)]
+    COMMA      reduce using rule 10 (argument)
+    COMMA      [reduce using rule 16 (statements)]
+    COMMA      [reduce using rule 19 (statement)]
+    COMMA      [reduce using rule 41 (ifElseState)]
+    NUMBER     [reduce using rule 19 (statement)]
+    NUMBER     [reduce using rule 41 (ifElseState)]
+    R_PAREN    reduce using rule 10 (argument)
+    R_PAREN    [reduce using rule 16 (statements)]
+    R_PAREN    [reduce using rule 19 (statement)]
+    R_PAREN    [reduce using rule 41 (ifElseState)]
+    IDENT      [reduce using rule 19 (statement)]
+    IDENT      [reduce using rule 41 (ifElseState)]
+    $default   reduce using rule 10 (argument)
+
+    arguments     go to state 55
+    argument      go to state 53
+    variable      go to state 17
+    statements    go to state 54
+    statement     go to state 19
+    write         go to state 20
+    math          go to state 21
+    arrayAccess   go to state 22
+    functionCall  go to state 23
+    return        go to state 24
+    definition    go to state 25
+    ifElseState   go to state 26
+    whileLoop     go to state 27
+    assignment    go to state 28
+
+
+State 31
+
+   40 definition: INTEGER IDENT . SEMICOLON
+
+    SEMICOLON  shift, and go to state 56
+
+
+State 32
+
+   42 ifElseState: IF L_PAREN . condition R_PAREN BEGIN_BODY statements END_BODY ifElseState
+
+    IDENT  shift, and go to state 57
+
+    $default  reduce using rule 49 (condition)
+
+    condition  go to state 58
+
+
+State 33
+
+   43 ifElseState: ELSE BEGIN_BODY . statements END_BODY
+
+    INTEGER  shift, and go to state 9
+    IF       shift, and go to state 10
+    ELSE     shift, and go to state 11
+    WHILE    shift, and go to state 12
+    WRITE    shift, and go to state 13
+    RETURN   shift, and go to state 14
+    NUMBER   shift, and go to state 15
+    IDENT    shift, and go to state 16
+
+    INTEGER    [reduce using rule 19 (statement)]
+    INTEGER    [reduce using rule 41 (ifElseState)]
+    END_BODY   reduce using rule 16 (statements)
+    END_BODY   [reduce using rule 19 (statement)]
+    END_BODY   [reduce using rule 41 (ifElseState)]
+    IF         [reduce using rule 19 (statement)]
+    IF         [reduce using rule 41 (ifElseState)]
+    ELSE       [reduce using rule 19 (statement)]
+    ELSE       [reduce using rule 41 (ifElseState)]
+    WHILE      [reduce using rule 19 (statement)]
+    WHILE      [reduce using rule 41 (ifElseState)]
+    WRITE      [reduce using rule 19 (statement)]
+    WRITE      [reduce using rule 41 (ifElseState)]
+    RETURN     [reduce using rule 19 (statement)]
+    RETURN     [reduce using rule 41 (ifElseState)]
+    SEMICOLON  reduce using rule 19 (statement)
+    SEMICOLON  [reduce using rule 41 (ifElseState)]
+    NUMBER     [reduce using rule 19 (statement)]
+    NUMBER     [reduce using rule 41 (ifElseState)]
+    IDENT      [reduce using rule 19 (statement)]
+    IDENT      [reduce using rule 41 (ifElseState)]
+    $default   reduce using rule 16 (statements)
+
+    variable      go to state 17
+    statements    go to state 59
+    statement     go to state 19
+    write         go to state 20
+    math          go to state 21
+    arrayAccess   go to state 22
+    functionCall  go to state 23
+    return        go to state 24
+    definition    go to state 25
+    ifElseState   go to state 26
+    whileLoop     go to state 27
+    assignment    go to state 28
+
+
 State 34
 
-    6 function: VOID IDENT L_PAREN arguments . R_PAREN BEGIN_BODY statements END_BODY
+   44 whileLoop: WHILE L_PAREN . condition R_PAREN BEGIN_BODY statements END_BODY
 
-    R_PAREN  shift, and go to state 56
+    IDENT  shift, and go to state 57
+
+    $default  reduce using rule 49 (condition)
+
+    condition  go to state 60
 
 
 State 35
 
-   10 argument: INTEGER IDENT .
-   39 definition: INTEGER IDENT . SEMICOLON
+   29 write: WRITE INPUT . variable SEMICOLON
 
-    SEMICOLON  shift, and go to state 57
+    NUMBER  shift, and go to state 15
+    IDENT   shift, and go to state 61
 
-    $default  reduce using rule 10 (argument)
+    variable  go to state 62
 
 
 State 36
 
-   41 ifElseState: IF L_PAREN . condition R_PAREN BEGIN_BODY statements END_BODY ifElseState
+   15 variable: NUMBER .
+   37 return: RETURN NUMBER . SEMICOLON
 
-    IDENT  shift, and go to state 58
+    SEMICOLON  shift, and go to state 63
 
-    $default  reduce using rule 48 (condition)
-
-    condition  go to state 59
+    $default  reduce using rule 15 (variable)
 
 
 State 37
 
-   42 ifElseState: ELSE BEGIN_BODY . statements END_BODY
+   14 variable: IDENT .
+   36 functionCall: IDENT . L_PAREN arguments R_PAREN SEMICOLON
+   38 return: RETURN IDENT . SEMICOLON
+   45 assignment: IDENT . ASSIGN variable SEMICOLON
+   46           | IDENT . ASSIGN arrayUnzip
+   47           | IDENT . ASSIGN math SEMICOLON
+   48           | IDENT . ASSIGN statement
 
-    INTEGER  shift, and go to state 40
-    IF       shift, and go to state 13
-    ELSE     shift, and go to state 14
-    WHILE    shift, and go to state 15
-    WRITE    shift, and go to state 16
-    RETURN   shift, and go to state 17
-    NUMBER   shift, and go to state 18
-    IDENT    shift, and go to state 54
-
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    END_BODY   reduce using rule 15 (statements)
-    END_BODY   [reduce using rule 18 (statement)]
-    END_BODY   [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  reduce using rule 18 (statement)
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 15 (statements)
-
-    variable      go to state 22
-    statements    go to state 60
-    statement     go to state 24
-    write         go to state 25
-    math          go to state 26
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
-
-
-State 38
-
-   43 whileLoop: WHILE L_PAREN . condition R_PAREN BEGIN_BODY statements END_BODY
-
-    IDENT  shift, and go to state 58
-
-    $default  reduce using rule 48 (condition)
-
-    condition  go to state 61
-
-
-State 39
-
-   28 write: WRITE INPUT . variable SEMICOLON
-
-    NUMBER  shift, and go to state 18
-    IDENT   shift, and go to state 62
-
-    variable  go to state 63
-
-
-State 40
-
-   39 definition: INTEGER . IDENT SEMICOLON
-
-    IDENT  shift, and go to state 64
-
-
-State 41
-
-   14 variable: NUMBER .
-   36 return: RETURN NUMBER . SEMICOLON
-
-    SEMICOLON  shift, and go to state 65
+    SEMICOLON  shift, and go to state 64
+    L_PAREN    shift, and go to state 39
+    ASSIGN     shift, and go to state 40
 
     $default  reduce using rule 14 (variable)
 
 
+State 38
+
+   39 return: RETURN statements .
+
+    $default  reduce using rule 39 (return)
+
+
+State 39
+
+   36 functionCall: IDENT L_PAREN . arguments R_PAREN SEMICOLON
+
+    INTEGER  shift, and go to state 50
+    IF       shift, and go to state 10
+    ELSE     shift, and go to state 11
+    WHILE    shift, and go to state 12
+    WRITE    shift, and go to state 13
+    RETURN   shift, and go to state 14
+    NUMBER   shift, and go to state 15
+    IDENT    shift, and go to state 51
+
+    INTEGER    [reduce using rule 19 (statement)]
+    INTEGER    [reduce using rule 41 (ifElseState)]
+    IF         [reduce using rule 19 (statement)]
+    IF         [reduce using rule 41 (ifElseState)]
+    ELSE       [reduce using rule 19 (statement)]
+    ELSE       [reduce using rule 41 (ifElseState)]
+    WHILE      [reduce using rule 19 (statement)]
+    WHILE      [reduce using rule 41 (ifElseState)]
+    WRITE      [reduce using rule 19 (statement)]
+    WRITE      [reduce using rule 41 (ifElseState)]
+    RETURN     [reduce using rule 19 (statement)]
+    RETURN     [reduce using rule 41 (ifElseState)]
+    SEMICOLON  reduce using rule 19 (statement)
+    SEMICOLON  [reduce using rule 41 (ifElseState)]
+    COMMA      reduce using rule 10 (argument)
+    COMMA      [reduce using rule 16 (statements)]
+    COMMA      [reduce using rule 19 (statement)]
+    COMMA      [reduce using rule 41 (ifElseState)]
+    NUMBER     [reduce using rule 19 (statement)]
+    NUMBER     [reduce using rule 41 (ifElseState)]
+    R_PAREN    reduce using rule 10 (argument)
+    R_PAREN    [reduce using rule 16 (statements)]
+    R_PAREN    [reduce using rule 19 (statement)]
+    R_PAREN    [reduce using rule 41 (ifElseState)]
+    IDENT      [reduce using rule 19 (statement)]
+    IDENT      [reduce using rule 41 (ifElseState)]
+    $default   reduce using rule 10 (argument)
+
+    arguments     go to state 65
+    argument      go to state 53
+    variable      go to state 17
+    statements    go to state 54
+    statement     go to state 19
+    write         go to state 20
+    math          go to state 21
+    arrayAccess   go to state 22
+    functionCall  go to state 23
+    return        go to state 24
+    definition    go to state 25
+    ifElseState   go to state 26
+    whileLoop     go to state 27
+    assignment    go to state 28
+
+
+State 40
+
+   45 assignment: IDENT ASSIGN . variable SEMICOLON
+   46           | IDENT ASSIGN . arrayUnzip
+   47           | IDENT ASSIGN . math SEMICOLON
+   48           | IDENT ASSIGN . statement
+
+    INTEGER  shift, and go to state 9
+    IF       shift, and go to state 10
+    ELSE     shift, and go to state 11
+    WHILE    shift, and go to state 12
+    WRITE    shift, and go to state 13
+    RETURN   shift, and go to state 14
+    NUMBER   shift, and go to state 15
+    IDENT    shift, and go to state 16
+
+    INTEGER    [reduce using rule 19 (statement)]
+    INTEGER    [reduce using rule 41 (ifElseState)]
+    END_BODY   reduce using rule 19 (statement)
+    END_BODY   [reduce using rule 41 (ifElseState)]
+    IF         [reduce using rule 19 (statement)]
+    IF         [reduce using rule 41 (ifElseState)]
+    ELSE       [reduce using rule 19 (statement)]
+    ELSE       [reduce using rule 41 (ifElseState)]
+    WHILE      [reduce using rule 19 (statement)]
+    WHILE      [reduce using rule 41 (ifElseState)]
+    WRITE      [reduce using rule 19 (statement)]
+    WRITE      [reduce using rule 41 (ifElseState)]
+    RETURN     [reduce using rule 19 (statement)]
+    RETURN     [reduce using rule 41 (ifElseState)]
+    SEMICOLON  reduce using rule 19 (statement)
+    SEMICOLON  [reduce using rule 41 (ifElseState)]
+    COMMA      reduce using rule 19 (statement)
+    COMMA      [reduce using rule 41 (ifElseState)]
+    NUMBER     [reduce using rule 19 (statement)]
+    NUMBER     [reduce using rule 41 (ifElseState)]
+    R_PAREN    reduce using rule 19 (statement)
+    R_PAREN    [reduce using rule 41 (ifElseState)]
+    IDENT      [reduce using rule 19 (statement)]
+    IDENT      [reduce using rule 41 (ifElseState)]
+    $default   reduce using rule 19 (statement)
+
+    variable      go to state 66
+    statement     go to state 67
+    write         go to state 20
+    math          go to state 68
+    arrayUnzip    go to state 69
+    arrayAccess   go to state 22
+    functionCall  go to state 23
+    return        go to state 24
+    definition    go to state 25
+    ifElseState   go to state 26
+    whileLoop     go to state 27
+    assignment    go to state 28
+
+
+State 41
+
+   35 arrayAccess: variable L_SQUARE_BRACKET . variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON
+
+    NUMBER  shift, and go to state 15
+    IDENT   shift, and go to state 61
+
+    variable  go to state 70
+
+
 State 42
 
-   13 variable: IDENT .
-   35 functionCall: IDENT . L_PAREN arguments R_PAREN SEMICOLON
-   37 return: RETURN IDENT . SEMICOLON
-   44 assignment: IDENT . ASSIGN variable SEMICOLON
-   45           | IDENT . ASSIGN arrayUnzip
-   46           | IDENT . ASSIGN math SEMICOLON
-   47           | IDENT . ASSIGN statement
+   31 math: variable PLUS . variable
 
-    SEMICOLON  shift, and go to state 66
-    L_PAREN    shift, and go to state 44
-    ASSIGN     shift, and go to state 45
+    NUMBER  shift, and go to state 15
+    IDENT   shift, and go to state 61
 
-    $default  reduce using rule 13 (variable)
+    variable  go to state 71
 
 
 State 43
 
-   38 return: RETURN statements .
+   30 math: variable MINUS . variable
 
-    $default  reduce using rule 38 (return)
+    NUMBER  shift, and go to state 15
+    IDENT   shift, and go to state 61
+
+    variable  go to state 72
 
 
 State 44
 
-   35 functionCall: IDENT L_PAREN . arguments R_PAREN SEMICOLON
+   32 math: variable MULT . variable
 
-    INTEGER  shift, and go to state 12
-    IF       shift, and go to state 13
-    ELSE     shift, and go to state 14
-    WHILE    shift, and go to state 15
-    WRITE    shift, and go to state 16
-    RETURN   shift, and go to state 17
-    NUMBER   shift, and go to state 18
-    IDENT    shift, and go to state 19
+    NUMBER  shift, and go to state 15
+    IDENT   shift, and go to state 61
 
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  reduce using rule 18 (statement)
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    COMMA      reduce using rule 9 (argument)
-    COMMA      [reduce using rule 15 (statements)]
-    COMMA      [reduce using rule 18 (statement)]
-    COMMA      [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    R_PAREN    reduce using rule 9 (argument)
-    R_PAREN    [reduce using rule 15 (statements)]
-    R_PAREN    [reduce using rule 18 (statement)]
-    R_PAREN    [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 9 (argument)
-
-    arguments     go to state 67
-    argument      go to state 21
-    variable      go to state 22
-    statements    go to state 23
-    statement     go to state 24
-    write         go to state 25
-    math          go to state 26
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
+    variable  go to state 73
 
 
 State 45
 
-   44 assignment: IDENT ASSIGN . variable SEMICOLON
-   45           | IDENT ASSIGN . arrayUnzip
-   46           | IDENT ASSIGN . math SEMICOLON
-   47           | IDENT ASSIGN . statement
+   33 math: variable DIV . variable
 
-    INTEGER  shift, and go to state 40
-    IF       shift, and go to state 13
-    ELSE     shift, and go to state 14
-    WHILE    shift, and go to state 15
-    WRITE    shift, and go to state 16
-    RETURN   shift, and go to state 17
-    NUMBER   shift, and go to state 18
-    IDENT    shift, and go to state 54
-
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    END_BODY   reduce using rule 18 (statement)
-    END_BODY   [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  reduce using rule 18 (statement)
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    COMMA      reduce using rule 18 (statement)
-    COMMA      [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    R_PAREN    reduce using rule 18 (statement)
-    R_PAREN    [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 18 (statement)
-
-    variable      go to state 68
-    statement     go to state 69
-    write         go to state 25
-    math          go to state 70
-    arrayUnzip    go to state 71
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
-
-
-State 46
-
-    5 function: INTEGER IDENT L_PAREN arguments R_PAREN . BEGIN_BODY statements END_BODY
-
-    BEGIN_BODY  shift, and go to state 72
-
-
-State 47
-
-    8 arguments: argument COMMA . arguments
-
-    INTEGER  shift, and go to state 12
-    IF       shift, and go to state 13
-    ELSE     shift, and go to state 14
-    WHILE    shift, and go to state 15
-    WRITE    shift, and go to state 16
-    RETURN   shift, and go to state 17
-    NUMBER   shift, and go to state 18
-    IDENT    shift, and go to state 19
-
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  reduce using rule 18 (statement)
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    COMMA      reduce using rule 9 (argument)
-    COMMA      [reduce using rule 15 (statements)]
-    COMMA      [reduce using rule 18 (statement)]
-    COMMA      [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    R_PAREN    reduce using rule 9 (argument)
-    R_PAREN    [reduce using rule 15 (statements)]
-    R_PAREN    [reduce using rule 18 (statement)]
-    R_PAREN    [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 9 (argument)
-
-    arguments     go to state 73
-    argument      go to state 21
-    variable      go to state 22
-    statements    go to state 23
-    statement     go to state 24
-    write         go to state 25
-    math          go to state 26
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
-
-
-State 48
-
-   34 arrayAccess: variable L_SQUARE_BRACKET . variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON
-
-    NUMBER  shift, and go to state 18
-    IDENT   shift, and go to state 62
+    NUMBER  shift, and go to state 15
+    IDENT   shift, and go to state 61
 
     variable  go to state 74
 
 
-State 49
+State 46
 
-   30 math: variable PLUS . variable
+    7 functionend: END_BODY .
 
-    NUMBER  shift, and go to state 18
-    IDENT   shift, and go to state 62
-
-    variable  go to state 75
+    $default  reduce using rule 7 (functionend)
 
 
-State 50
+State 47
 
-   29 math: variable MINUS . variable
+    3 functions: functionstart statements functionend .
+    4          | functionstart statements functionend . functions
 
-    NUMBER  shift, and go to state 18
-    IDENT   shift, and go to state 62
+    INTEGER  shift, and go to state 1
+    VOID     shift, and go to state 2
 
-    variable  go to state 76
+    $default  reduce using rule 3 (functions)
 
-
-State 51
-
-   31 math: variable MULT . variable
-
-    NUMBER  shift, and go to state 18
-    IDENT   shift, and go to state 62
-
-    variable  go to state 77
+    functions      go to state 75
+    functionstart  go to state 5
 
 
-State 52
+State 48
 
-   32 math: variable DIV . variable
-
-    NUMBER  shift, and go to state 18
-    IDENT   shift, and go to state 62
-
-    variable  go to state 78
-
-
-State 53
-
-   16 statements: statement SEMICOLON .
-
-    $default  reduce using rule 16 (statements)
-
-
-State 54
-
-   13 variable: IDENT .
-   35 functionCall: IDENT . L_PAREN arguments R_PAREN SEMICOLON
-   44 assignment: IDENT . ASSIGN variable SEMICOLON
-   45           | IDENT . ASSIGN arrayUnzip
-   46           | IDENT . ASSIGN math SEMICOLON
-   47           | IDENT . ASSIGN statement
-
-    L_PAREN  shift, and go to state 44
-    ASSIGN   shift, and go to state 45
-
-    $default  reduce using rule 13 (variable)
-
-
-State 55
-
-   17 statements: statement statements .
+   17 statements: statement SEMICOLON .
 
     $default  reduce using rule 17 (statements)
 
 
+State 49
+
+   18 statements: statement statements .
+
+    $default  reduce using rule 18 (statements)
+
+
+State 50
+
+   11 argument: INTEGER . IDENT
+   40 definition: INTEGER . IDENT SEMICOLON
+
+    IDENT  shift, and go to state 76
+
+
+State 51
+
+   12 argument: IDENT .
+   14 variable: IDENT .
+   36 functionCall: IDENT . L_PAREN arguments R_PAREN SEMICOLON
+   45 assignment: IDENT . ASSIGN variable SEMICOLON
+   46           | IDENT . ASSIGN arrayUnzip
+   47           | IDENT . ASSIGN math SEMICOLON
+   48           | IDENT . ASSIGN statement
+
+    L_PAREN  shift, and go to state 39
+    ASSIGN   shift, and go to state 40
+
+    COMMA     reduce using rule 12 (argument)
+    R_PAREN   reduce using rule 12 (argument)
+    $default  reduce using rule 14 (variable)
+
+
+State 52
+
+    5 functionstart: INTEGER IDENT L_PAREN arguments . R_PAREN BEGIN_BODY
+
+    R_PAREN  shift, and go to state 77
+
+
+State 53
+
+    8 arguments: argument .
+    9          | argument . COMMA arguments
+
+    COMMA  shift, and go to state 78
+
+    $default  reduce using rule 8 (arguments)
+
+
+State 54
+
+   13 argument: statements .
+
+    $default  reduce using rule 13 (argument)
+
+
+State 55
+
+    6 functionstart: VOID IDENT L_PAREN arguments . R_PAREN BEGIN_BODY
+
+    R_PAREN  shift, and go to state 79
+
+
 State 56
 
-    6 function: VOID IDENT L_PAREN arguments R_PAREN . BEGIN_BODY statements END_BODY
+   40 definition: INTEGER IDENT SEMICOLON .
 
-    BEGIN_BODY  shift, and go to state 79
+    $default  reduce using rule 40 (definition)
 
 
 State 57
 
-   39 definition: INTEGER IDENT SEMICOLON .
-
-    $default  reduce using rule 39 (definition)
-
-
-State 58
-
-   49 condition: IDENT . EQ IDENT
-   50          | IDENT . NEQ IDENT
-   51          | IDENT . LT IDENT
-   52          | IDENT . GT IDENT
-   53          | IDENT . LTE IDENT
-   54          | IDENT . GTE IDENT
-   55          | IDENT . EQ NUMBER
-   56          | IDENT . NEQ NUMBER
-   57          | IDENT . LT NUMBER
-   58          | IDENT . GT NUMBER
-   59          | IDENT . LTE NUMBER
-   60          | IDENT . GTE NUMBER
+   50 condition: IDENT . EQ IDENT
+   51          | IDENT . NEQ IDENT
+   52          | IDENT . LT IDENT
+   53          | IDENT . GT IDENT
+   54          | IDENT . LTE IDENT
+   55          | IDENT . GTE IDENT
+   56          | IDENT . EQ NUMBER
+   57          | IDENT . NEQ NUMBER
+   58          | IDENT . LT NUMBER
+   59          | IDENT . GT NUMBER
+   60          | IDENT . LTE NUMBER
+   61          | IDENT . GTE NUMBER
 
     EQ   shift, and go to state 80
     NEQ  shift, and go to state 81
@@ -1142,679 +1132,646 @@ State 58
     GTE  shift, and go to state 85
 
 
-State 59
+State 58
 
-   41 ifElseState: IF L_PAREN condition . R_PAREN BEGIN_BODY statements END_BODY ifElseState
+   42 ifElseState: IF L_PAREN condition . R_PAREN BEGIN_BODY statements END_BODY ifElseState
 
     R_PAREN  shift, and go to state 86
 
 
-State 60
+State 59
 
-   42 ifElseState: ELSE BEGIN_BODY statements . END_BODY
+   43 ifElseState: ELSE BEGIN_BODY statements . END_BODY
 
     END_BODY  shift, and go to state 87
 
 
-State 61
+State 60
 
-   43 whileLoop: WHILE L_PAREN condition . R_PAREN BEGIN_BODY statements END_BODY
+   44 whileLoop: WHILE L_PAREN condition . R_PAREN BEGIN_BODY statements END_BODY
 
     R_PAREN  shift, and go to state 88
 
 
+State 61
+
+   14 variable: IDENT .
+
+    $default  reduce using rule 14 (variable)
+
+
 State 62
 
-   13 variable: IDENT .
-
-    $default  reduce using rule 13 (variable)
-
-
-State 63
-
-   28 write: WRITE INPUT variable . SEMICOLON
+   29 write: WRITE INPUT variable . SEMICOLON
 
     SEMICOLON  shift, and go to state 89
 
 
-State 64
+State 63
 
-   39 definition: INTEGER IDENT . SEMICOLON
-
-    SEMICOLON  shift, and go to state 57
-
-
-State 65
-
-   36 return: RETURN NUMBER SEMICOLON .
-
-    $default  reduce using rule 36 (return)
-
-
-State 66
-
-   37 return: RETURN IDENT SEMICOLON .
+   37 return: RETURN NUMBER SEMICOLON .
 
     $default  reduce using rule 37 (return)
 
 
-State 67
+State 64
 
-   35 functionCall: IDENT L_PAREN arguments . R_PAREN SEMICOLON
+   38 return: RETURN IDENT SEMICOLON .
+
+    $default  reduce using rule 38 (return)
+
+
+State 65
+
+   36 functionCall: IDENT L_PAREN arguments . R_PAREN SEMICOLON
 
     R_PAREN  shift, and go to state 90
 
 
-State 68
+State 66
 
-   29 math: variable . MINUS variable
-   30     | variable . PLUS variable
-   31     | variable . MULT variable
-   32     | variable . DIV variable
-   33 arrayUnzip: variable . L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON
-   34 arrayAccess: variable . L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON
-   44 assignment: IDENT ASSIGN variable . SEMICOLON
+   30 math: variable . MINUS variable
+   31     | variable . PLUS variable
+   32     | variable . MULT variable
+   33     | variable . DIV variable
+   34 arrayUnzip: variable . L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON
+   35 arrayAccess: variable . L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON
+   45 assignment: IDENT ASSIGN variable . SEMICOLON
 
     SEMICOLON         shift, and go to state 91
     L_SQUARE_BRACKET  shift, and go to state 92
-    PLUS              shift, and go to state 49
-    MINUS             shift, and go to state 50
-    MULT              shift, and go to state 51
-    DIV               shift, and go to state 52
+    PLUS              shift, and go to state 42
+    MINUS             shift, and go to state 43
+    MULT              shift, and go to state 44
+    DIV               shift, and go to state 45
+
+
+State 67
+
+   48 assignment: IDENT ASSIGN statement .
+
+    $default  reduce using rule 48 (assignment)
+
+
+State 68
+
+   26 statement: math .
+   47 assignment: IDENT ASSIGN math . SEMICOLON
+
+    SEMICOLON  shift, and go to state 93
+
+    SEMICOLON  [reduce using rule 26 (statement)]
+    $default   reduce using rule 26 (statement)
 
 
 State 69
 
-   47 assignment: IDENT ASSIGN statement .
-
-    $default  reduce using rule 47 (assignment)
-
-
-State 70
-
-   25 statement: math .
-   46 assignment: IDENT ASSIGN math . SEMICOLON
-
-    SEMICOLON  shift, and go to state 93
-
-    SEMICOLON  [reduce using rule 25 (statement)]
-    $default   reduce using rule 25 (statement)
-
-
-State 71
-
-   45 assignment: IDENT ASSIGN arrayUnzip .
-
-    $default  reduce using rule 45 (assignment)
-
-
-State 72
-
-    5 function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY . statements END_BODY
-
-    INTEGER  shift, and go to state 40
-    IF       shift, and go to state 13
-    ELSE     shift, and go to state 14
-    WHILE    shift, and go to state 15
-    WRITE    shift, and go to state 16
-    RETURN   shift, and go to state 17
-    NUMBER   shift, and go to state 18
-    IDENT    shift, and go to state 54
-
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    END_BODY   reduce using rule 15 (statements)
-    END_BODY   [reduce using rule 18 (statement)]
-    END_BODY   [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  reduce using rule 18 (statement)
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 15 (statements)
-
-    variable      go to state 22
-    statements    go to state 94
-    statement     go to state 24
-    write         go to state 25
-    math          go to state 26
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
-
-
-State 73
-
-    8 arguments: argument COMMA arguments .
-
-    $default  reduce using rule 8 (arguments)
-
-
-State 74
-
-   34 arrayAccess: variable L_SQUARE_BRACKET variable . R_SQUARE_BRACKET ASSIGN variable SEMICOLON
-
-    R_SQUARE_BRACKET  shift, and go to state 95
-
-
-State 75
-
-   30 math: variable PLUS variable .
-
-    $default  reduce using rule 30 (math)
-
-
-State 76
-
-   29 math: variable MINUS variable .
-
-    $default  reduce using rule 29 (math)
-
-
-State 77
-
-   31 math: variable MULT variable .
-
-    $default  reduce using rule 31 (math)
-
-
-State 78
-
-   32 math: variable DIV variable .
-
-    $default  reduce using rule 32 (math)
-
-
-State 79
-
-    6 function: VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY . statements END_BODY
-
-    INTEGER  shift, and go to state 40
-    IF       shift, and go to state 13
-    ELSE     shift, and go to state 14
-    WHILE    shift, and go to state 15
-    WRITE    shift, and go to state 16
-    RETURN   shift, and go to state 17
-    NUMBER   shift, and go to state 18
-    IDENT    shift, and go to state 54
-
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    END_BODY   reduce using rule 15 (statements)
-    END_BODY   [reduce using rule 18 (statement)]
-    END_BODY   [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  reduce using rule 18 (statement)
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 15 (statements)
-
-    variable      go to state 22
-    statements    go to state 96
-    statement     go to state 24
-    write         go to state 25
-    math          go to state 26
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
-
-
-State 80
-
-   49 condition: IDENT EQ . IDENT
-   55          | IDENT EQ . NUMBER
-
-    NUMBER  shift, and go to state 97
-    IDENT   shift, and go to state 98
-
-
-State 81
-
-   50 condition: IDENT NEQ . IDENT
-   56          | IDENT NEQ . NUMBER
-
-    NUMBER  shift, and go to state 99
-    IDENT   shift, and go to state 100
-
-
-State 82
-
-   51 condition: IDENT LT . IDENT
-   57          | IDENT LT . NUMBER
-
-    NUMBER  shift, and go to state 101
-    IDENT   shift, and go to state 102
-
-
-State 83
-
-   52 condition: IDENT GT . IDENT
-   58          | IDENT GT . NUMBER
-
-    NUMBER  shift, and go to state 103
-    IDENT   shift, and go to state 104
-
-
-State 84
-
-   53 condition: IDENT LTE . IDENT
-   59          | IDENT LTE . NUMBER
-
-    NUMBER  shift, and go to state 105
-    IDENT   shift, and go to state 106
-
-
-State 85
-
-   54 condition: IDENT GTE . IDENT
-   60          | IDENT GTE . NUMBER
-
-    NUMBER  shift, and go to state 107
-    IDENT   shift, and go to state 108
-
-
-State 86
-
-   41 ifElseState: IF L_PAREN condition R_PAREN . BEGIN_BODY statements END_BODY ifElseState
-
-    BEGIN_BODY  shift, and go to state 109
-
-
-State 87
-
-   42 ifElseState: ELSE BEGIN_BODY statements END_BODY .
-
-    $default  reduce using rule 42 (ifElseState)
-
-
-State 88
-
-   43 whileLoop: WHILE L_PAREN condition R_PAREN . BEGIN_BODY statements END_BODY
-
-    BEGIN_BODY  shift, and go to state 110
-
-
-State 89
-
-   28 write: WRITE INPUT variable SEMICOLON .
-
-    $default  reduce using rule 28 (write)
-
-
-State 90
-
-   35 functionCall: IDENT L_PAREN arguments R_PAREN . SEMICOLON
-
-    SEMICOLON  shift, and go to state 111
-
-
-State 91
-
-   44 assignment: IDENT ASSIGN variable SEMICOLON .
-
-    $default  reduce using rule 44 (assignment)
-
-
-State 92
-
-   33 arrayUnzip: variable L_SQUARE_BRACKET . variable R_SQUARE_BRACKET SEMICOLON
-   34 arrayAccess: variable L_SQUARE_BRACKET . variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON
-
-    NUMBER  shift, and go to state 18
-    IDENT   shift, and go to state 62
-
-    variable  go to state 112
-
-
-State 93
-
-   46 assignment: IDENT ASSIGN math SEMICOLON .
+   46 assignment: IDENT ASSIGN arrayUnzip .
 
     $default  reduce using rule 46 (assignment)
 
 
+State 70
+
+   35 arrayAccess: variable L_SQUARE_BRACKET variable . R_SQUARE_BRACKET ASSIGN variable SEMICOLON
+
+    R_SQUARE_BRACKET  shift, and go to state 94
+
+
+State 71
+
+   31 math: variable PLUS variable .
+
+    $default  reduce using rule 31 (math)
+
+
+State 72
+
+   30 math: variable MINUS variable .
+
+    $default  reduce using rule 30 (math)
+
+
+State 73
+
+   32 math: variable MULT variable .
+
+    $default  reduce using rule 32 (math)
+
+
+State 74
+
+   33 math: variable DIV variable .
+
+    $default  reduce using rule 33 (math)
+
+
+State 75
+
+    4 functions: functionstart statements functionend functions .
+
+    $default  reduce using rule 4 (functions)
+
+
+State 76
+
+   11 argument: INTEGER IDENT .
+   40 definition: INTEGER IDENT . SEMICOLON
+
+    SEMICOLON  shift, and go to state 56
+
+    $default  reduce using rule 11 (argument)
+
+
+State 77
+
+    5 functionstart: INTEGER IDENT L_PAREN arguments R_PAREN . BEGIN_BODY
+
+    BEGIN_BODY  shift, and go to state 95
+
+
+State 78
+
+    9 arguments: argument COMMA . arguments
+
+    INTEGER  shift, and go to state 50
+    IF       shift, and go to state 10
+    ELSE     shift, and go to state 11
+    WHILE    shift, and go to state 12
+    WRITE    shift, and go to state 13
+    RETURN   shift, and go to state 14
+    NUMBER   shift, and go to state 15
+    IDENT    shift, and go to state 51
+
+    INTEGER    [reduce using rule 19 (statement)]
+    INTEGER    [reduce using rule 41 (ifElseState)]
+    IF         [reduce using rule 19 (statement)]
+    IF         [reduce using rule 41 (ifElseState)]
+    ELSE       [reduce using rule 19 (statement)]
+    ELSE       [reduce using rule 41 (ifElseState)]
+    WHILE      [reduce using rule 19 (statement)]
+    WHILE      [reduce using rule 41 (ifElseState)]
+    WRITE      [reduce using rule 19 (statement)]
+    WRITE      [reduce using rule 41 (ifElseState)]
+    RETURN     [reduce using rule 19 (statement)]
+    RETURN     [reduce using rule 41 (ifElseState)]
+    SEMICOLON  reduce using rule 19 (statement)
+    SEMICOLON  [reduce using rule 41 (ifElseState)]
+    COMMA      reduce using rule 10 (argument)
+    COMMA      [reduce using rule 16 (statements)]
+    COMMA      [reduce using rule 19 (statement)]
+    COMMA      [reduce using rule 41 (ifElseState)]
+    NUMBER     [reduce using rule 19 (statement)]
+    NUMBER     [reduce using rule 41 (ifElseState)]
+    R_PAREN    reduce using rule 10 (argument)
+    R_PAREN    [reduce using rule 16 (statements)]
+    R_PAREN    [reduce using rule 19 (statement)]
+    R_PAREN    [reduce using rule 41 (ifElseState)]
+    IDENT      [reduce using rule 19 (statement)]
+    IDENT      [reduce using rule 41 (ifElseState)]
+    $default   reduce using rule 10 (argument)
+
+    arguments     go to state 96
+    argument      go to state 53
+    variable      go to state 17
+    statements    go to state 54
+    statement     go to state 19
+    write         go to state 20
+    math          go to state 21
+    arrayAccess   go to state 22
+    functionCall  go to state 23
+    return        go to state 24
+    definition    go to state 25
+    ifElseState   go to state 26
+    whileLoop     go to state 27
+    assignment    go to state 28
+
+
+State 79
+
+    6 functionstart: VOID IDENT L_PAREN arguments R_PAREN . BEGIN_BODY
+
+    BEGIN_BODY  shift, and go to state 97
+
+
+State 80
+
+   50 condition: IDENT EQ . IDENT
+   56          | IDENT EQ . NUMBER
+
+    NUMBER  shift, and go to state 98
+    IDENT   shift, and go to state 99
+
+
+State 81
+
+   51 condition: IDENT NEQ . IDENT
+   57          | IDENT NEQ . NUMBER
+
+    NUMBER  shift, and go to state 100
+    IDENT   shift, and go to state 101
+
+
+State 82
+
+   52 condition: IDENT LT . IDENT
+   58          | IDENT LT . NUMBER
+
+    NUMBER  shift, and go to state 102
+    IDENT   shift, and go to state 103
+
+
+State 83
+
+   53 condition: IDENT GT . IDENT
+   59          | IDENT GT . NUMBER
+
+    NUMBER  shift, and go to state 104
+    IDENT   shift, and go to state 105
+
+
+State 84
+
+   54 condition: IDENT LTE . IDENT
+   60          | IDENT LTE . NUMBER
+
+    NUMBER  shift, and go to state 106
+    IDENT   shift, and go to state 107
+
+
+State 85
+
+   55 condition: IDENT GTE . IDENT
+   61          | IDENT GTE . NUMBER
+
+    NUMBER  shift, and go to state 108
+    IDENT   shift, and go to state 109
+
+
+State 86
+
+   42 ifElseState: IF L_PAREN condition R_PAREN . BEGIN_BODY statements END_BODY ifElseState
+
+    BEGIN_BODY  shift, and go to state 110
+
+
+State 87
+
+   43 ifElseState: ELSE BEGIN_BODY statements END_BODY .
+
+    $default  reduce using rule 43 (ifElseState)
+
+
+State 88
+
+   44 whileLoop: WHILE L_PAREN condition R_PAREN . BEGIN_BODY statements END_BODY
+
+    BEGIN_BODY  shift, and go to state 111
+
+
+State 89
+
+   29 write: WRITE INPUT variable SEMICOLON .
+
+    $default  reduce using rule 29 (write)
+
+
+State 90
+
+   36 functionCall: IDENT L_PAREN arguments R_PAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 112
+
+
+State 91
+
+   45 assignment: IDENT ASSIGN variable SEMICOLON .
+
+    $default  reduce using rule 45 (assignment)
+
+
+State 92
+
+   34 arrayUnzip: variable L_SQUARE_BRACKET . variable R_SQUARE_BRACKET SEMICOLON
+   35 arrayAccess: variable L_SQUARE_BRACKET . variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON
+
+    NUMBER  shift, and go to state 15
+    IDENT   shift, and go to state 61
+
+    variable  go to state 113
+
+
+State 93
+
+   47 assignment: IDENT ASSIGN math SEMICOLON .
+
+    $default  reduce using rule 47 (assignment)
+
+
 State 94
 
-    5 function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements . END_BODY
-
-    END_BODY  shift, and go to state 113
-
-
-State 95
-
-   34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET . ASSIGN variable SEMICOLON
+   35 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET . ASSIGN variable SEMICOLON
 
     ASSIGN  shift, and go to state 114
 
 
+State 95
+
+    5 functionstart: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY .
+
+    $default  reduce using rule 5 (functionstart)
+
+
 State 96
 
-    6 function: VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements . END_BODY
+    9 arguments: argument COMMA arguments .
 
-    END_BODY  shift, and go to state 115
+    $default  reduce using rule 9 (arguments)
 
 
 State 97
 
-   55 condition: IDENT EQ NUMBER .
+    6 functionstart: VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY .
 
-    $default  reduce using rule 55 (condition)
+    $default  reduce using rule 6 (functionstart)
 
 
 State 98
 
-   49 condition: IDENT EQ IDENT .
-
-    $default  reduce using rule 49 (condition)
-
-
-State 99
-
-   56 condition: IDENT NEQ NUMBER .
+   56 condition: IDENT EQ NUMBER .
 
     $default  reduce using rule 56 (condition)
 
 
-State 100
+State 99
 
-   50 condition: IDENT NEQ IDENT .
+   50 condition: IDENT EQ IDENT .
 
     $default  reduce using rule 50 (condition)
 
 
-State 101
+State 100
 
-   57 condition: IDENT LT NUMBER .
+   57 condition: IDENT NEQ NUMBER .
 
     $default  reduce using rule 57 (condition)
 
 
-State 102
+State 101
 
-   51 condition: IDENT LT IDENT .
+   51 condition: IDENT NEQ IDENT .
 
     $default  reduce using rule 51 (condition)
 
 
-State 103
+State 102
 
-   58 condition: IDENT GT NUMBER .
+   58 condition: IDENT LT NUMBER .
 
     $default  reduce using rule 58 (condition)
 
 
-State 104
+State 103
 
-   52 condition: IDENT GT IDENT .
+   52 condition: IDENT LT IDENT .
 
     $default  reduce using rule 52 (condition)
 
 
-State 105
+State 104
 
-   59 condition: IDENT LTE NUMBER .
+   59 condition: IDENT GT NUMBER .
 
     $default  reduce using rule 59 (condition)
 
 
-State 106
+State 105
 
-   53 condition: IDENT LTE IDENT .
+   53 condition: IDENT GT IDENT .
 
     $default  reduce using rule 53 (condition)
 
 
-State 107
+State 106
 
-   60 condition: IDENT GTE NUMBER .
+   60 condition: IDENT LTE NUMBER .
 
     $default  reduce using rule 60 (condition)
 
 
-State 108
+State 107
 
-   54 condition: IDENT GTE IDENT .
+   54 condition: IDENT LTE IDENT .
 
     $default  reduce using rule 54 (condition)
 
 
+State 108
+
+   61 condition: IDENT GTE NUMBER .
+
+    $default  reduce using rule 61 (condition)
+
+
 State 109
 
-   41 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY . statements END_BODY ifElseState
+   55 condition: IDENT GTE IDENT .
 
-    INTEGER  shift, and go to state 40
-    IF       shift, and go to state 13
-    ELSE     shift, and go to state 14
-    WHILE    shift, and go to state 15
-    WRITE    shift, and go to state 16
-    RETURN   shift, and go to state 17
-    NUMBER   shift, and go to state 18
-    IDENT    shift, and go to state 54
-
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    END_BODY   reduce using rule 15 (statements)
-    END_BODY   [reduce using rule 18 (statement)]
-    END_BODY   [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  reduce using rule 18 (statement)
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 15 (statements)
-
-    variable      go to state 22
-    statements    go to state 116
-    statement     go to state 24
-    write         go to state 25
-    math          go to state 26
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
+    $default  reduce using rule 55 (condition)
 
 
 State 110
 
-   43 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY . statements END_BODY
+   42 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY . statements END_BODY ifElseState
 
-    INTEGER  shift, and go to state 40
-    IF       shift, and go to state 13
-    ELSE     shift, and go to state 14
-    WHILE    shift, and go to state 15
-    WRITE    shift, and go to state 16
-    RETURN   shift, and go to state 17
-    NUMBER   shift, and go to state 18
-    IDENT    shift, and go to state 54
+    INTEGER  shift, and go to state 9
+    IF       shift, and go to state 10
+    ELSE     shift, and go to state 11
+    WHILE    shift, and go to state 12
+    WRITE    shift, and go to state 13
+    RETURN   shift, and go to state 14
+    NUMBER   shift, and go to state 15
+    IDENT    shift, and go to state 16
 
-    INTEGER    [reduce using rule 18 (statement)]
-    INTEGER    [reduce using rule 40 (ifElseState)]
-    END_BODY   reduce using rule 15 (statements)
-    END_BODY   [reduce using rule 18 (statement)]
-    END_BODY   [reduce using rule 40 (ifElseState)]
-    IF         [reduce using rule 18 (statement)]
-    IF         [reduce using rule 40 (ifElseState)]
-    ELSE       [reduce using rule 18 (statement)]
-    ELSE       [reduce using rule 40 (ifElseState)]
-    WHILE      [reduce using rule 18 (statement)]
-    WHILE      [reduce using rule 40 (ifElseState)]
-    WRITE      [reduce using rule 18 (statement)]
-    WRITE      [reduce using rule 40 (ifElseState)]
-    RETURN     [reduce using rule 18 (statement)]
-    RETURN     [reduce using rule 40 (ifElseState)]
-    SEMICOLON  reduce using rule 18 (statement)
-    SEMICOLON  [reduce using rule 40 (ifElseState)]
-    NUMBER     [reduce using rule 18 (statement)]
-    NUMBER     [reduce using rule 40 (ifElseState)]
-    IDENT      [reduce using rule 18 (statement)]
-    IDENT      [reduce using rule 40 (ifElseState)]
-    $default   reduce using rule 15 (statements)
+    INTEGER    [reduce using rule 19 (statement)]
+    INTEGER    [reduce using rule 41 (ifElseState)]
+    END_BODY   reduce using rule 16 (statements)
+    END_BODY   [reduce using rule 19 (statement)]
+    END_BODY   [reduce using rule 41 (ifElseState)]
+    IF         [reduce using rule 19 (statement)]
+    IF         [reduce using rule 41 (ifElseState)]
+    ELSE       [reduce using rule 19 (statement)]
+    ELSE       [reduce using rule 41 (ifElseState)]
+    WHILE      [reduce using rule 19 (statement)]
+    WHILE      [reduce using rule 41 (ifElseState)]
+    WRITE      [reduce using rule 19 (statement)]
+    WRITE      [reduce using rule 41 (ifElseState)]
+    RETURN     [reduce using rule 19 (statement)]
+    RETURN     [reduce using rule 41 (ifElseState)]
+    SEMICOLON  reduce using rule 19 (statement)
+    SEMICOLON  [reduce using rule 41 (ifElseState)]
+    NUMBER     [reduce using rule 19 (statement)]
+    NUMBER     [reduce using rule 41 (ifElseState)]
+    IDENT      [reduce using rule 19 (statement)]
+    IDENT      [reduce using rule 41 (ifElseState)]
+    $default   reduce using rule 16 (statements)
 
-    variable      go to state 22
-    statements    go to state 117
-    statement     go to state 24
-    write         go to state 25
-    math          go to state 26
-    arrayAccess   go to state 27
-    functionCall  go to state 28
-    return        go to state 29
-    definition    go to state 30
-    ifElseState   go to state 31
-    whileLoop     go to state 32
-    assignment    go to state 33
+    variable      go to state 17
+    statements    go to state 115
+    statement     go to state 19
+    write         go to state 20
+    math          go to state 21
+    arrayAccess   go to state 22
+    functionCall  go to state 23
+    return        go to state 24
+    definition    go to state 25
+    ifElseState   go to state 26
+    whileLoop     go to state 27
+    assignment    go to state 28
 
 
 State 111
 
-   35 functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON .
+   44 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY . statements END_BODY
 
-    $default  reduce using rule 35 (functionCall)
+    INTEGER  shift, and go to state 9
+    IF       shift, and go to state 10
+    ELSE     shift, and go to state 11
+    WHILE    shift, and go to state 12
+    WRITE    shift, and go to state 13
+    RETURN   shift, and go to state 14
+    NUMBER   shift, and go to state 15
+    IDENT    shift, and go to state 16
+
+    INTEGER    [reduce using rule 19 (statement)]
+    INTEGER    [reduce using rule 41 (ifElseState)]
+    END_BODY   reduce using rule 16 (statements)
+    END_BODY   [reduce using rule 19 (statement)]
+    END_BODY   [reduce using rule 41 (ifElseState)]
+    IF         [reduce using rule 19 (statement)]
+    IF         [reduce using rule 41 (ifElseState)]
+    ELSE       [reduce using rule 19 (statement)]
+    ELSE       [reduce using rule 41 (ifElseState)]
+    WHILE      [reduce using rule 19 (statement)]
+    WHILE      [reduce using rule 41 (ifElseState)]
+    WRITE      [reduce using rule 19 (statement)]
+    WRITE      [reduce using rule 41 (ifElseState)]
+    RETURN     [reduce using rule 19 (statement)]
+    RETURN     [reduce using rule 41 (ifElseState)]
+    SEMICOLON  reduce using rule 19 (statement)
+    SEMICOLON  [reduce using rule 41 (ifElseState)]
+    NUMBER     [reduce using rule 19 (statement)]
+    NUMBER     [reduce using rule 41 (ifElseState)]
+    IDENT      [reduce using rule 19 (statement)]
+    IDENT      [reduce using rule 41 (ifElseState)]
+    $default   reduce using rule 16 (statements)
+
+    variable      go to state 17
+    statements    go to state 116
+    statement     go to state 19
+    write         go to state 20
+    math          go to state 21
+    arrayAccess   go to state 22
+    functionCall  go to state 23
+    return        go to state 24
+    definition    go to state 25
+    ifElseState   go to state 26
+    whileLoop     go to state 27
+    assignment    go to state 28
 
 
 State 112
 
-   33 arrayUnzip: variable L_SQUARE_BRACKET variable . R_SQUARE_BRACKET SEMICOLON
-   34 arrayAccess: variable L_SQUARE_BRACKET variable . R_SQUARE_BRACKET ASSIGN variable SEMICOLON
+   36 functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON .
 
-    R_SQUARE_BRACKET  shift, and go to state 118
+    $default  reduce using rule 36 (functionCall)
 
 
 State 113
 
-    5 function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY .
+   34 arrayUnzip: variable L_SQUARE_BRACKET variable . R_SQUARE_BRACKET SEMICOLON
+   35 arrayAccess: variable L_SQUARE_BRACKET variable . R_SQUARE_BRACKET ASSIGN variable SEMICOLON
 
-    $default  reduce using rule 5 (function)
+    R_SQUARE_BRACKET  shift, and go to state 117
 
 
 State 114
 
-   34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN . variable SEMICOLON
+   35 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN . variable SEMICOLON
 
-    NUMBER  shift, and go to state 18
-    IDENT   shift, and go to state 62
+    NUMBER  shift, and go to state 15
+    IDENT   shift, and go to state 61
 
-    variable  go to state 119
+    variable  go to state 118
 
 
 State 115
 
-    6 function: VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY .
+   42 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY statements . END_BODY ifElseState
 
-    $default  reduce using rule 6 (function)
+    END_BODY  shift, and go to state 119
 
 
 State 116
 
-   41 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY statements . END_BODY ifElseState
+   44 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements . END_BODY
 
     END_BODY  shift, and go to state 120
 
 
 State 117
 
-   43 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements . END_BODY
+   34 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET . SEMICOLON
+   35 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET . ASSIGN variable SEMICOLON
 
-    END_BODY  shift, and go to state 121
+    SEMICOLON  shift, and go to state 121
+    ASSIGN     shift, and go to state 114
 
 
 State 118
 
-   33 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET . SEMICOLON
-   34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET . ASSIGN variable SEMICOLON
+   35 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable . SEMICOLON
 
     SEMICOLON  shift, and go to state 122
-    ASSIGN     shift, and go to state 114
 
 
 State 119
 
-   34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable . SEMICOLON
+   42 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY . ifElseState
 
-    SEMICOLON  shift, and go to state 123
+    IF    shift, and go to state 10
+    ELSE  shift, and go to state 11
+
+    IF        [reduce using rule 41 (ifElseState)]
+    ELSE      [reduce using rule 41 (ifElseState)]
+    $default  reduce using rule 41 (ifElseState)
+
+    ifElseState  go to state 123
 
 
 State 120
 
-   41 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY . ifElseState
+   44 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY .
 
-    IF    shift, and go to state 13
-    ELSE  shift, and go to state 14
-
-    IF        [reduce using rule 40 (ifElseState)]
-    ELSE      [reduce using rule 40 (ifElseState)]
-    $default  reduce using rule 40 (ifElseState)
-
-    ifElseState  go to state 124
+    $default  reduce using rule 44 (whileLoop)
 
 
 State 121
 
-   43 whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY .
+   34 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON .
 
-    $default  reduce using rule 43 (whileLoop)
+    $default  reduce using rule 34 (arrayUnzip)
 
 
 State 122
 
-   33 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON .
+   35 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON .
 
-    $default  reduce using rule 33 (arrayUnzip)
+    $default  reduce using rule 35 (arrayAccess)
 
 
 State 123
 
-   34 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON .
+   42 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState .
 
-    $default  reduce using rule 34 (arrayAccess)
-
-
-State 124
-
-   41 ifElseState: IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState .
-
-    $default  reduce using rule 41 (ifElseState)
+    $default  reduce using rule 42 (ifElseState)

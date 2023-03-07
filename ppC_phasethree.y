@@ -108,21 +108,23 @@ std::string new_label() {
 prog_start: /* epsilon */
 	| functions 
 
-functions: function 
-	| function functions 
+functions: functionstart statements functionend
+	| functionstart statements functionend functions 
 
-function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
+functionstart: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY
 {
 	std::string func = $2;
 	printf("func %s\n", func.c_str());
-	printf("endfunc \n");	
-	
 }
-	| VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
+	| VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY 
 {
 	std::string func = $2;
 	printf("func %s\n", func.c_str());
-	printf("endfunc \n");
+}
+
+functionend: END_BODY
+{
+	printf("endfunc\n");
 }
 
 arguments: argument 
