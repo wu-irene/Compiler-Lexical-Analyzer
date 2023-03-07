@@ -104,7 +104,7 @@ argument: /* epsilon */
 	| statements 
 
 variable: IDENT 
-		|NUMBER {temp_0 = $1; //Doesn't update in time before we need it }
+		|NUMBER {temp_0 = $1;}
 
 
 statements: /* epsilon */ 
