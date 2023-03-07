@@ -23,6 +23,10 @@ std::string temp_1 = "";
 std::string temp_2 = "";
 std::string temp_3 = "";
 
+
+std::string _temp_1 = "";
+std::string _temp_2 = "";
+
 enum Type { Integer, Array };
 struct Symbol {
   std::string name;
@@ -81,7 +85,7 @@ void print_symbol_table(void) {
 
 std::string new_label() {
 	std::ostringstream os;
-	os << "__label__" << global_variable_counter++;
+	os << "__temp__" << global_variable_counter++;
 	return os.str();
 
 }
@@ -127,9 +131,12 @@ arguments: argument
 argument: /* epsilon */ 
 	| INTEGER IDENT
 {
-	std::string param = $2;
-	printf("param %s\n", param.c_str());
-} 
+	std::string argIdent = $2;
+	printf(". %s\n", argIdent.c_str());
+
+	
+
+}
         | IDENT 
 	| statements 
 
@@ -201,7 +208,11 @@ return: RETURN NUMBER SEMICOLON
 
 
 
-definition: INTEGER IDENT SEMICOLON 
+definition: INTEGER IDENT SEMICOLON
+{
+	std::string name = $2;
+	printf(". %s\n", name.c_str());
+} 
 
 ifElseState: /* epsilon */ 
 	| IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState 
