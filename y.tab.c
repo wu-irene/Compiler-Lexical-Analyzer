@@ -67,6 +67,9 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+
+#include "nodetypes.h"
+#include <sstream>
 extern FILE* yyin;
 extern int yylex(void);
 void yyerror(const char *msg);
@@ -77,6 +80,9 @@ char *identToken;
 int numberToken;
 int  count_names = 0;
 int  temp_0 = 0;
+int global_variable_counter = 0;
+
+
 std::string global_temp_dst = "";
 std::string temp_1 = "";
 std::string temp_2 = "";
@@ -137,7 +143,16 @@ void print_symbol_table(void) {
   printf("--------------------\n");
 }
 
-#line 141 "y.tab.c" /* yacc.c:339  */
+
+std::string new_label() {
+	std::ostringstream os;
+	os << "__label__" << global_variable_counter++;
+	return os.str();
+
+}
+
+
+#line 156 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -225,12 +240,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 76 "ppC_phasethree.y" /* yacc.c:355  */
+#line 91 "ppC_phasethree.y" /* yacc.c:355  */
 
 	char *op_val;
 	int int_val;
 
-#line 234 "y.tab.c" /* yacc.c:355  */
+#line 249 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -247,7 +262,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 251 "y.tab.c" /* yacc.c:358  */
+#line 266 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -549,13 +564,13 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    89,    89,    90,    92,    93,    95,   100,   106,   107,
-     109,   110,   115,   116,   118,   119,   122,   123,   124,   126,
-     127,   128,   129,   130,   131,   132,   133,   134,   135,   137,
-     143,   144,   145,   146,   149,   156,   163,   171,   172,   177,
-     179,   181,   182,   183,   185,   187,   194,   198,   202,   205,
-     206,   207,   208,   209,   210,   211,   212,   213,   214,   215,
-     216,   217
+       0,   104,   104,   105,   107,   108,   110,   116,   122,   123,
+     128,   129,   134,   135,   137,   138,   141,   142,   143,   145,
+     146,   147,   148,   149,   150,   151,   152,   153,   154,   156,
+     162,   163,   164,   165,   168,   175,   182,   191,   192,   197,
+     201,   203,   204,   205,   207,   209,   216,   220,   224,   227,
+     228,   229,   230,   231,   232,   233,   234,   235,   236,   237,
+     238,   239
 };
 #endif
 
@@ -1412,143 +1427,154 @@ yyreduce:
   switch (yyn)
     {
         case 6:
-#line 96 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 111 "ppC_phasethree.y" /* yacc.c:1646  */
     {
 	std::string func = (yyvsp[-6].op_val);
-	printf("func %s\n", func.c_str());
+	printf("func %s\n", func.c_str());	
+	
 }
-#line 1421 "y.tab.c" /* yacc.c:1646  */
+#line 1437 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 101 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 117 "ppC_phasethree.y" /* yacc.c:1646  */
     {
 	std::string func = (yyvsp[-6].op_val);
 	printf("func %s\n", func.c_str());
 }
-#line 1430 "y.tab.c" /* yacc.c:1646  */
+#line 1446 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 9:
+#line 124 "ppC_phasethree.y" /* yacc.c:1646  */
+    {
+	std::string arg1 = arg.c_str();
+
+}
+#line 1455 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 111 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 130 "ppC_phasethree.y" /* yacc.c:1646  */
     {
-	std::string src = (yyvsp[0].op_val);
-	printf(". %s\n", src.c_str());
+	std::string arg = (yyvsp[0].op_val);
+	printf(". %s\n", arg.c_str());
 }
-#line 1439 "y.tab.c" /* yacc.c:1646  */
+#line 1464 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 138 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 157 "ppC_phasethree.y" /* yacc.c:1646  */
     {	
 	std::string src = (yyvsp[-1].op_val);
 	printf(".> %s\n", src.c_str());
 }
-#line 1448 "y.tab.c" /* yacc.c:1646  */
+#line 1473 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 143 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 162 "ppC_phasethree.y" /* yacc.c:1646  */
     { temp_1 = (yyvsp[-2].op_val); temp_2 = (yyvsp[0].op_val); temp_3 = "-"; }
-#line 1454 "y.tab.c" /* yacc.c:1646  */
+#line 1479 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 144 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 163 "ppC_phasethree.y" /* yacc.c:1646  */
     { temp_1 = (yyvsp[-2].op_val); temp_2 = (yyvsp[0].op_val); temp_3 = "+"; }
-#line 1460 "y.tab.c" /* yacc.c:1646  */
+#line 1485 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 145 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 164 "ppC_phasethree.y" /* yacc.c:1646  */
     { temp_1 = (yyvsp[-2].op_val); temp_2 = (yyvsp[0].op_val); temp_3 = "*"; }
-#line 1466 "y.tab.c" /* yacc.c:1646  */
+#line 1491 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 146 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 165 "ppC_phasethree.y" /* yacc.c:1646  */
     { temp_1 = (yyvsp[-2].op_val); temp_2 = (yyvsp[0].op_val); temp_3 = "/"; }
-#line 1472 "y.tab.c" /* yacc.c:1646  */
+#line 1497 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 149 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 168 "ppC_phasethree.y" /* yacc.c:1646  */
     {
 				std::string src = (yyvsp[-4].op_val);
 				temp_2 =(yyvsp[-4].op_val);
 				temp_3 =(yyvsp[-2].op_val);
 				std::string index = (yyvsp[-2].op_val);
 				}
-#line 1483 "y.tab.c" /* yacc.c:1646  */
+#line 1508 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 156 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 175 "ppC_phasethree.y" /* yacc.c:1646  */
     {
 				std::string dst = (yyvsp[-6].op_val);
 				std::string index = (yyvsp[-4].op_val);
 				std::string src = (yyvsp[-1].op_val);
 				printf("[]= %s,%s,%s\n", dst.c_str(),index.c_str(),src.c_str());
 				}
-#line 1494 "y.tab.c" /* yacc.c:1646  */
+#line 1519 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 164 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 183 "ppC_phasethree.y" /* yacc.c:1646  */
     {
 	std::string name = (yyvsp[-3].op_val);
+
 	printf("call %s, \n", name.c_str());
 
 }
-#line 1504 "y.tab.c" /* yacc.c:1646  */
+#line 1530 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 173 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 193 "ppC_phasethree.y" /* yacc.c:1646  */
     {
 	std::string src =(yyvsp[-1].op_val);
 	printf("ret %s\n", src.c_str());
 }
-#line 1513 "y.tab.c" /* yacc.c:1646  */
+#line 1539 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 188 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 210 "ppC_phasethree.y" /* yacc.c:1646  */
     {
 	std::string dest = (yyvsp[-3].op_val);
 	std::string src = (yyvsp[-1].op_val);
 	printf("= %s, %s\n", dest.c_str(), src.c_str());
 
 }
-#line 1524 "y.tab.c" /* yacc.c:1646  */
+#line 1550 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 194 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 216 "ppC_phasethree.y" /* yacc.c:1646  */
     {
   std::string temp_dst = (yyvsp[-2].op_val);
   printf("=[] %s,%s,%s\n",temp_dst.c_str(),temp_2.c_str(),temp_3.c_str());
 }
-#line 1533 "y.tab.c" /* yacc.c:1646  */
+#line 1559 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 198 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 220 "ppC_phasethree.y" /* yacc.c:1646  */
     {
   std::string temp_dst = (yyvsp[-3].op_val);
   printf("%s %s,%s,%s\n", temp_3.c_str(),temp_dst.c_str(),temp_1.c_str(),temp_2.c_str());
 }
-#line 1542 "y.tab.c" /* yacc.c:1646  */
+#line 1568 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 202 "ppC_phasethree.y" /* yacc.c:1646  */
+#line 224 "ppC_phasethree.y" /* yacc.c:1646  */
     {}
-#line 1548 "y.tab.c" /* yacc.c:1646  */
+#line 1574 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1552 "y.tab.c" /* yacc.c:1646  */
+#line 1578 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1776,7 +1802,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 219 "ppC_phasethree.y" /* yacc.c:1906  */
+#line 241 "ppC_phasethree.y" /* yacc.c:1906  */
 
 
 int main(int argc, char** argv) {

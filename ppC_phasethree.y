@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+
+#include "nodetypes.h"
+#include <sstream>
 extern FILE* yyin;
 extern int yylex(void);
 void yyerror(const char *msg);
@@ -12,6 +15,9 @@ char *identToken;
 int numberToken;
 int  count_names = 0;
 int  temp_0 = 0;
+int global_variable_counter = 0;
+
+
 std::string global_temp_dst = "";
 std::string temp_1 = "";
 std::string temp_2 = "";
@@ -71,6 +77,15 @@ void print_symbol_table(void) {
   }
   printf("--------------------\n");
 }
+
+
+std::string new_label() {
+	std::ostringstream os;
+	os << "__label__" << global_variable_counter++;
+	return os.str();
+
+}
+
 %}
 
 %union{
@@ -95,7 +110,8 @@ functions: function
 function: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
 {
 	std::string func = $2;
-	printf("func %s\n", func.c_str());
+	printf("func %s\n", func.c_str());	
+	
 }
 	| VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY statements END_BODY 
 {
@@ -109,8 +125,8 @@ arguments: argument
 argument: /* epsilon */ 
 	| INTEGER IDENT
 {
-	std::string src = $2;
-	printf(". %s\n", src.c_str());
+	std::string arg = $2;
+	printf(". %s\n", arg.c_str());
 } 
         | IDENT 
 	| statements 
@@ -163,6 +179,7 @@ arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable
 functionCall: IDENT L_PAREN arguments R_PAREN 
 {
 	std::string name = $1;
+
 	printf("call %s, \n", name.c_str());
 
 }
@@ -175,6 +192,8 @@ return: RETURN NUMBER SEMICOLON
 	printf("ret %s\n", src.c_str());
 }
 	| RETURN statements
+
+
 
 definition: INTEGER IDENT SEMICOLON 
 
