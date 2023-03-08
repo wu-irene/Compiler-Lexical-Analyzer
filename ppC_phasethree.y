@@ -116,7 +116,7 @@ functionstart: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY
 	std::string func = $2;
 	printf("func %s\n", func.c_str());
 }
-	| VOID IDENT L_PAREN arguments R_PAREN BEGIN_BODY 
+	| FUNCTION IDENT L_PAREN arguments R_PAREN BEGIN_BODY 
 {
 	std::string func = $2;
 	printf("func %s\n", func.c_str());
@@ -167,6 +167,7 @@ statement: /* epsilon */
 	//printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
 }
 	| definition 
+
 	| return 
 
 	| functionCall 
