@@ -216,10 +216,6 @@ math:
 | statement DIV variable{ temp_1 = _temp_3; temp_2 = $3; temp_3 = "/"; }
 | statement MOD variable { temp_1 = _temp_3; temp_2 = $3; temp_3 = "%"; }
 
-| variable MINUS statement{ temp_1 = $1; temp_2 = _temp_3; temp_3 = "-";}
-| variable PLUS statement{ temp_1 = $1; temp_2 = _temp_3; temp_3 = "+"; }
-| variable MULT statement{ temp_1 = $1; temp_2 = _temp_3; temp_3 = "*"; }
-| variable DIV statement{ temp_1 = $1; temp_2 = _temp_3; temp_3 = "/"; }
 
 
 
@@ -290,10 +286,10 @@ assignment: IDENT ASSIGN variable SEMICOLON
   std::string temp_dst = $1;
   printf("%s %s,%s,%s\n", temp_3.c_str(),temp_dst.c_str(),temp_1.c_str(),temp_2.c_str());
 }
-| IDENT ASSIGN statement{
-  _temp_0 = $1;
-  printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
-}
+//| IDENT ASSIGN statement{
+//  _temp_0 = $1;
+//  printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
+//}
 
 
 
