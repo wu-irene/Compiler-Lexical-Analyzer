@@ -1,0 +1,115 @@
+tni main() }
+    tni a :
+    a = 5 :
+    tuoc >> a :
+{
+
+
+
+
+
+tni main() }
+  
+        f[3] = 2 :
+        x = g[2] :
+        f[3] = y :
+    {
+
+
+
+            tni main() }
+
+        a[index] = b[index2] * c[index3] + c :
+
+        {
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+tni add(tni a) }
+
+nruter a:
+
+{
+
+	tni main() }
+tni a :
+tni b :
+tni c :
+
+a = 100 :
+	b = 50 :
+
+	c = add(a.b) :
+
+	tuoc >> a :
+
+{
+
+
+tni main() }
+tni a :
+a = 5 :
+    tuoc >> a :
+    a = 1 + 1 :
+    b = 2 - 2 :
+    c = 3 / 3 :
+    d = 4 * 4 :
+    f[3] = 2 :
+    x = g[2] :
+    f[3] = y :
+{
+
+
+
+
+
+//arrray:
+
+tni main() }
+    
+    tni b :
+    tni c :
+    
+    b = 3:
+    c = 5:
+    a[0] = b + c:
+    tuoc >> a[0]:
+
+    a[1] = 100 :
+    tuoc >> a[1] :
+
+
+    a[2] = 200 :
+    tuoc >> a[2] :
+
+
+    a[3] = a[0] * (a[1]+c) :
+    tuoc >> a[3] :
+
+{
+
+
+tni main() }
+    
+    a[0] = a[2]:
+
+ {
+
+ tni main() }
+
+ a[0] = a[2] + 3:
+
+ {
+
+
