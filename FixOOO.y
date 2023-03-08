@@ -157,13 +157,13 @@ statements: /* epsilon */
 statement: /* epsilon */ 
 	| ifElseState 
 	| whileLoop 
-	| assignment {
+	| assignment 
 {
         //printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
 }
-{
 
-} 
+
+ 
 	| definition 
 	| return 
 	| functionCall 
