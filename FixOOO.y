@@ -26,6 +26,8 @@ std::string _temp_0 = "";
 std::string _temp_1 = "";
 std::string _temp_2 = "";
 std::string _temp_3 = "";
+std::string _temp_4 = "";
+
 
 enum Type { Integer, Array };
 struct Symbol {
@@ -170,6 +172,7 @@ statement: /* epsilon */
 {
 	_temp_1 = new_label();
 	_temp_3 = _temp_1;
+	_temp_4 = _temp_3;
 	printf(". %s\n", _temp_1.c_str());
 	printf("call %s, %s \n", _temp_0.c_str(), _temp_1.c_str());
 
@@ -178,23 +181,25 @@ statement: /* epsilon */
 {
 	_temp_0 = new_label();
 	_temp_3 = _temp_0;
+	_temp_4 = _temp_3;
 	printf(". %s\n", _temp_0.c_str());
 	printf("%s %s, %s, %s\n", temp_3.c_str(), _temp_0.c_str(),temp_1.c_str(), temp_2.c_str());
 }
 	| write
-	| variable {_temp_3 = $1;}
+	| variable {_temp_4 = $1;}
 	| arrayAccess
 	| arrayUnzip {
 				//assignment try to do 
 				_temp_3 = new_label();
+				 _temp_4 = _temp_3;
 				printf(". %s\n", _temp_3.c_str());
 				printf("=[] %s,%s,%s\n", _temp_3.c_str(),temp_2.c_str(),temp_3.c_str());
 				flag = 1;
 				}
 
-write: WRITE INPUT variable SEMICOLON
+write: WRITE INPUT statement SEMICOLON
 {	
-	std::string src = $3;
+	std::string src = _temp_4;
 	printf(".> %s\n", src.c_str());
 }
 
@@ -228,6 +233,7 @@ arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN statemen
 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET{
 				temp_2 =$1;
 				temp_3 =$3;
+			
 				}
 
 functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON 
@@ -255,7 +261,13 @@ definition: INTEGER IDENT SEMICOLON
 {
 	std::string name = $2;
 	printf(". %s\n", name.c_str());
-} 
+} | INTEGER IDENT L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON
+{
+    std::string ident = $2;
+    std::string size = $4;
+
+    printf(".[] %s, %s\n", ident.c_str(), size.c_str());
+}
 
 ifElseState: /* epsilon */ 
 	| IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState 
