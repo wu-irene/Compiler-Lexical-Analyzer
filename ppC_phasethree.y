@@ -131,7 +131,7 @@ arguments: argument
 
 	| argument COMMA arguments
 
-argument: /* epsilon */ 
+argument: /* epsilon */
 	| INTEGER IDENT
 {
 	std::string argIdent = $2;
@@ -162,7 +162,7 @@ statements: /* epsilon */
 statement: /* epsilon */ 
 	| ifElseState 
 	| whileLoop 
-	| assignment 
+	| assignment
 {
 	//printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
 }
@@ -240,6 +240,13 @@ definition: INTEGER IDENT SEMICOLON
 	std::string name = $2;
 	printf(". %s\n", name.c_str());
 } 
+	| INTEGER IDENT L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON
+{
+	std::string ident = $2;
+	std::string size = $4;
+
+	printf(".[] %s, %s\n", ident.c_str(), size.c_str());
+}
 
 ifElseState: /* epsilon */ 
 	| IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState 
