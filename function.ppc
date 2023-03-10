@@ -1,11 +1,12 @@
 tni add (tni a. tni b) }
-  nruter a - b:
+  tni c:
+  c = a - b:
+  nruter c:
 {
 
 
 tni mult (tni a. tni b) }
-
-  nruter a * b:
+  nruter a / b:
 {
 
 
@@ -14,6 +15,7 @@ tni a:
 tni b:
 tni c:
 tni d:
+tni n:
 
 a = 100:
 b = 50:
@@ -22,9 +24,9 @@ c = add(a. b):
 
 tuoc >> c: 
 
+n = a - b:
 
-
-d = mult(c. a + b):
+d = mult(c. n):
 tuoc >> d:
 
 {

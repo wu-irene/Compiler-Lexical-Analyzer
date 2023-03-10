@@ -17,6 +17,7 @@ int  count_names = 0;
 int  temp_0 = 0;
 int global_variable_counter = 0;
 int flag = 0;
+int paramCnt = 0;
 
 std::string global_temp_dst = "";
 std::string temp_1 = "";
@@ -110,15 +111,15 @@ std::string new_label() {
 prog_start: /* epsilon */
 	| functions 
 
-functions: functionstart statements functionend
-	| functionstart statements functionend functions 
+functions: functionstart L_PAREN parameters R_PAREN BEGIN_BODY statements functionend
+	| functionstart L_PAREN parameters R_PAREN BEGIN_BODY statements functionend functions 
 
-functionstart: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY
+functionstart: INTEGER IDENT
 {
 	std::string func = $2;
 	printf("func %s\n", func.c_str());
 }
-	| FUNCTION IDENT L_PAREN arguments R_PAREN BEGIN_BODY 
+	| FUNCTION IDENT
 {
 	std::string func = $2;
 	printf("func %s\n", func.c_str());
@@ -126,17 +127,20 @@ functionstart: INTEGER IDENT L_PAREN arguments R_PAREN BEGIN_BODY
 
 functionend: END_BODY
 {
+	paramCnt = 0;
 	printf("endfunc\n");
 }
 
-arguments: argument 
-	| argument COMMA arguments
+parameters: parameter 
+	| parameter COMMA parameters
 
-argument: /* epsilon */ 
-	| INTEGER IDENT
+parameter: /* epsilon */ 
+	| INTEGER IDENT 
 {
 	std::string argIdent = $2;
 	printf(". %s\n", argIdent.c_str());
+	printf("= %s, $%i\n", argIdent.c_str(),paramCnt);
+	paramCnt++;
 }
         | IDENT
 {
@@ -174,7 +178,7 @@ statement: /* epsilon */
 	_temp_3 = _temp_1;
 	_temp_4 = _temp_3;
 	printf(". %s\n", _temp_1.c_str());
-	printf("call %s, %s \n", _temp_0.c_str(), _temp_1.c_str());
+	printf("call %s, %s \n", _temp_0.c_str(), global_temp_dst.c_str());
 
 }
 	| math
@@ -238,13 +242,25 @@ arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET{
 			
 				}
 
-functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON 
+functionCall: IDENT ASSIGN IDENT L_PAREN arguments R_PAREN SEMICOLON 
 {
-	_temp_0 = $1;
-	
-
+	global_temp_dst = $1;
+	_temp_0 = $3;
 }
 
+arguments: argument
+| argument COMMA arguments
+
+argument: IDENT
+{
+	std::string param = $1;
+	printf("param %s\n", param.c_str());
+}
+| NUMBER
+{
+	int param = $1;
+	printf("param %i\n", param);
+}
 
 return: RETURN NUMBER SEMICOLON 
 	| RETURN IDENT SEMICOLON 

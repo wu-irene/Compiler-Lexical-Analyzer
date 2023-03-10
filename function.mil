@@ -1,0 +1,42 @@
+func add
+. a
+= a, $0
+. b
+= b, $1
+. c
+. __temp__0
++ __temp__0, a, b
++ c,a,b
+ret c
+endfunc
+func mult
+. a
+= a, $0
+. b
+= b, $1
+. __temp__1
+* __temp__1, a, b
+ret __temp__1
+endfunc
+func main
+. a
+. b
+. c
+. d
+. n
+= a, 100
+= b, 50
+param a
+param b
+. __temp__2
+call add, c 
+.> c
+. __temp__3
++ __temp__3, a, b
++ n,a,b
+param c
+param n
+. __temp__4
+call mult, d 
+.> d
+endfunc
