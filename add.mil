@@ -4,6 +4,8 @@ func main
 . c
 = a, 100
 = b, 50
+. __temp__0
++ __temp__0, a, b
 + c,a,b
 .> c
 endfunc

@@ -221,10 +221,16 @@ math:
 
 
 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN statement SEMICOLON {
-				std::string dst = $1;
-				std::string index = $3;
-				printf("[]= %s,%s,%s\n", dst.c_str(),index.c_str(),_temp_3.c_str());
-				}
+                std::string dst = $1;
+                std::string index = $3;
+                printf("[]= %s,%s,%s\n", dst.c_str(),index.c_str(),_temp_3.c_str());
+                }
+    |variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON {
+                std::string dst = $1;
+                std::string index = $3;
+                std::string number = $6;
+                printf("[]= %s,%s,%s\n", dst.c_str(),index.c_str(),number.c_str());
+                }
 
 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET{
 				temp_2 =$1;

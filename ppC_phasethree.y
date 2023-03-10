@@ -16,16 +16,18 @@ int numberToken;
 int  count_names = 0;
 int  temp_0 = 0;
 int global_variable_counter = 0;
-
+int flag = 0;
 
 std::string global_temp_dst = "";
 std::string temp_1 = "";
 std::string temp_2 = "";
 std::string temp_3 = "";
-
-
 std::string _temp_0 = "";
 std::string _temp_1 = "";
+std::string _temp_2 = "";
+std::string _temp_3 = "";
+std::string _temp_4 = "";
+
 
 enum Type { Integer, Array };
 struct Symbol {
@@ -128,30 +130,25 @@ functionend: END_BODY
 }
 
 arguments: argument 
-
 	| argument COMMA arguments
 
-argument: /* epsilon */
+argument: /* epsilon */ 
 	| INTEGER IDENT
 {
 	std::string argIdent = $2;
-	_temp_0 = argIdent;
-
-
 	printf(". %s\n", argIdent.c_str());
-
 }
         | IDENT
 {
 	std::string ident = $1;
 	printf("param %s\n", ident.c_str());
 } 
-	| statements
-{
-	printf("param %s\n", _temp_0.c_str());
-} 
+	| statements  {
+        printf("param %s\n", _temp_0.c_str());
+}
 
-variable: IDENT 
+variable: 
+	IDENT 
 	|NUMBER
 
 
@@ -162,17 +159,20 @@ statements: /* epsilon */
 statement: /* epsilon */ 
 	| ifElseState 
 	| whileLoop 
-	| assignment
+	| assignment 
 {
-	//printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
+        //printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
 }
+
+
+ 
 	| definition 
-
 	| return 
-
 	| functionCall 
 {
 	_temp_1 = new_label();
+	_temp_3 = _temp_1;
+	_temp_4 = _temp_3;
 	printf(". %s\n", _temp_1.c_str());
 	printf("call %s, %s \n", _temp_0.c_str(), _temp_1.c_str());
 
@@ -180,37 +180,62 @@ statement: /* epsilon */
 	| math
 {
 	_temp_0 = new_label();
+	_temp_3 = _temp_0;
+	_temp_4 = _temp_3;
 	printf(". %s\n", _temp_0.c_str());
 	printf("%s %s, %s, %s\n", temp_3.c_str(), _temp_0.c_str(),temp_1.c_str(), temp_2.c_str());
 }
 	| write
+	| variable {_temp_4 = $1;}
 	| arrayAccess
+	| arrayUnzip {
+				//assignment try to do 
+				_temp_3 = new_label();
+				 _temp_4 = _temp_3;
+				printf(". %s\n", _temp_3.c_str());
+				printf("=[] %s,%s,%s\n", _temp_3.c_str(),temp_2.c_str(),temp_3.c_str());
+				flag = 1;
+				}
 
-write: WRITE INPUT variable SEMICOLON
+write: WRITE INPUT statement SEMICOLON
 {	
-	std::string src = $3;
+	std::string src = _temp_4;
 	printf(".> %s\n", src.c_str());
 }
 
-math: variable MINUS variable{ temp_1 = $1; temp_2 = $3; temp_3 = "-"; }
+math: 
+  variable MINUS variable{ temp_1 = $1; temp_2 = $3; temp_3 = "-";}
 | variable PLUS variable{ temp_1 = $1; temp_2 = $3; temp_3 = "+"; }
 | variable MULT variable{ temp_1 = $1; temp_2 = $3; temp_3 = "*"; }
 | variable DIV variable{ temp_1 = $1; temp_2 = $3; temp_3 = "/"; }
 | variable MOD variable { temp_1 = $1; temp_2 = $3; temp_3 = "%"; }
 
+| statement MINUS variable{ temp_1 = _temp_3; temp_2 = $3; temp_3 = "-";}
+| statement PLUS variable{ temp_1 = _temp_3; temp_2 = $3; temp_3 = "+"; }
+| statement MULT variable{ temp_1 = _temp_3; temp_2 = $3; temp_3 = "*"; }
+| statement DIV variable{ temp_1 = _temp_3; temp_2 = $3; temp_3 = "/"; }
+| statement MOD variable { temp_1 = _temp_3; temp_2 = $3; temp_3 = "%"; }
 
-arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON{
-				std::string src = $1;
+
+
+
+
+arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN statement SEMICOLON {
+                std::string dst = $1;
+                std::string index = $3;
+                printf("[]= %s,%s,%s\n", dst.c_str(),index.c_str(),_temp_3.c_str());
+                }
+    |variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON {
+                std::string dst = $1;
+                std::string index = $3;
+                std::string number = $6;
+                printf("[]= %s,%s,%s\n", dst.c_str(),index.c_str(),number.c_str());
+                }
+
+arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET{
 				temp_2 =$1;
 				temp_3 =$3;
-				std::string index = $3;
-				}
-
-arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON {
-				std::string dst = $1;
-				std::string index = $3;
-				std::string src = $6;
-				printf("[]= %s,%s,%s\n", dst.c_str(),index.c_str(),src.c_str());
+			
 				}
 
 functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON 
@@ -229,7 +254,6 @@ return: RETURN NUMBER SEMICOLON
 }
 	| RETURN statements 
 {
-
 	printf("ret %s\n", _temp_0.c_str());
 
 }
@@ -239,13 +263,12 @@ definition: INTEGER IDENT SEMICOLON
 {
 	std::string name = $2;
 	printf(". %s\n", name.c_str());
-} 
-	| INTEGER IDENT L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON
+} | INTEGER IDENT L_SQUARE_BRACKET variable R_SQUARE_BRACKET SEMICOLON
 {
-	std::string ident = $2;
-	std::string size = $4;
+    std::string ident = $2;
+    std::string size = $4;
 
-	printf(".[] %s, %s\n", ident.c_str(), size.c_str());
+    printf(".[] %s, %s\n", ident.c_str(), size.c_str());
 }
 
 ifElseState: /* epsilon */ 
@@ -261,18 +284,21 @@ assignment: IDENT ASSIGN variable SEMICOLON
 	printf("= %s, %s\n", dest.c_str(), src.c_str());
 
 }
-| IDENT ASSIGN arrayUnzip{
+| IDENT ASSIGN arrayUnzip SEMICOLON{
   std::string temp_dst = $1;
   printf("=[] %s,%s,%s\n",temp_dst.c_str(),temp_2.c_str(),temp_3.c_str());
 } 
-| IDENT ASSIGN math SEMICOLON{
+| IDENT ASSIGN statement SEMICOLON{
   std::string temp_dst = $1;
   printf("%s %s,%s,%s\n", temp_3.c_str(),temp_dst.c_str(),temp_1.c_str(),temp_2.c_str());
 }
-| IDENT ASSIGN statement{
-  _temp_0 = $1;
-  printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
-} 
+//| IDENT ASSIGN statement{
+//  _temp_0 = $1;
+//  printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
+//}
+
+
+
 
 
 condition: /* epsilon */ 
@@ -307,4 +333,3 @@ void yyerror(const char *error_message){
   printf("%s\n", error_message);
 
 }
-

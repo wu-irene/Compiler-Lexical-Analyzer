@@ -1,0 +1,36 @@
+func main
+.[] a, 20
+. b
+. c
+. d
+. n
+. z
+= b, 3
+= c, 5
+. __temp__0
++ __temp__0, b, c
+[]= a,0,__temp__0
+. __temp__1
+=[] __temp__1,a,0
+.> __temp__1
+[]= a,1,100
+. __temp__2
+=[] __temp__2,a,1
+.> __temp__2
+[]= a,2,200
+. __temp__3
+=[] __temp__3,a,2
+.> __temp__3
+. __temp__4
+=[] __temp__4,a,1
+. __temp__5
++ __temp__5, __temp__4, c
++ d,__temp__4,c
+=[] z,a,0
+. __temp__6
+* __temp__6, z, d
+[]= a,3,__temp__6
+. __temp__7
+=[] __temp__7,a,3
+.> __temp__7
+endfunc

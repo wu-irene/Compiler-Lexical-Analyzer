@@ -1,12 +1,6 @@
 tni main() }
-    tni a:
-    a = 5:
-    tuoc >> a:
-    a = 1 + 1:
-    b = 2 - 2:
-    c = 3 / 3:
-    d = 4 * 4:
-    f[3] = 2:
-    x = g[2]:
-    f[3] = y:
+    tni n:
+    n = 150:
+    tuoc >> n:
+    nruter 0:
 {

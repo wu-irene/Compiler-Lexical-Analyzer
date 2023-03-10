@@ -1,4 +1,30 @@
-a[0] = 5:
-a[1] = 8:
+tni main() }
 
-a[2] = a[0] - a[1]:
+    tni a[20]:
+    tni b :
+    tni c :
+    tni d :
+    tni n:
+    tni z:
+    
+
+    b = 3:
+    c = 5:
+    a[0] = b - c:
+    tuoc >> a[0]:
+
+    a[1] = 100 :
+    tuoc >> a[1] :
+
+
+    a[2] = 200 :
+    tuoc >> a[2] :
+
+
+    d = a[1]-c:
+    z = a[0]:
+    a[3] = z / d:
+
+    tuoc >> a[3] :
+
+{
