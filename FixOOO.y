@@ -27,6 +27,7 @@ std::string _temp_1 = "";
 std::string _temp_2 = "";
 std::string _temp_3 = "";
 std::string _temp_4 = "";
+std::string super_temp ="";
 
 
 enum Type { Integer, Array };
@@ -163,9 +164,6 @@ statement: /* epsilon */
 {
         //printf("= %s, %s\n", _temp_0.c_str(), _temp_1.c_str());
 }
-
-
- 
 	| definition 
 	| return 
 	| functionCall 
@@ -188,21 +186,21 @@ statement: /* epsilon */
 	| write
 	| variable {_temp_4 = $1;}
 	| arrayAccess
-	| arrayUnzip {
-				//assignment try to do 
-				_temp_3 = new_label();
-				 _temp_4 = _temp_3;
-				printf(". %s\n", _temp_3.c_str());
-				printf("=[] %s,%s,%s\n", _temp_3.c_str(),temp_2.c_str(),temp_3.c_str());
-				flag = 1;
-				}
+	| arrayUnzip {	}
 
 write: WRITE INPUT statement SEMICOLON
 {	
 	std::string src = _temp_4;
 	printf(".> %s\n", src.c_str());
 }
-
+|
+WRITE INPUT arrayUnzip SEMICOLON
+{	
+	_temp_0 = new_label(); // =[] dst, src, index
+	printf(". %s\n", _temp_0.c_str());
+	printf("=[] %s,%s,%s\n", _temp_0.c_str(),temp_2.c_str(),temp_3.c_str());
+	printf(".> %s\n", _temp_0.c_str()); 
+}
 math: 
   variable MINUS variable{ temp_1 = $1; temp_2 = $3; temp_3 = "-";}
 | variable PLUS variable{ temp_1 = $1; temp_2 = $3; temp_3 = "+"; }
@@ -217,9 +215,6 @@ math:
 | statement MOD variable { temp_1 = _temp_3; temp_2 = $3; temp_3 = "%"; }
 
 
-
-
-
 arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN statement SEMICOLON {
                 std::string dst = $1;
                 std::string index = $3;
@@ -231,11 +226,20 @@ arrayAccess: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN statemen
                 std::string number = $6;
                 printf("[]= %s,%s,%s\n", dst.c_str(),index.c_str(),number.c_str());
                 }
+	|variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET ASSIGN variable SEMICOLON {
+				std::string dst = $1;
+				std::string index = $3;
+				std::string number = $6;
+				printf("[]= %s,%s,%s\n", dst.c_str(),index.c_str(),number.c_str());
+				}
 
 arrayUnzip: variable L_SQUARE_BRACKET variable R_SQUARE_BRACKET{
+				////////////////////////////////////////////////////////////////////////
+				super_temp = new_label();
+				printf(". %s\n", super_temp.c_str());
 				temp_2 =$1;
 				temp_3 =$3;
-			
+				printf("=[] %s,%s,%s\n", super_temp.c_str(),temp_2.c_str(),temp_3.c_str());
 				}
 
 functionCall: IDENT L_PAREN arguments R_PAREN SEMICOLON 
