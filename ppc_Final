@@ -28,6 +28,9 @@ std::string _temp_1 = "";
 std::string _temp_2 = "";
 std::string _temp_3 = "";
 std::string _temp_4 = "";
+std::string Phase4_temp_1 = "";
+std::string Phase4_IDENT1 = "";
+std::string Phase4_IDENT2 = "";
 
 
 enum Type { Integer, Array };
@@ -288,9 +291,17 @@ definition: INTEGER IDENT SEMICOLON
 }
 ifElseState: /* epsilon */ 
 	| IF L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY ifElseState 
+	{ std::string tempname = new_label();
+	  printf(": %s IFELSE1\n", tempname.c_str());
+	  //OTHER CODE SHOULD BE GENERATED HERE
+	  printf(":= %s IFELSE1\n", tempname.c_str()); //Debug Jump
+	}
 	| ELSE BEGIN_BODY statements END_BODY 
+	{ std::string tempname = new_label();
+	  printf(": %s IFELSE2\n", tempname.c_str()); }
  
-whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY 
+whileLoop: WHILE L_PAREN condition R_PAREN BEGIN_BODY statements END_BODY { std::string tempname = new_label();
+	  printf(": %sWHILE1\n", tempname.c_str()); }
 
 assignment: IDENT ASSIGN variable SEMICOLON 
 {
@@ -323,20 +334,89 @@ assignment: IDENT ASSIGN variable SEMICOLON
 > dst, src1, src2	dst = src1 > src2
 */
 
-
 condition: /* epsilon */ 
-	| IDENT EQ IDENT
-	| IDENT NEQ IDENT
-	| IDENT LT IDENT 
-	| IDENT GT IDENT 
-	| IDENT LTE IDENT 
-	| IDENT GTE IDENT 
-	| IDENT EQ NUMBER
-	| IDENT NEQ NUMBER 
-	| IDENT LT NUMBER 
-	| IDENT GT NUMBER 
-	| IDENT LTE NUMBER 
-	| IDENT GTE NUMBER 
+	| IDENT EQ IDENT{
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf("== %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());}
+
+	| IDENT NEQ IDENT{
+	Phase4_temp_1 = new_label();
+	Phase4_IDENT1 = $1;
+	Phase4_IDENT2 = $3;
+	printf("!= %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+	}
+
+	| IDENT LT IDENT{
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf("< %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+	}
+
+	| IDENT GT IDENT{
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf("> %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+	}
+
+	| IDENT LTE IDENT{
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf("<= %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+	}
+
+	| IDENT GTE IDENT{
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf(">= %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+	}
+
+	| IDENT EQ NUMBER{
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf("== %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+	}
+
+	| IDENT NEQ NUMBER{
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf("!= %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+	}
+
+	| IDENT LT NUMBER{
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf("< %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+	}
+
+	| IDENT GT NUMBER{
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf("> %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+	}
+
+	| IDENT LTE NUMBER{
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf("<= %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+	}
+
+	| IDENT GTE NUMBER{
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf(">= %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+	}
 
 %%
 
