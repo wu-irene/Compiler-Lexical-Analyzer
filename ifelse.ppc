@@ -1,7 +1,16 @@
-fi (a <= 30) }
-	b = 5:
-{
-esle }
-	b = 3:
-{
+tni main() }
+	tni a:
+	tni b:
+	tni c:
 
+	a = 100:
+	b = 50:
+
+	ffi(a > b)}
+		c = b:
+	{
+	esle}
+		c = a:
+	{
+	tuoc >> c:
+{

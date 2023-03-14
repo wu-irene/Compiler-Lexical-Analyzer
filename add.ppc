@@ -1,0 +1,13 @@
+tni main() }
+    tni a:
+    tni b:
+    tni c:
+
+    a = 100:
+    b = 50:
+    c = a - b:
+
+    tuoc >> c:
+
+    nruter 0:
+{

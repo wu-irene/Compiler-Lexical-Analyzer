@@ -1,0 +1,23 @@
+func main
+. i
+= i, 0
+: beginloop0
+. __temp__0
+<= __temp__0, i, 10
+?:= loopbody0, __temp__0
+:= endloop0
+: loopbody0
+.> i
+. __temp__1
+> __temp__1, i, 2
+?:= if_true0, __temp__1
+:= endif0
+: if_true0
+:= endloop0
+: endif0
+. __temp__2
++ __temp__2, i, 1
++ i,i,1
+:= beginloop0
+: endloop0
+endfunc
