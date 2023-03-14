@@ -46,50 +46,51 @@ extern int yydebug;
   enum yytokentype
   {
     INTEGER = 258,
-    FUNCTION = 259,
-    BEGIN_BODY = 260,
-    END_BODY = 261,
-    ARRAY = 262,
-    OF = 263,
-    IF = 264,
-    THEN = 265,
-    ENDIF = 266,
-    ELSE = 267,
-    WHILE = 268,
-    DO = 269,
-    CONTINUE = 270,
-    BREAK = 271,
-    READ = 272,
-    WRITE = 273,
-    NOT = 274,
-    TRUE = 275,
-    FALSE = 276,
-    RETURN = 277,
-    MOD = 278,
-    EQ = 279,
-    NEQ = 280,
-    LT = 281,
-    GT = 282,
-    LTE = 283,
-    GTE = 284,
-    SEMICOLON = 285,
-    COLON = 286,
-    COMMA = 287,
-    L_SQUARE_BRACKET = 288,
-    R_SQUARE_BRACKET = 289,
-    EQUAL = 290,
-    NUMBER = 291,
-    PLUS = 292,
-    MINUS = 293,
-    MULT = 294,
-    DIV = 295,
-    L_PAREN = 296,
-    R_PAREN = 297,
-    ASSIGN = 298,
-    INPUT = 299,
-    OUTPUT = 300,
-    IDENT = 301,
-    VOID = 302
+    BREAK = 259,
+    IFF = 260,
+    FUNCTION = 261,
+    BEGIN_BODY = 262,
+    END_BODY = 263,
+    ARRAY = 264,
+    OF = 265,
+    IF = 266,
+    THEN = 267,
+    ENDIF = 268,
+    ELSE = 269,
+    WHILE = 270,
+    DO = 271,
+    CONTINUE = 272,
+    READ = 273,
+    WRITE = 274,
+    NOT = 275,
+    TRUE = 276,
+    FALSE = 277,
+    RETURN = 278,
+    MOD = 279,
+    EQ = 280,
+    NEQ = 281,
+    LT = 282,
+    GT = 283,
+    LTE = 284,
+    GTE = 285,
+    SEMICOLON = 286,
+    COLON = 287,
+    COMMA = 288,
+    L_SQUARE_BRACKET = 289,
+    R_SQUARE_BRACKET = 290,
+    EQUAL = 291,
+    NUMBER = 292,
+    PLUS = 293,
+    MINUS = 294,
+    MULT = 295,
+    DIV = 296,
+    L_PAREN = 297,
+    R_PAREN = 298,
+    ASSIGN = 299,
+    INPUT = 300,
+    OUTPUT = 301,
+    IDENT = 302,
+    VOID = 303
   };
 #endif
 
@@ -98,12 +99,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 98 "ppC_phasethree.y" /* yacc.c:1909  */
+#line 115 "ppc_Final.y" /* yacc.c:1909  */
 
 	char *op_val;
 	int int_val;
 
-#line 107 "y.tab.h" /* yacc.c:1909  */
+#line 108 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
