@@ -31,6 +31,7 @@ std::string _temp_4 = "";
 std::string Phase4_temp_1 = "";
 std::string Phase4_IDENT1 = "";
 std::string Phase4_IDENT2 = "";
+int Phase4_NUM = 0;
 
 
 enum Type { Integer, Array };
@@ -89,11 +90,19 @@ void print_symbol_table(void) {
 }
 
 
+
+bool isNumber(const std::string& str) {
+    std::string::const_iterator it = str.begin();
+    while (it != str.end() && std::isdigit(*it)) {
+        ++it;
+    }
+    return !str.empty() && it == str.end();
+}
+
 std::string new_label() {
 	std::ostringstream os;
 	os << "__temp__" << global_variable_counter++;
 	return os.str();
-
 }
 
 %}
@@ -325,6 +334,7 @@ assignment: IDENT ASSIGN variable SEMICOLON
 
 
 
+
 /*
 < dst, src1, src2	dst = src1 < src2
 <= dst, src1, src2	dst = src1 <= src2
@@ -333,89 +343,143 @@ assignment: IDENT ASSIGN variable SEMICOLON
 >= dst, src1, src2	dst = src1 >= src2
 > dst, src1, src2	dst = src1 > src2
 */
-
 condition: /* epsilon */ 
-	| IDENT EQ IDENT{
+	{}
+	| IDENT EQ IDENT {
 		Phase4_temp_1 = new_label();
 		Phase4_IDENT1 = $1;
 		Phase4_IDENT2 = $3;
-		printf("== %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());}
-
-	| IDENT NEQ IDENT{
-	Phase4_temp_1 = new_label();
-	Phase4_IDENT1 = $1;
-	Phase4_IDENT2 = $3;
-	printf("!= %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+		printf(". %s\n", Phase4_temp_1.c_str());
+		if (isdigit(Phase4_IDENT2[0])) { // check if first character of Phase4_IDENT2 is a digit
+			printf("== %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), atoi(Phase4_IDENT2.c_str()));
+		} else {
+			printf("== %s %s,%s\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_IDENT2.c_str());
+		}
 	}
-
-	| IDENT LT IDENT{
+	| IDENT NEQ IDENT {
 		Phase4_temp_1 = new_label();
 		Phase4_IDENT1 = $1;
 		Phase4_IDENT2 = $3;
-		printf("< %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+		printf(". %s\n", Phase4_temp_1.c_str());
+		if (isdigit(Phase4_IDENT2[0])) { // check if first character of Phase4_IDENT2 is a digit
+			printf("!= %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), atoi(Phase4_IDENT2.c_str()));
+		} else {
+			printf("!= %s %s,%s\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_IDENT2.c_str());
+		}
 	}
-
-	| IDENT GT IDENT{
+	| IDENT LT IDENT {
 		Phase4_temp_1 = new_label();
 		Phase4_IDENT1 = $1;
 		Phase4_IDENT2 = $3;
-		printf("> %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+		printf(". %s\n", Phase4_temp_1.c_str());
+		if (isdigit(Phase4_IDENT2[0])) { // check if first character of Phase4_IDENT2 is a digit
+			printf("< %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), atoi(Phase4_IDENT2.c_str()));
+		} else {
+			printf("< %s %s,%s\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_IDENT2.c_str());
+		}
 	}
-
-	| IDENT LTE IDENT{
+	| IDENT GT IDENT {
 		Phase4_temp_1 = new_label();
 		Phase4_IDENT1 = $1;
 		Phase4_IDENT2 = $3;
-		printf("<= %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+		printf(". %s\n", Phase4_temp_1.c_str());
+		if (isdigit(Phase4_IDENT2[0])) { // check if first character of Phase4_IDENT2 is a digit
+			printf("> %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), atoi(Phase4_IDENT2.c_str()));
+		} else {
+			printf("> %s %s,%s\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_IDENT2.c_str());
+		}
 	}
-
-	| IDENT GTE IDENT{
+	| IDENT LTE IDENT {
 		Phase4_temp_1 = new_label();
 		Phase4_IDENT1 = $1;
 		Phase4_IDENT2 = $3;
-		printf(">= %s %s,%s\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+		printf(". %s\n", Phase4_temp_1.c_str());
+		if (isdigit(Phase4_IDENT2[0])) { // check if first character of Phase4_IDENT2 is a digit
+			printf("<= %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), atoi(Phase4_IDENT2.c_str()));
+		} else {
+			printf("<= %s %s,%s\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_IDENT2.c_str());
+		}
 	}
-
-	| IDENT EQ NUMBER{
+	| IDENT GTE IDENT {
 		Phase4_temp_1 = new_label();
 		Phase4_IDENT1 = $1;
 		Phase4_IDENT2 = $3;
-		printf("== %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+		printf(". %s\n", Phase4_temp_1.c_str());
+		if (isdigit(Phase4_IDENT2[0])) { // check if first character of Phase4_IDENT2 is a digit
+			printf(">= %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), atoi(Phase4_IDENT2.c_str()));
+		} else {
+			printf(">= %s %s,%s\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_IDENT2.c_str());
+		}
 	}
-
+	| IDENT EQ NUMBER {
+		Phase4_temp_1 = new_label();
+		Phase4_IDENT1 = $1;
+		Phase4_IDENT2 = $3;
+		printf(". %s\n", Phase4_temp_1.c_str());
+		if (isdigit(Phase4_IDENT2[0])) { // check if first character of Phase4_IDENT2 is a digit
+    		printf("== %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), atoi(Phase4_IDENT2.c_str()));
+		} else {
+    		printf("== %s %s,%s\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_IDENT2.c_str());
+		}
+	}
 	| IDENT NEQ NUMBER{
 		Phase4_temp_1 = new_label();
 		Phase4_IDENT1 = $1;
 		Phase4_IDENT2 = $3;
-		printf("!= %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+		printf(". %s\n", Phase4_temp_1.c_str());
+		if (isdigit(Phase4_IDENT2[0])) { // check if first character of Phase4_IDENT2 is a digit
+    		printf("!= %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), atoi(Phase4_IDENT2.c_str()));
+		} else {
+    		printf("!= %s %s,%s\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_IDENT2.c_str());
+		}
 	}
 
 	| IDENT LT NUMBER{
-		Phase4_temp_1 = new_label();
-		Phase4_IDENT1 = $1;
-		Phase4_IDENT2 = $3;
-		printf("< %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+    Phase4_temp_1 = new_label();
+    Phase4_IDENT1 = $1;
+    Phase4_NUM = $3;
+	printf(". %s\n", Phase4_temp_1.c_str());
+	printf("< %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_NUM);
 	}
+
+
 
 	| IDENT GT NUMBER{
 		Phase4_temp_1 = new_label();
 		Phase4_IDENT1 = $1;
 		Phase4_IDENT2 = $3;
-		printf("> %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+		printf(". %s\n", Phase4_temp_1.c_str());
+		if (isdigit(Phase4_IDENT2[0])) { // check if first character of Phase4_IDENT2 is a digit
+    		printf("> %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), atoi(Phase4_IDENT2.c_str()));
+		} else {
+    		printf("> %s %s,%s\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_IDENT2.c_str());
+		}
 	}
 
 	| IDENT LTE NUMBER{
 		Phase4_temp_1 = new_label();
 		Phase4_IDENT1 = $1;
 		Phase4_IDENT2 = $3;
-		printf("<= %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+		printf(". %s\n", Phase4_temp_1.c_str());
+		if (isdigit(Phase4_IDENT2[0])) { // check if first character of Phase4_IDENT2 is a digit
+			printf("REACHED ME~~~~~~~~~~~ \n");
+    		printf("<= %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), atoi(Phase4_IDENT2.c_str()));
+		} else {
+			printf("REACHED ME~~~~~~~~~~~2 \n");
+    		printf("<= %s %s,%s\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_IDENT2.c_str());
+		}
 	}
 
 	| IDENT GTE NUMBER{
 		Phase4_temp_1 = new_label();
 		Phase4_IDENT1 = $1;
 		Phase4_IDENT2 = $3;
-		printf(">= %s %s,%d\n", Phase4_temp_1.c_str(),Phase4_IDENT1.c_str(),Phase4_IDENT2.c_str());
+		printf(". %s\n", Phase4_temp_1.c_str());
+		if (isdigit(Phase4_IDENT2[0])) { // check if first character of Phase4_IDENT2 is a digit
+    		printf(">= %s %s,%d\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), atoi(Phase4_IDENT2.c_str()));
+		} else {
+    		printf(">= %s %s,%s\n", Phase4_temp_1.c_str(), Phase4_IDENT1.c_str(), Phase4_IDENT2.c_str());
+		}
 	}
 
 %%
