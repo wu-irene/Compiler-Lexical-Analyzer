@@ -220,9 +220,14 @@ Whitespaces are ignored.
 
 ![LEXICAL](https://github.com/iwu021/CS152CompilerProject/blob/main/inverted%20color%20list.png)
 
-**Phase 1: Lexer** : Already DEMO, please see milestone for history files
+**Phase 1: Lexer** : Already DEMO, there is no release for this phase.
 
+**Phase 2: Parser** : Already DEMO, please see releases for history files
 
+**Phase 3: Parser** : Already DEMO, there is no release for this phase.
 
-**Phase 2: Parser** : Ready to DEMO, please see milestone for history files
+**Phase 4: Parser** : Already DEMO, please see releases for history files
 
+===========================================================================================================
+
+All the requirements have been finished!  Cheers!
